@@ -1,4 +1,9 @@
 CASino::Application.routes.draw do
+  resource :session, only: [:new, :create]
+  match 'login' => 'sessions#new'
+
+  root to: redirect('/login')
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
