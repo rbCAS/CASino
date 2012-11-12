@@ -12,7 +12,7 @@ module SessionsHelper
     valid = if ticket.nil?
       logger.info "No login ticket found"
       false
-    elsif Time.now - ticket.created_at > 2.hours
+    elsif ticket.created_at < 2.hours.ago
       logger.info "Login ticket expired"
       false
     else
