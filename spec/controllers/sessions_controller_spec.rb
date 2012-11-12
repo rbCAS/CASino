@@ -22,15 +22,41 @@ describe SessionsController do
   end
 
   describe 'POST "create"' do
+
     describe 'without a valid login ticket' do
-      it 'should redirect to the login page' do
+      before(:each) do
         post :create
+      end
+
+      it 'should redirect to the login page' do
         response.should redirect_to(login_path)
       end
 
       it 'should have a flash message' do
-        post :create
-        flash[:error].should =~ /try again/
+        flash[:error].should =~ /no valid login ticket/i
+      end
+    end
+
+    describe 'with a valid login ticket' do
+      describe 'with invalid data' do
+        before(:each) do
+          ticket = LoginTicket.create! ticket: 'LT-54321'
+          post :create, {
+            session: {
+              login_ticket: ticket.ticket,
+              username: 'bla',
+              password: 'test123'
+            }
+          }
+        end
+
+        it 'should render the new page' do
+          response.should render_template('new')
+        end
+
+        it 'should have a flash message' do
+          flash[:error].should =~ /incorrect/i
+        end
       end
     end
   end

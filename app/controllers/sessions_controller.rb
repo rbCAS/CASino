@@ -8,5 +8,8 @@ class SessionsController < ApplicationController
   end
 
   def create
+    flash[:error] = 'Incorrect username or password.'
+    new
+    render 'new'
   end
 end
