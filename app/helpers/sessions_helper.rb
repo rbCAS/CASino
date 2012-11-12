@@ -4,18 +4,21 @@ module SessionsHelper
     while !ticket
       ticket = LoginTicket.create ticket: 'LT-' + SecureRandom.urlsafe_base64(30)
     end
+    logger.debug "Created login ticket '#{ticket.ticket}'"
     ticket
   end
 
   def validate_login_ticket
-    ticket = LoginTicket.find_by_ticket (params[:session] || {})[:login_ticket]
+    login_ticket = (params[:session] || {})[:login_ticket]
+    ticket = LoginTicket.find_by_ticket login_ticket
     valid = if ticket.nil?
-      logger.info "No login ticket found"
+      logger.info "Login ticket '#{login_ticket}' not found"
       false
     elsif ticket.created_at < 2.hours.ago
-      logger.info "Login ticket expired"
+      logger.info "Login ticket '#{ticket.ticket}' expired"
       false
     else
+      logger.info "Login ticket '#{ticket.ticket}' successfully validated"
       ticket.delete
       true
     end
