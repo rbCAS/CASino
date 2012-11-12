@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
+  include SessionsHelper
+
   def new
-    # TODO create login ticket
+    @login_ticket = acquire_login_ticket
   end
 
   def create
