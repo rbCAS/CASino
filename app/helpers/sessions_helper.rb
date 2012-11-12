@@ -6,4 +6,22 @@ module SessionsHelper
     end
     ticket
   end
+
+  def validate_login_ticket
+    ticket = LoginTicket.find_by_ticket (params[:session] || {})[:login_ticket]
+    valid = if ticket.nil?
+      logger.info "No login ticket found"
+      false
+    elsif Time.now - ticket.created_at > 2.hours
+      logger.info "Login ticket expired"
+      false
+    else
+      ticket.delete
+      true
+    end
+    unless valid
+      flash[:error] = "No valid login ticket found. Please try again."
+      redirect_to login_path
+    end
+  end
 end

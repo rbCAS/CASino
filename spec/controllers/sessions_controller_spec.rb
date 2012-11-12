@@ -20,4 +20,18 @@ describe SessionsController do
       end.should change(LoginTicket, :count).by(1)
     end
   end
+
+  describe 'POST "create"' do
+    describe 'without a valid login ticket' do
+      it 'should redirect to the login page' do
+        post :create
+        response.should redirect_to(login_path)
+      end
+
+      it 'should have a flash message' do
+        post :create
+        flash[:error].should =~ /try again/
+      end
+    end
+  end
 end
