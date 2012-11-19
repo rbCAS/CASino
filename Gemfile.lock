@@ -117,6 +117,7 @@ GEM
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
+    yettings (0.1.1)
 
 PLATFORMS
   ruby
@@ -130,3 +131,4 @@ DEPENDENCIES
   sqlite3
   uglifier (>= 1.0.3)
   webrat
+  yettings

@@ -1,0 +1,1 @@
+YAML::ENGINE.yamler = 'syck'
