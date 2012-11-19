@@ -1,5 +1,5 @@
 CASino::Application.routes.draw do
-  resource :session, only: [:new, :create]
+  resources :sessions, only: [:index, :new, :create]
   match 'login' => 'sessions#new'
 
   root to: redirect('/login')

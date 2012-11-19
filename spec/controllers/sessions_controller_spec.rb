@@ -19,8 +19,16 @@ describe SessionsController do
     end
   end
 
-  describe 'POST "create"' do
+  describe 'GET "index"' do
+    describe 'as a not loggedin user' do
+      it 'should redirect to the login page' do
+        get :index
+        response.should redirect_to(new_session_path)
+      end
+    end
+  end
 
+  describe 'POST "create"' do
     describe 'without a valid login ticket' do
       before(:each) do
         post :create
