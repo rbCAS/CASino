@@ -63,6 +63,10 @@ describe SessionsController do
         it 'should have a flash message' do
           flash[:error].should =~ /incorrect/i
         end
+
+        it 'should response with a 403' do
+          response.response_code.should == 403
+        end
       end
     end
   end
