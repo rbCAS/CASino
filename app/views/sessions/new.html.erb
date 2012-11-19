@@ -1,5 +1,5 @@
 <h1>Login</h1>
-<%= form_for :sessions, url: sessions_path do |form| %>
+<%= form_for :session, url: sessions_path do |form| %>
 <%= form.hidden_field :login_ticket, value: @login_ticket.ticket %>
 <dl>
   <dt><%= form.label :username %></dt>
