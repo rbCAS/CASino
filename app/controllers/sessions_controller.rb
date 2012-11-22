@@ -17,7 +17,6 @@ class SessionsController < ApplicationController
   def create
     flash[:error] = 'Incorrect username or password.'
     new
-    @service = params[:session][:service]
     render 'new', status: 403
   end
 end
