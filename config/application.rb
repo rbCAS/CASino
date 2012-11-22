@@ -17,6 +17,9 @@ end
 
 module CASino
   class Application < Rails::Application
+    # Dont need Rails' forgery protection as we have CAS Login Tickets
+    config.action_controller.allow_forgery_protection = false
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
