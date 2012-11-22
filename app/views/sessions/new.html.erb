@@ -1,6 +1,7 @@
 <h1>Login</h1>
 <%= form_for :session, url: sessions_path do |form| %>
 <%= form.hidden_field :lt, value: @login_ticket.ticket %>
+<%= form.hidden_field :service, value: @service unless @service.nil? %>
 <dl>
   <dt><%= form.label :username %></dt>
   <dd><%= form.text_field :username %></dd>

@@ -11,11 +11,13 @@ class SessionsController < ApplicationController
 
   def new
     @login_ticket = acquire_login_ticket
+    @service = params[:service]
   end
 
   def create
     flash[:error] = 'Incorrect username or password.'
     new
+    @service = params[:session][:service]
     render 'new', status: 403
   end
 end
