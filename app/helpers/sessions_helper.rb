@@ -9,7 +9,7 @@ module SessionsHelper
   end
 
   def validate_login_ticket
-    login_ticket = (params[:session] || {})[:login_ticket]
+    login_ticket = (params[:session] || {})[:lt]
     ticket = LoginTicket.find_by_ticket login_ticket
     valid = if ticket.nil?
       logger.info "Login ticket '#{login_ticket}' not found"

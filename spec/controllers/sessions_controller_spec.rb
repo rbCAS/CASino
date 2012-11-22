@@ -49,7 +49,7 @@ describe SessionsController do
           ticket = LoginTicket.create! ticket: 'LT-54321'
           post :create, {
             session: {
-              login_ticket: ticket.ticket,
+              lt: ticket.ticket,
               username: 'bla',
               password: 'test123'
             }
