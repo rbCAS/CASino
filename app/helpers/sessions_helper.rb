@@ -25,6 +25,15 @@ module SessionsHelper
     end
   end
 
+  def acquire_ticket_granting_ticket(username, extra_attributes = nil)
+    TicketGrantingTicket.create!({
+      ticket: random_ticket_string('TGC'),
+      username: username,
+      extra_attributes: extra_attributes,
+      user_agent: request.env['HTTP_USER_AGENT']
+    })
+  end
+
   def current_user
     nil
   end
@@ -35,5 +44,9 @@ module SessionsHelper
 
   def signed_in?
     !current_user.nil?
+  end
+
+  def validate_login(username, password)
+    false
   end
 end
