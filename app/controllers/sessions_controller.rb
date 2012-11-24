@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
         redirect_to sessions_path
       end
     else
+      service = clean_service_url(service)
       if params[:renew]
         logger.debug 'Single-sign on bypassed, renew requested'
       elsif signed_in?
