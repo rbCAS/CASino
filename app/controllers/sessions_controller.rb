@@ -1,3 +1,5 @@
+require 'casino/authenticator'
+
 class SessionsController < ApplicationController
   include SessionsHelper
 

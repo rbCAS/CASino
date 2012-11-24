@@ -7,6 +7,13 @@ development:
 
 test:
   <<: *defaults
+  authenticators:
+    -
+      class: "CASino::Authenticator::Static"
+      options:
+        users:
+          testuser:
+            password: foobar123
 
 production:
   <<: *defaults

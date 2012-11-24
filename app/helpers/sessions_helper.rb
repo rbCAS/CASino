@@ -47,6 +47,18 @@ module SessionsHelper
   end
 
   def validate_login(username, password)
-    false
+    user_data = nil
+    Yetting.authenticators.each do |authenticator|
+      instance = "#{authenticator['class']}".constantize.new(authenticator['options'])
+      data = instance.validate(username, password)
+      if data
+        if data[:username].nil?
+          data[:username] = username
+        end
+        user_data = data
+        break
+      end
+    end
+    user_data
   end
 end
