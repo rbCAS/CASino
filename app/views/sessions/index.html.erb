@@ -25,7 +25,7 @@
           </span>
         </td>
         <td>
-          0
+          <%= ticket_granting_ticket.service_tickets.where(consumed: true).size %>
         </td>
         <td>
           <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
