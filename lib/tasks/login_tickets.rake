@@ -1,6 +1,7 @@
 namespace :login_tickets do
   desc 'Remove expired login tickets.'
   task cleanup: :environment do
-    LoginTicket.cleanup
+    rows_affected = LoginTicket.cleanup
+    puts "Deleted #{rows_affected} login tickets."
   end
 end
