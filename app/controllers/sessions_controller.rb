@@ -17,12 +17,10 @@ class SessionsController < ApplicationController
         redirect_to sessions_path
       end
     else
-      service = clean_service_url(service)
       if params[:renew]
         logger.debug 'Single-sign on bypassed, renew requested'
       elsif signed_in?
-        service_ticket = acquire_service_ticket(service)
-        redirect_to service_with_ticket_url(service, service_ticket), status: :see_other
+        generate_service_ticket_and_redirect(service)
       end
     end
   end
@@ -36,7 +34,7 @@ class SessionsController < ApplicationController
       if params[:service].nil?
         redirect_to sessions_path
       else
-        redirect_to params[:serivce]
+        generate_service_ticket_and_redirect(params[:service])
       end
     else
       logger.info "Could not login user '#{params[:username]}': Invalid credentials supplied."
@@ -133,6 +131,12 @@ class SessionsController < ApplicationController
       service: service,
       ticket_granting_ticket_id: current_ticket_granting_ticket.id
     })
+  end
+
+  def generate_service_ticket_and_redirect(service)
+    service = clean_service_url(service)
+    service_ticket = acquire_service_ticket(service)
+    redirect_to service_with_ticket_url(service, service_ticket), status: :see_other
   end
 
   def service_with_ticket_url(service, service_ticket)

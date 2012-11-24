@@ -40,8 +40,9 @@ describe SessionsController do
           @service_ticket = ServiceTicket.last
         end
 
-        it 'should redirect to the service' do
+        it 'should redirect to the service with code 303' do
           response.should redirect_to("https://example.com/lala?ticket=#{@service_ticket.ticket}")
+          response.response_code.should == 303
         end
       end
     end
@@ -132,19 +133,39 @@ describe SessionsController do
       end
 
       context 'with valid login data' do
-        before(:each) do
-          ticket = LoginTicket.create! ticket: 'LT-43821'
-          post :create, {
-            lt: ticket.ticket,
-            username: 'testuser',
-            password: 'foobar123'
-          }
+        context 'without a service set' do
+          before(:each) do
+            ticket = LoginTicket.create! ticket: 'LT-43821'
+            post :create, {
+              lt: ticket.ticket,
+              username: 'testuser',
+              password: 'foobar123'
+            }
+          end
+
+          it { should be_signed_in }
+
+          it 'should redirect to the index page' do
+            response.should redirect_to(sessions_path)
+          end
         end
 
-        it { should be_signed_in }
+        context 'with a service set' do
+          before(:each) do
+            ticket = LoginTicket.create! ticket: 'LT-43821'
+            post :create, {
+              lt: ticket.ticket,
+              username: 'testuser',
+              password: 'foobar123',
+              service: 'https://example.com/foo/?ticket=lala'
+            }
+            @service_ticket = ServiceTicket.last
+          end
 
-        it 'should redirect to the index page' do
-          response.should redirect_to(sessions_path)
+          it 'should redirect to the service with code 303' do
+            response.should redirect_to("https://example.com/foo/?ticket=#{@service_ticket.ticket}")
+            response.response_code.should == 303
+          end
         end
       end
     end
