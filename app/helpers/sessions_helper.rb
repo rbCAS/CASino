@@ -15,6 +15,8 @@ module SessionsHelper
           ticket_granting_ticket.user_agent = request.env['HTTP_USER_AGENT']
           ticket_granting_ticket.save
           @current_ticket_granting_ticket = ticket_granting_ticket
+        else
+          logger.info 'User-Agent changed: ticket-granting ticket not valid for this browser'
         end
       end
     end

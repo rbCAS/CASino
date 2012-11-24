@@ -32,6 +32,16 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    ticket_granting_ticket = TicketGrantingTicket.find params[:id]
+    if ticket_granting_ticket.username != current_ticket_granting_ticket.username
+      logger.info "Did not allow '#{ticket_granting_ticket.username}' to delete ticket owned by #{current_ticket_granting_ticket.username}"
+    elsif !current_ticket_granting_ticket?(ticket_granting_ticket)
+      destroy_ticket_granting_ticket(ticket_granting_ticket)
+    end
+    redirect_to sessions_path
+  end
+
   private
   def authenticate
     deny_access unless signed_in?
@@ -89,5 +99,9 @@ class SessionsController < ApplicationController
       extra_attributes: extra_attributes,
       user_agent: request.env['HTTP_USER_AGENT']
     })
+  end
+
+  def destroy_ticket_granting_ticket(ticket_granting_ticket)
+    ticket_granting_ticket.destroy
   end
 end

@@ -117,4 +117,47 @@ describe SessionsController do
       end
     end
   end
+
+  describe 'DELETE "destroy"' do
+    context 'when logged in' do
+      context 'with current sessions\' ticket' do
+        before(:each) do
+          @ticket = test_sign_in
+          delete :destroy, {
+            id: @ticket.id
+          }
+        end
+
+        it 'should redirect to the index page' do
+          response.should redirect_to(sessions_path)
+        end
+
+        it 'should not delete the current ticket-granting ticket' do
+          TicketGrantingTicket.find(@ticket.id)
+        end
+      end
+
+      context 'with an other ticket' do
+        before(:each) do
+          @other_ticket = test_sign_in
+          @ticket = test_sign_in
+          delete :destroy, {
+            id: @other_ticket.id
+          }
+        end
+
+        it 'should redirect to the index page' do
+          response.should redirect_to(sessions_path)
+        end
+
+        it 'should not delete the current ticket-granting ticket' do
+          TicketGrantingTicket.find(@ticket.id)
+        end
+
+        it 'should delete the other ticket' do
+          TicketGrantingTicket.where(id: @other_ticket.id).first.should be_nil
+        end
+      end
+    end
+  end
 end

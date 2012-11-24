@@ -7,4 +7,5 @@ def test_sign_in(options = {})
     user_agent: request.env['HTTP_USER_AGENT']
   })
   request.cookies[:tgt] = ticket.ticket
+  return ticket
 end

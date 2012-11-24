@@ -22,7 +22,9 @@
         <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
           <td class="current">Current session</td>
         <% else %>
-          <td><a href="#">End session</a></td>
+          <td>
+            <%= link_to 'End session', session_path(ticket_granting_ticket), method: :delete %>
+          </td>
         <% end %>
       </tr>
     <% end %>
