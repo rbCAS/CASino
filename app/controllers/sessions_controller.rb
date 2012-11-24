@@ -4,7 +4,6 @@ class SessionsController < ApplicationController
   include SessionsHelper
 
   before_filter :validate_login_ticket, only: :create
-  before_filter :redirect_signed_in, only: [:create, :new]
   before_filter :authenticate, only: :index
 
   def index
@@ -12,6 +11,19 @@ class SessionsController < ApplicationController
   end
 
   def new
+    service = params[:service]
+    if service.nil?
+      if signed_in?
+        redirect_to sessions_path
+      end
+    else
+      if params[:renew]
+        logger.debug 'Single-sign on bypassed, renew requested'
+      elsif signed_in?
+        service_ticket = acquire_service_ticket(service)
+        redirect_to service_with_ticket_url(service, service_ticket), status: :see_other
+      end
+    end
   end
 
   def create
@@ -112,5 +124,27 @@ class SessionsController < ApplicationController
 
   def destroy_ticket_granting_ticket(ticket_granting_ticket)
     ticket_granting_ticket.destroy
+  end
+
+  def acquire_service_ticket(service)
+    ServiceTicket.create!({
+      ticket: random_ticket_string('ST'),
+      service: service,
+      ticket_granting_ticket_id: current_ticket_granting_ticket.id
+    })
+  end
+
+  def service_with_ticket_url(service, service_ticket)
+    service_uri = URI.parse(service)
+    if service.include? '?'
+      if service_uri.query.empty?
+        query_separator = ''
+      else
+        query_separator = '&'
+      end
+    else
+      query_separator = '?'
+    end
+    service + query_separator + 'ticket=' + service_ticket.ticket
   end
 end

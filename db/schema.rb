@@ -11,13 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124170004) do
+ActiveRecord::Schema.define(:version => 20121124183732) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "login_tickets", ["ticket"], :name => "index_login_tickets_on_ticket"
+
+  create_table "service_tickets", :force => true do |t|
+    t.string   "ticket",                    :null => false
+    t.string   "service",                   :null => false
+    t.integer  "ticket_granting_ticket_id", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "service_tickets", ["ticket"], :name => "index_service_tickets_on_ticket"
+  add_index "service_tickets", ["ticket_granting_ticket_id"], :name => "index_service_tickets_on_ticket_granting_ticket_id"
 
   create_table "ticket_granting_tickets", :force => true do |t|
     t.string   "ticket",           :null => false
@@ -28,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20121124170004) do
     t.string   "user_agent"
   end
 
+  add_index "ticket_granting_tickets", ["ticket"], :name => "index_ticket_granting_tickets_on_ticket"
   add_index "ticket_granting_tickets", ["username"], :name => "index_ticket_granting_tickets_on_username"
 
 end

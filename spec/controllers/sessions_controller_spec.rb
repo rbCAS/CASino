@@ -2,16 +2,48 @@ require 'spec_helper'
 
 describe SessionsController do
   describe 'GET "new"' do
-    before(:each) do
-      get :new
+    context 'when logged out' do
+      before(:each) do
+        get :new
+      end
+
+      it 'should be successful' do
+        response.should be_success
+      end
+
+      it 'should render the new page' do
+        response.should render_template('new')
+      end
     end
 
-    it 'should be successful' do
-      response.should be_success
-    end
+    context 'when logged in' do
+      before(:each) do
+        @ticket = test_sign_in
+      end
 
-    it 'should render the new page' do
-      response.should render_template('new')
+      context 'without a service set' do
+        before(:each) do
+          get :new
+        end
+
+        it 'should redirect to the index page' do
+          response.should redirect_to(sessions_path)
+        end
+      end
+
+      context 'with a service set' do
+        before(:each) do
+          @service = 'https://example.com/lala'
+          get :new, {
+            service: @service
+          }
+          @service_ticket = ServiceTicket.last
+        end
+
+        it 'should redirect to the service' do
+          response.should redirect_to("https://example.com/lala?ticket=#{@service_ticket.ticket}")
+        end
+      end
     end
   end
 
