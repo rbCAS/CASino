@@ -1,3 +1,5 @@
 language: ruby
 before_script:
+  - cp config/database.yml.example config/database.yml
+  - cp config/yetting.yml.example config/yetting.yml
   - RAILS_ENV=test rake db:reset
