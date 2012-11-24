@@ -10,8 +10,6 @@ class SessionsController < ApplicationController
   end
 
   def new
-    @login_ticket = acquire_login_ticket
-    @service = params[:service]
   end
 
   def create
@@ -28,7 +26,6 @@ class SessionsController < ApplicationController
     else
       logger.info "Could not login user '#{params[:username]}': Invalid credentials supplied."
       flash[:error] = 'Incorrect username or password.'
-      new
       render 'new', status: 403
     end
   end

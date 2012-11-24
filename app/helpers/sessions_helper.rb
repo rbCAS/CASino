@@ -21,7 +21,7 @@ module SessionsHelper
     end
     unless valid
       flash[:error] = "No valid login ticket found. Please try again."
-      redirect_to login_path
+      render 'new', status: 403
     end
   end
 

@@ -2,20 +2,16 @@ require 'spec_helper'
 
 describe SessionsController do
   describe 'GET "new"' do
-    it 'should be successful' do
+    before(:each) do
       get :new
+    end
+
+    it 'should be successful' do
       response.should be_success
     end
 
     it 'should render the new page' do
-      get :new
       response.should render_template('new')
-    end
-
-    it 'should generate a login ticket' do
-      lambda do
-        get :new
-      end.should change(LoginTicket, :count).by(1)
     end
   end
 
@@ -34,12 +30,16 @@ describe SessionsController do
         post :create
       end
 
-      it 'should redirect to the login page' do
-        response.should redirect_to(login_path)
+      it 'should render the new page' do
+        response.should render_template('new')
       end
 
       it 'should have a flash message' do
         flash[:error].should =~ /no valid login ticket/i
+      end
+
+      it 'should respond with a 403' do
+        response.response_code.should == 403
       end
     end
 
@@ -62,7 +62,7 @@ describe SessionsController do
           flash[:error].should =~ /incorrect/i
         end
 
-        it 'should response with a 403' do
+        it 'should respond with a 403' do
           response.response_code.should == 403
         end
       end
