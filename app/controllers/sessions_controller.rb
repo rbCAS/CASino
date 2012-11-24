@@ -1,3 +1,5 @@
+require 'casino/authenticator'
+
 class SessionsController < ApplicationController
   include SessionsHelper
 
@@ -14,8 +16,30 @@ class SessionsController < ApplicationController
   end
 
   def create
-    flash[:error] = 'Incorrect username or password.'
-    new
-    render 'new', status: 403
+    unless validate(params[:session][:username], params[:session][:password])
+      flash[:error] = 'Incorrect username or password.'
+      new
+      render 'new', status: 403
+    else
+      # TODO write user data to session
+      redirect_to sessions_path
+    end
+  end
+
+  private
+  def validate(username, password)
+    user_data = nil
+    Yetting.authenticators.each do |authenticator|
+      instance = "#{authenticator['class']}".constantize.new(authenticator['options'])
+      data = instance.validate(username, password)
+      if data
+        if data['username'].nil?
+          data['username'] = username
+        end
+        user_data = data
+        break
+      end
+    end
+    user_data
   end
 end

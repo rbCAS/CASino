@@ -68,6 +68,23 @@ describe SessionsController do
           response.response_code.should == 403
         end
       end
+
+      describe 'with valid data' do
+        before(:each) do
+          ticket = LoginTicket.create! ticket: 'LT-43821'
+          post :create, {
+            session: {
+              login_ticket: ticket.ticket,
+              username: 'testuser',
+              password: 'foobar123'
+            }
+          }
+        end
+
+        it 'should redirect to the index page' do
+          response.should redirect_to(sessions_path)
+        end
+      end
     end
   end
 end
