@@ -6,7 +6,7 @@ module SessionsHelper
   end
 
   def current_ticket_granting_ticket
-    if @current_ticket_granting_ticket
+    unless @current_ticket_granting_ticket.nil?
       @current_ticket_granting_ticket
     else
       ticket_granting_ticket = TicketGrantingTicket.where(ticket: cookies[:tgt]).first unless cookies[:tgt].nil?
@@ -14,11 +14,12 @@ module SessionsHelper
         if same_browser?(ticket_granting_ticket.user_agent, request.env['HTTP_USER_AGENT'])
           ticket_granting_ticket.user_agent = request.env['HTTP_USER_AGENT']
           ticket_granting_ticket.save
-          @current_ticket_granting_ticket = ticket_granting_ticket
+          return @current_ticket_granting_ticket = ticket_granting_ticket
         else
           logger.info 'User-Agent changed: ticket-granting ticket not valid for this browser'
         end
       end
+      cookies.delete(:tgt)
     end
   end
 
