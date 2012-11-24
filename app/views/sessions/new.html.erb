@@ -1,11 +1,12 @@
 <h1>Login</h1>
-<%= form_for :session, url: sessions_path do |form| %>
-<%= form.hidden_field :login_ticket, value: @login_ticket.ticket %>
-<dl>
-  <dt><%= form.label :username %></dt>
-  <dd><%= form.text_field :username %></dd>
-  <dt><%= form.label :password %></dt>
-  <dd><%= form.password_field :password %></dd>
-</dl>
-<%= form.submit "Login" %>
+<%= form_tag(login_path, method: :post) do %>
+  <%= hidden_field_tag :lt, @login_ticket.ticket %>
+  <%= hidden_field_tag :service, @service unless @service.nil? %>
+  <dl>
+    <dt><%= label_tag :username %></dt>
+    <dd><%= text_field_tag :username %></dd>
+    <dt><%= label_tag :password %></dt>
+    <dd><%= password_field_tag :password %></dd>
+  </dl>
+  <%= submit_tag "Login" %>
 <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121112165804) do
+ActiveRecord::Schema.define(:version => 20121122180310) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20121112165804) do
     t.text     "extra_attributes"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.string   "user_agent"
   end
 
 end

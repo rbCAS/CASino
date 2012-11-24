@@ -1,6 +1,7 @@
 CASino::Application.routes.draw do
   resources :sessions, only: [:index, :new, :create]
-  match 'login' => 'sessions#new'
+  match 'login' => 'sessions#new', via: :get
+  match 'login' => 'sessions#create', via: :post
 
   root to: redirect('/login')
 

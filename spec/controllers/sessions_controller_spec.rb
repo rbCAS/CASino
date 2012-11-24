@@ -48,11 +48,9 @@ describe SessionsController do
         before(:each) do
           ticket = LoginTicket.create! ticket: 'LT-54321'
           post :create, {
-            session: {
-              login_ticket: ticket.ticket,
-              username: 'bla',
-              password: 'test123'
-            }
+            lt: ticket.ticket,
+            username: 'bla',
+            password: 'test123'
           }
         end
 
@@ -73,11 +71,9 @@ describe SessionsController do
         before(:each) do
           ticket = LoginTicket.create! ticket: 'LT-43821'
           post :create, {
-            session: {
-              login_ticket: ticket.ticket,
-              username: 'testuser',
-              password: 'foobar123'
-            }
+            lt: ticket.ticket,
+            username: 'testuser',
+            password: 'foobar123'
           }
         end
 

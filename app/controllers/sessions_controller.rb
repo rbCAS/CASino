@@ -13,33 +13,25 @@ class SessionsController < ApplicationController
 
   def new
     @login_ticket = acquire_login_ticket
+    @service = params[:service]
   end
 
   def create
-    unless validate(params[:session][:username], params[:session][:password])
+    login_data = validate_login(params[:username], params[:password])
+    if login_data
+      ticket_granting_ticket = acquire_ticket_granting_ticket(login_data[:username], login_data[:extra_attributes])
+      cookies[:tgt] = ticket_granting_ticket.ticket
+      logger.info "Successfully generated ticket-granting ticket for user '#{login_data[:username]}'"
+      if params[:service].nil?
+        redirect_to sessions_path
+      else
+        redirect_to params[:serivce]
+      end
+    else
+      logger.info "Could not login user '#{params[:username]}': Invalid credentials supplied."
       flash[:error] = 'Incorrect username or password.'
       new
       render 'new', status: 403
-    else
-      # TODO write user data to session
-      redirect_to sessions_path
     end
-  end
-
-  private
-  def validate(username, password)
-    user_data = nil
-    Yetting.authenticators.each do |authenticator|
-      instance = "#{authenticator['class']}".constantize.new(authenticator['options'])
-      data = instance.validate(username, password)
-      if data
-        if data['username'].nil?
-          data['username'] = username
-        end
-        user_data = data
-        break
-      end
-    end
-    user_data
   end
 end

@@ -7,7 +7,10 @@ class CASino::Authenticator::Static < CASino::Authenticator::Base
 
   def validate(username, password)
     if @users.include?(username) && @users[username]['password'] == password
-      @users[username].except('password')
+      {
+        username: username,
+        extra_attributes: @users[username].except('password')
+      }
     else
       false
     end
