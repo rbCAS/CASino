@@ -58,7 +58,11 @@ class SessionsController < ApplicationController
       destroy_ticket_granting_ticket(current_ticket_granting_ticket)
       cookies.delete(:tgt)
     end
-    redirect_to login_path
+    if params[:url].blank?
+      redirect_to login_path
+    else
+      @url = params[:url]
+    end
   end
 
   private
