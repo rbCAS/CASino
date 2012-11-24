@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe LoginTicket do
   describe '.cleanup' do
-    it 'should delete old tickets' do
+    it 'should delete expired login tickets' do
       ticket = LoginTicket.new ticket: 'LT-12345'
       ticket.save!
       ticket.created_at = 10.hours.ago
