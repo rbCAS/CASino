@@ -26,6 +26,7 @@ end
 
 gem 'jquery-rails'
 gem 'yettings'
+gem 'useragent', '~> 0.4.13'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
