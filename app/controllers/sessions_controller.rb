@@ -59,7 +59,7 @@ class SessionsController < ApplicationController
       cookies.delete(:tgt)
     end
     if params[:url].blank?
-      redirect_to login_path
+      redirect_to login_path, notice: 'You successfuly logged out.'
     else
       @url = params[:url]
     end

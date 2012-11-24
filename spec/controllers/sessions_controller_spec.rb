@@ -235,6 +235,10 @@ describe SessionsController do
           TicketGrantingTicket.find(@other_ticket.id)
         end
 
+        it 'should have a flash message' do
+          flash[:notice].should =~ /successfuly logged out/i
+        end
+
         it 'should delete the tgt cookie' do
           cookies[:tgt].should be_nil
         end
