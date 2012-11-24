@@ -20,7 +20,7 @@ describe SessionsController do
   end
 
   describe 'GET "index"' do
-    describe 'as a not loggedin user' do
+    context 'when logged out' do
       it 'should redirect to the login page' do
         get :index
         response.should redirect_to(new_session_path)
@@ -29,7 +29,7 @@ describe SessionsController do
   end
 
   describe 'POST "create"' do
-    describe 'without a valid login ticket' do
+    context 'without a valid login ticket' do
       before(:each) do
         post :create
       end
@@ -43,8 +43,8 @@ describe SessionsController do
       end
     end
 
-    describe 'with a valid login ticket' do
-      describe 'with invalid data' do
+    context 'with a valid login ticket' do
+      context 'with invalid login data' do
         before(:each) do
           ticket = LoginTicket.create! ticket: 'LT-54321'
           post :create, {
@@ -67,7 +67,7 @@ describe SessionsController do
         end
       end
 
-      describe 'with valid data' do
+      context 'with valid login data' do
         before(:each) do
           ticket = LoginTicket.create! ticket: 'LT-43821'
           post :create, {
