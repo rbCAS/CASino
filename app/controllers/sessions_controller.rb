@@ -74,6 +74,7 @@ class SessionsController < ApplicationController
           data[:username] = username
         end
         user_data = data
+        logger.info("Credentials for username '#{data[:username]}' successfully validated using #{authenticator['class']}")
         break
       end
     end
@@ -90,7 +91,7 @@ class SessionsController < ApplicationController
       logger.info "Login ticket '#{ticket.ticket}' expired"
       false
     else
-      logger.info "Login ticket '#{ticket.ticket}' successfully validated"
+      logger.debug "Login ticket '#{ticket.ticket}' successfully validated"
       ticket.delete
       true
     end
