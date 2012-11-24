@@ -160,4 +160,30 @@ describe SessionsController do
       end
     end
   end
+
+  describe 'GET "logout"' do
+    context 'when logged in' do
+      before(:each) do
+        @other_ticket = test_sign_in
+        @ticket = test_sign_in
+        get :logout
+      end
+
+      it 'should redirect to the login page' do
+        response.should redirect_to(login_path)
+      end
+
+      it 'should delete the sessions\' ticket-granting ticket' do
+        TicketGrantingTicket.where(id: @ticket.id).first.should be_nil
+      end
+
+      it 'should not delete other ticket-granting tickets' do
+        TicketGrantingTicket.find(@other_ticket.id)
+      end
+
+      it 'should delete the tgt cookie' do
+        cookies[:tgt].should be_nil
+      end
+    end
+  end
 end

@@ -1,6 +1,11 @@
-<h1>Sessions</h1>
+<h1>Welcome</h1>
 <p>
-  These are the web browsers currently logged in.
+  You are currently logged in as <strong><%= current_ticket_granting_ticket.username %></strong>.
+  <%= link_to 'Logout', logout_path %>
+</p>
+<h2>Sessions</h2>
+<p>
+  These are the web browsers currently logged in:
 </p>
 <table width="100%" class="tickets">
   <thead>

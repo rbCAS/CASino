@@ -42,6 +42,14 @@ class SessionsController < ApplicationController
     redirect_to sessions_path
   end
 
+  def logout
+    if signed_in?
+      destroy_ticket_granting_ticket(current_ticket_granting_ticket)
+      cookies.delete(:tgt)
+    end
+    redirect_to login_path
+  end
+
   private
   def authenticate
     deny_access unless signed_in?
