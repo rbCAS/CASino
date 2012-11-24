@@ -11,6 +11,7 @@
   <thead>
     <tr>
       <th>Browser</th>
+      <th>Services</th>
       <th>Most recent activity</th>
       <th width="180">&nbsp;</th>
     </tr>
@@ -22,6 +23,9 @@
           <span title="<%= ticket_granting_ticket.user_agent %>">
             <%= browser_info(ticket_granting_ticket.user_agent) %>
           </span>
+        </td>
+        <td>
+          <%= ticket_granting_ticket.service_tickets.size %>
         </td>
         <td>
           <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
