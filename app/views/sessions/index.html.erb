@@ -7,25 +7,25 @@
     <tr>
       <th>Browser</th>
       <th>Most recent activity</th>
-      <th width="120">&nbsp;</th>
+      <th width="180">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
     <% @ticket_granting_tickets.each do |ticket_granting_ticket| %>
-      <tr>
+      <tr class="<%= 'highlighted' if current_ticket_granting_ticket?(ticket_granting_ticket) %>">
         <td>
           <%= browser_info(ticket_granting_ticket.user_agent) %>
         </td>
         <td>
           <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
         </td>
-        <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
-          <td class="current">Current session</td>
-        <% else %>
-          <td>
-            <%= link_to 'End session', session_path(ticket_granting_ticket), method: :delete %>
-          </td>
-        <% end %>
+        <td>
+          <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
+            <strong>Current session</strong>
+          <% else %>
+            <%= link_to 'End session', session_path(ticket_granting_ticket), method: :delete%>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

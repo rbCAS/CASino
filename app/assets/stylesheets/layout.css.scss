@@ -1,0 +1,28 @@
+body {
+  color: black;
+  font-family: "lucida grande", arial,sans-serif;
+  font-size: 0.8em;
+}
+
+table {
+  border-collapse: collapse;
+
+  thead {
+    border-bottom: 1px dotted #aaa;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+
+  tbody {
+    tr:nth-child(even) {
+     background-color: #f4faff;
+    }
+
+    tr.highlighted {
+      background-color: #fef4ca;
+    }
+  }
+}
