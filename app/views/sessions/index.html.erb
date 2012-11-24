@@ -1,0 +1,30 @@
+<h1>Sessions</h1>
+<p>
+  These are the web browsers currently logged in.
+</p>
+<table width="100%" class="tickets">
+  <thead>
+    <tr>
+      <th>Browser</th>
+      <th>Most recent activity</th>
+      <th width="120">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ticket_granting_tickets.each do |ticket_granting_ticket| %>
+      <tr>
+        <td>
+          <%= browser_info(ticket_granting_ticket.user_agent) %>
+        </td>
+        <td>
+          <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
+        </td>
+        <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
+          <td class="current">Current session</td>
+        <% else %>
+          <td><a href="#">End session</a></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
