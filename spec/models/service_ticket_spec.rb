@@ -2,10 +2,11 @@ require 'spec_helper'
 
 describe ServiceTicket do
   let(:ticket) {
-    ticket = ServiceTicket.new ticket: 'ST-12345', service: 'foo'
+    ticket = ServiceTicket.new ticket: 'ST-12345', service: 'https://example.com/cas-service'
     ticket.ticket_granting_ticket_id = 1
     ticket
   }
+
   describe '.cleanup_unconsumed' do
     it 'should delete expired unconsumed service tickets' do
       ticket.created_at = 10.hours.ago
@@ -18,6 +19,10 @@ describe ServiceTicket do
   end
 
   describe '.cleanup_consumed' do
+    before(:each) do
+      ServiceTicket::SingleSignOutNotifier.any_instance.stub(:notify).and_return(true)
+    end
+
     it 'should delete expired consumed service tickets' do
       ticket.consumed = true
       ticket.created_at = 10.days.ago
