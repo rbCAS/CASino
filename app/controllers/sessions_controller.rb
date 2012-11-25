@@ -66,15 +66,6 @@ class SessionsController < ApplicationController
   end
 
   private
-  def authenticate
-    deny_access unless signed_in?
-  end
-
-  def deny_access
-    flash.now[:error] = 'Please sign in to access this page.'
-    render 'new', status: 403
-  end
-
   def redirect_signed_in
     redirect_to sessions_path if signed_in?
   end

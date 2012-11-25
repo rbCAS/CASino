@@ -71,6 +71,17 @@ describe SessionsController do
       end
     end
 
+    context 'with an invalid cookie' do
+      before(:each) do
+        request.cookies[:tgt] = 'TGT-123'
+        get :index
+      end
+
+      it 'should respond with a 403' do
+        response.response_code.should == 403
+      end
+    end
+
     context 'when logged in' do
       before(:each) do
         test_sign_in
