@@ -4,7 +4,7 @@
   <%= hidden_field_tag :service, params[:service] unless params[:service].nil? %>
   <dl>
     <dt><%= label_tag :username %></dt>
-    <dd><%= text_field_tag :username %></dd>
+    <dd><%= text_field_tag :username, params[:username] %></dd>
     <dt><%= label_tag :password %></dt>
     <dd><%= password_field_tag :password %></dd>
   </dl>
