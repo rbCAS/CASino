@@ -130,10 +130,9 @@ class SessionsController < ApplicationController
   end
 
   def acquire_service_ticket(service)
-    ServiceTicket.create!({
+    current_ticket_granting_ticket.service_tickets.create!({
       ticket: random_ticket_string('ST'),
-      service: service,
-      ticket_granting_ticket_id: current_ticket_granting_ticket.id
+      service: service
     })
   end
 

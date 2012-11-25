@@ -3,7 +3,8 @@ require 'spec_helper'
 describe ServiceTicket do
   describe '.cleanup' do
     it 'should delete expired service tickets' do
-      ticket = ServiceTicket.new ticket: 'ST-12345', service: 'foo', ticket_granting_ticket_id: 1
+      ticket = ServiceTicket.new ticket: 'ST-12345', service: 'foo'
+      ticket.ticket_granting_ticket_id = 1
       ticket.save!
       ticket.created_at = 10.hours.ago
       ticket.save!
