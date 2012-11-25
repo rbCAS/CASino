@@ -22,11 +22,13 @@ class ServiceTicketsController < ApplicationController
       elsif clean_service_url(service) != ticket.service
         Rails.logger.warn "Service ticket '#{ticket.ticket}' is not valid for service '#{service}'"
         false
+      elsif renew && !ticket.issued_from_credentials?
+        Rails.logger.info "Service ticket '#{ticket.ticket}' was not issued from credentials but service '#{service}' will only accept a renewed ticket"
+        false
       else
         Rails.logger.info "Service ticket '#{ticket.ticket}' for service '#{service}' successfully validated"
         true
       end
-      # TODO handle renew
     end
     unless ticket.nil?
       ticket.consumed = true

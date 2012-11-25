@@ -11,25 +11,77 @@ describe ServiceTicketsController do
     }
 
     context 'with an unconsumed service ticket' do
-      before(:each) do
-        get :validate, service: service_ticket.service, ticket: service_ticket.ticket
+      context 'without renew flag' do
+        before(:each) do
+          get :validate, service: service_ticket.service, ticket: service_ticket.ticket
+        end
+
+        it 'should be successful' do
+          response.should be_success
+        end
+
+        it 'should render the validate page' do
+          response.should render_template('validate')
+        end
+
+        it 'should consume the service ticket' do
+          service_ticket.reload
+          service_ticket.consumed.should == true
+        end
+
+        it 'should find the right user' do
+          assigns(:username).should == ticket_granting_ticket.username
+        end
       end
 
-      it 'should be successful' do
-        response.should be_success
-      end
+      context 'with renew flag' do
+        context 'with a service ticket without issued_from_credentials flag' do
+          before(:each) do
+            get :validate, service: service_ticket.service, ticket: service_ticket.ticket, renew: true
+          end
 
-      it 'should render the validate page' do
-        response.should render_template('validate')
-      end
+          it 'should be successful' do
+            response.should be_success
+          end
 
-      it 'should consume the service ticket' do
-        service_ticket.reload
-        service_ticket.consumed.should == true
-      end
+          it 'should render the validate page' do
+            response.should render_template('validate')
+          end
 
-      it 'should find the right user' do
-        assigns(:username).should == ticket_granting_ticket.username
+          it 'should consume the service ticket' do
+            service_ticket.reload
+            service_ticket.consumed.should == true
+          end
+
+          it 'should not find the user' do
+            assigns(:username).should be_nil
+          end
+        end
+
+        context 'with a service ticket with issued_from_credentials flag' do
+          before(:each) do
+            service_ticket.issued_from_credentials = true
+            service_ticket.save!
+            get :validate, service: service_ticket.service, ticket: service_ticket.ticket, renew: true
+          end
+
+          it 'should be successful' do
+            response.should be_success
+          end
+
+          it 'should render the validate page' do
+            response.should render_template('validate')
+          end
+
+          it 'should consume the service ticket' do
+            service_ticket.reload
+            service_ticket.consumed.should == true
+          end
+
+          it 'should find the right user' do
+            assigns(:username).should == ticket_granting_ticket.username
+          end
+        end
       end
     end
 
