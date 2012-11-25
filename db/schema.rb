@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125185415) do
+ActiveRecord::Schema.define(:version => 20121125190013) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20121125185415) do
     t.datetime "updated_at", :null => false
   end
 
-  add_index "login_tickets", ["ticket"], :name => "index_login_tickets_on_ticket"
+  add_index "login_tickets", ["ticket"], :name => "index_login_tickets_on_ticket", :unique => true
 
   create_table "proxy_granting_tickets", :force => true do |t|
     t.string   "ticket",                    :null => false
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20121125185415) do
     t.boolean  "issued_from_credentials",   :default => false, :null => false
   end
 
-  add_index "service_tickets", ["ticket"], :name => "index_service_tickets_on_ticket"
+  add_index "service_tickets", ["ticket"], :name => "index_service_tickets_on_ticket", :unique => true
   add_index "service_tickets", ["ticket_granting_ticket_id"], :name => "index_service_tickets_on_ticket_granting_ticket_id"
 
   create_table "ticket_granting_tickets", :force => true do |t|
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(:version => 20121125185415) do
     t.string   "user_agent"
   end
 
-  add_index "ticket_granting_tickets", ["ticket"], :name => "index_ticket_granting_tickets_on_ticket"
+  add_index "ticket_granting_tickets", ["ticket"], :name => "index_ticket_granting_tickets_on_ticket", :unique => true
   add_index "ticket_granting_tickets", ["username"], :name => "index_ticket_granting_tickets_on_username"
 
 end
