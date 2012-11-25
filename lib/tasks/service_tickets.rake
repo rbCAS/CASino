@@ -1,7 +1,9 @@
 namespace :service_tickets do
   desc 'Remove expired service tickets.'
   task cleanup: :environment do
-    rows_affected = ServiceTicket.cleanup
-    puts "Deleted #{rows_affected} service tickets."
+    [:consumed, :unconsumed].each do |type|
+      rows_affected = ServiceTicket.send("cleanup_#{type}")
+      puts "Deleted #{rows_affected} #{type} service tickets."
+    end
   end
 end
