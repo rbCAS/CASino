@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124195013) do
+ActiveRecord::Schema.define(:version => 20121125091934) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20121124195013) do
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
     t.boolean  "consumed",                  :default => false, :null => false
+    t.boolean  "issued_from_credentials",   :default => false, :null => false
   end
 
   add_index "service_tickets", ["ticket"], :name => "index_service_tickets_on_ticket"

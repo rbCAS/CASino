@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
       if params[:service].nil?
         redirect_to sessions_path
       else
-        generate_service_ticket_and_redirect(params[:service])
+        generate_service_ticket_and_redirect(params[:service], true)
       end
     else
       logger.info "Could not login user '#{params[:username]}': Invalid credentials supplied."
@@ -136,9 +136,13 @@ class SessionsController < ApplicationController
     })
   end
 
-  def generate_service_ticket_and_redirect(service)
+  def generate_service_ticket_and_redirect(service, credentials_supplied = nil)
     service = clean_service_url(service)
     service_ticket = acquire_service_ticket(service)
+    if credentials_supplied
+      service_ticket.issued_from_credentials = credentials_supplied
+      service_ticket.save!
+    end
     redirect_to service_with_ticket_url(service, service_ticket), status: :see_other
   end
 

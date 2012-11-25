@@ -44,6 +44,10 @@ describe SessionsController do
           response.should redirect_to("https://example.com/lala?ticket=#{@service_ticket.ticket}")
           response.response_code.should == 303
         end
+
+        it 'should not set the issued_from_credentials flag' do
+          @service_ticket.should_not be_issued_from_credentials
+        end
       end
     end
   end
@@ -165,6 +169,10 @@ describe SessionsController do
           it 'should redirect to the service with code 303' do
             response.should redirect_to("https://example.com/foo/?ticket=#{@service_ticket.ticket}")
             response.response_code.should == 303
+          end
+
+          it 'should set the issued_from_credentials flag' do
+            @service_ticket.should be_issued_from_credentials
           end
         end
       end
