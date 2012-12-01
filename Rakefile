@@ -14,7 +14,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "CASinoCore"
+  gem.name = "casino_core"
   gem.homepage = "http://github.com/pencil/CASinoCore"
   gem.license = "MIT"
   gem.summary = "A CAS server core library."
