@@ -3,7 +3,7 @@ module CASinoCore
     class << self
       def load_tasks
         %w(
-          datebase
+          database
         ).each do |task|
           load "casino_core/tasks/#{task}.rake"
         end
