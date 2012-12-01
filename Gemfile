@@ -8,6 +8,8 @@ source 'http://rubygems.org'
 group :development do
   gem 'bundler', '~> 1.2.0'
   gem 'jeweler', '~> 1.8.4'
+  gem 'redcarpet'
+  gem 'yard', '~> 0.8.3', require: 'redcarpet'
 end
 
 group :development, :test do

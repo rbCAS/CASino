@@ -25,6 +25,11 @@ Jeweler::Tasks.new do |gem|
 end
 Jeweler::RubygemsDotOrgTasks.new
 
+require 'yard'
+YARD::Rake::YardocTask.new do |t|
+  t.files   = FileList['lib/**/*.rb'].exclude('lib/jeweler/templates/**/*.rb')
+end
+
 require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
