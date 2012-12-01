@@ -16,6 +16,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  CASinoCore.setup 'test'
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
