@@ -15,6 +15,7 @@ end
 group :development, :test do
   gem 'rspec', '~> 2.12.0'
   gem 'simplecov', '~> 0.7.1'
+  gem 'sqlite3'
 end
 
 gem 'activerecord', '~> 3.2.9'

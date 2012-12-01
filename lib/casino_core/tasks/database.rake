@@ -6,12 +6,13 @@ namespace :casino_core do
   namespace :db do 
     task :environment do
       BASE_DIR = if Gem.loaded_specs['casino_core'].nil?
-          ''
+          Dir.pwd
         else
           Gem.loaded_specs['casino_core'].full_gem_path
         end
       DATABASE_ENV = ENV['DATABASE_ENV'] || ENV['RAILS_ENV'] || 'development'
       MIGRATIONS_DIR = File.join(BASE_DIR, 'db', 'migrate')
+      SCHEMA_PATH = ENV['SCHEMA'] || File.join(BASE_DIR, 'db', 'schema.rb')
     end
 
     task :configuration => :environment do
@@ -35,6 +36,25 @@ namespace :casino_core do
     task :rollback => [:environment, :load_config] do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       ActiveRecord::Migrator.rollback(ActiveRecord::Migrator.migrations_paths, step)
+    end
+
+    namespace :schema do
+      desc 'Create a db/schema.rb file that can be portably used against any DB supported by AR'
+      task :dump => :configure_connection do
+        require 'active_record/schema_dumper'
+        File.open(SCHEMA_PATH, "w:utf-8") do |file|
+          ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
+        end
+      end
+
+      desc 'Load a schema.rb file into the database'
+      task :load => :configure_connection do
+        if File.exists?(SCHEMA_PATH)
+          load(SCHEMA_PATH)
+        else
+          abort %{#{SCHEMA_PATH} doesn't exist yet.}
+        end
+      end
     end
   end
 end
