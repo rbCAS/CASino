@@ -1,4 +1,5 @@
 # encoding: utf-8
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
 require 'rubygems'
 require 'bundler'
@@ -10,6 +11,9 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 require 'rake'
+
+require 'casino_core'
+CASinoCore::RakeTasks.load_tasks
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
@@ -27,7 +31,7 @@ Jeweler::RubygemsDotOrgTasks.new
 
 require 'yard'
 YARD::Rake::YardocTask.new do |t|
-  t.files   = FileList['lib/**/*.rb'].exclude('lib/jeweler/templates/**/*.rb')
+  t.files = FileList['lib/**/*.rb']
 end
 
 require 'rspec/core'
