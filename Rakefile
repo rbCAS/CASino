@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "CASinoCore"
   gem.homepage = "http://github.com/pencil/CASinoCore"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "A CAS server core library."
+  gem.description = gem.summary
   gem.email = "ncaspar@me.com"
   gem.authors = ["Nils Caspar"]
   # dependencies defined in Gemfile
