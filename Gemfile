@@ -17,5 +17,4 @@ group :development, :test do
   gem 'simplecov', '~> 0.7.1'
 end
 
-gem 'standalone_migrations', '~> 2.0.2'
 gem 'activerecord', '~> 3.2.9'
