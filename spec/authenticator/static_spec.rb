@@ -3,10 +3,10 @@ require 'spec_helper'
 describe CASinoCore::Authenticator::Static do
   subject {
     CASinoCore::Authenticator::Static.new({
-      'users' => {
-        'user' => {
-          'password' => 'testing123',
-          'fullname' => 'Example User'
+      users: {
+        user: {
+          password: 'testing123',
+          fullname: 'Example User'
         }
       }
     })
@@ -35,7 +35,7 @@ describe CASinoCore::Authenticator::Static do
       end
 
       it 'should return extra attributes' do
-        result[:extra_attributes]['fullname'].should == 'Example User'
+        result[:extra_attributes][:fullname].should == 'Example User'
       end
     end
   end
