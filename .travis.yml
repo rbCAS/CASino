@@ -1,0 +1,3 @@
+language: ruby
+before_script:
+  - RAILS_ENV=test rake casino_core:db:schema:load
