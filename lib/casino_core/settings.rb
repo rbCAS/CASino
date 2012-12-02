@@ -3,7 +3,6 @@ module CASinoCore
     class << self
       def init(config = {})
         config.each do |key,value|
-          puts "#{key} = #{value}"
           define_singleton_method key do
             value
           end
