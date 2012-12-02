@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -27,6 +27,8 @@ end
 gem 'jquery-rails'
 gem 'yettings'
 gem 'useragent', '~> 0.4.13'
+
+gem 'casino_core', path: '../CASinoCore'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
