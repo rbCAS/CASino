@@ -5,7 +5,7 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   include CASinoCore::Helper
 
   def process(params = nil)
-    params ||= []
+    params ||= {}
     login_ticket = acquire_login_ticket
     @listener.render_login_page(login_ticket)
   end
