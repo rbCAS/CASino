@@ -14,7 +14,7 @@ class CASinoCore::Authenticator::Static < CASinoCore::Authenticator
     if @users.include?(username) && @users[username][:password] == password
       {
         username: "#{username}",
-        extra_attributes: @users[username].delete_if { |key, value| "#{key}" == 'password' }
+        extra_attributes: @users[username].except(:password)
       }
     else
       false

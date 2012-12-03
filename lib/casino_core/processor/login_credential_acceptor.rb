@@ -7,10 +7,15 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   def process(params = nil)
     params ||= {}
     if login_ticket_valid?(params[:lt])
-      if params[:service].blank?
-        @listener.user_logged_in_without_service
+      user_data = validate_login_credentials(params[:username], params[:password])
+      if !user_data.nil?
+        if params[:service].blank?
+          @listener.user_logged_in_without_service
+        else
+          @listener.redirect_to(params[:service])
+        end
       else
-        @listener.redirect_to(params[:service])
+        @listener.invalid_login_credentials
       end
     else
       @listener.invalid_login_ticket
@@ -31,5 +36,22 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
       ticket.delete
       true
     end
+  end
+
+  def validate_login_credentials(username, password)
+    user_data = nil
+    CASinoCore::Settings.authenticators.each do |authenticator|
+      instance = authenticator[:class].constantize.new(authenticator[:options])
+      data = instance.validate(username, password)
+      if data
+        if data[:username].nil?
+          data[:username] = username
+        end
+        user_data = data
+        logger.info("Credentials for username '#{data[:username]}' successfully validated using #{authenticator['class']}")
+        break
+      end
+    end
+    user_data
   end
 end

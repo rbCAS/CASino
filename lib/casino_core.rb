@@ -23,8 +23,11 @@ module CASinoCore
 
     private
     def recursive_symbolize_keys! hash
+      # ugly, ugly, ugly
+      # TODO refactor!
       hash.symbolize_keys!
       hash.values.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}
+      hash.values.select{|v| v.is_a? Array}.each{|a| a.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}}
     end
   end
 end
