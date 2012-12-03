@@ -13,7 +13,7 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   private
   def acquire_login_ticket
     ticket = CASinoCore::Model::LoginTicket.create ticket: random_ticket_string('LT')
-    #logger.debug "Created login ticket '#{ticket.ticket}'"
+    logger.debug "Created login ticket '#{ticket.ticket}'"
     ticket
   end
 end
