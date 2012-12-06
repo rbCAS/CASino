@@ -4,10 +4,22 @@ require 'casino_core/helper'
 class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   include CASinoCore::Helper
 
-  def process(params = nil)
+  def process(params = nil, cookies = nil)
     params ||= {}
-    login_ticket = acquire_login_ticket
-    @listener.render_login_page(login_ticket)
+    cookies ||= {}
+    if cookies[:tgt]
+      # TODO validate ticket
+      # TODO create new service ticket and url
+      if params[:service]
+        service_url_w_ticket = params[:service] + '?ticket=foo'
+      else
+        service_url_w_ticket = nil
+      end
+      @listener.user_logged_in(service_url_w_ticket)
+    else
+      login_ticket = acquire_login_ticket
+      @listener.user_not_logged_in(login_ticket)
+    end
   end
 
   private
