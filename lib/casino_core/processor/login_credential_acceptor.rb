@@ -9,11 +9,7 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
     if login_ticket_valid?(params[:lt])
       user_data = validate_login_credentials(params[:username], params[:password])
       if !user_data.nil?
-        if params[:service].blank?
-          @listener.user_logged_in_without_service
-        else
-          @listener.redirect_to(params[:service])
-        end
+        @listener.user_logged_in(params[:service])
       else
         @listener.invalid_login_credentials
       end
