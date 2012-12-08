@@ -23,18 +23,45 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
       end
 
       context 'with valid credentials' do
+        let(:login_data) { { lt: login_ticket.ticket, username: 'testuser', password: 'foobar123', service: service } }
+
+        before(:each) do
+          listener.stub(:user_logged_in)
+        end
+
         context 'without a service' do
+          let(:service) { nil }
+
           it 'should call the #user_logged_in method on the listener' do
-            listener.should_receive(:user_logged_in).with(nil)
+            listener.should_receive(:user_logged_in).with(nil, /^TGC\-/)
             processor.process(lt: login_ticket.ticket, username: 'testuser', password: 'foobar123')
+          end
+
+          it 'should have generated a ticket-granting ticket' do
+            lambda do
+              processor.process(login_data)
+            end.should change(CASinoCore::Model::TicketGrantingTicket, :count).by(1)
           end
         end
 
         context 'with a service' do
+          let(:service) { 'https://www.example.com' }
+
           it 'should call the #user_logged_in method on the listener' do
-            service = 'https://www.example.com/'
-            listener.should_receive(:user_logged_in).with(service)
-            processor.process(lt: login_ticket.ticket, username: 'testuser', password: 'foobar123', service: service)
+            listener.should_receive(:user_logged_in).with(/^#{service}\?ticket=ST\-/, /^TGC\-/)
+            processor.process(login_data)
+          end
+
+          it 'should have generated a service ticket' do
+            lambda do
+              processor.process(login_data)
+            end.should change(CASinoCore::Model::ServiceTicket, :count).by(1)
+          end
+
+          it 'should have generated a ticket-granting ticket' do
+            lambda do
+              processor.process(login_data)
+            end.should change(CASinoCore::Model::TicketGrantingTicket, :count).by(1)
           end
         end
       end
