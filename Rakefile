@@ -13,6 +13,7 @@ end
 require 'rake'
 
 require 'casino_core'
+CASinoCore.setup 'development'
 CASinoCore::RakeTasks.load_tasks
 
 require 'jeweler'
