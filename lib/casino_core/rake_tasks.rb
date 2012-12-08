@@ -4,6 +4,7 @@ module CASinoCore
       def load_tasks
         %w(
           database
+          cleanup
         ).each do |task|
           load "casino_core/tasks/#{task}.rake"
         end
