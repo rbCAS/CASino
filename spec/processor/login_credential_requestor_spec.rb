@@ -22,16 +22,18 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
           user_agent: user_agent
         })
       }
+      let(:cookies) { { tgt: ticket.ticket } }
+
       context 'with a service' do
         it 'calls the #user_logged_in method on the listener' do
           listener.should_receive(:user_logged_in).with('http://example.com/?ticket=foo')
-          processor.process({ service: 'http://example.com/' }, { tgt: ticket.ticket }, user_agent)
+          processor.process({ service: 'http://example.com/' }, cookies, user_agent)
         end
 
         context 'with renew parameter' do
           it 'calls the #user_not_logged_in method on the listener' do
             listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
-            processor.process({ renew: 'true', service: 'http://example.com/' }, { tgt: ticket.ticket })
+            processor.process({ renew: 'true', service: 'http://example.com/' }, cookies)
           end
         end
       end
@@ -39,13 +41,13 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
       context 'without a service' do
         it 'calls the #user_logged_in method on the listener' do
           listener.should_receive(:user_logged_in).with(nil)
-          processor.process(nil, { tgt: ticket.ticket }, user_agent)
+          processor.process(nil, cookies, user_agent)
         end
 
         context 'with a changed browser' do
           it 'calls the #user_not_logged_in method on the listener' do
             listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
-            processor.process(nil, { tgt: ticket.ticket })
+            processor.process(nil, cookies)
           end
         end
       end
