@@ -4,6 +4,7 @@ module CASinoCore
   class Processor
     autoload :LoginCredentialRequestor, 'casino_core/processor/login_credential_requestor.rb'
     autoload :LoginCredentialAcceptor, 'casino_core/processor/login_credential_acceptor.rb'
+    autoload :LegacyValidator, 'casino_core/processor/legacy_validator.rb'
 
     def initialize(listener)
       @listener = listener
