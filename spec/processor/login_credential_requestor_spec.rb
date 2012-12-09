@@ -14,7 +14,7 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
 
     context 'when logged in' do
       let(:user_agent) { 'TestBrowser 1.0' }
-      let(:ticket) {
+      let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-9H6Vx4850i2Ksp3R8hTCwO',
           username: 'test',
@@ -22,7 +22,7 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
           user_agent: user_agent
         })
       }
-      let(:cookies) { { tgt: ticket.ticket } }
+      let(:cookies) { { tgt: ticket_granting_ticket.ticket } }
 
       before(:each) do
         listener.stub(:user_logged_in)
