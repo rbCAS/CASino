@@ -20,3 +20,4 @@ group :development, :test do
 end
 
 gem 'activerecord', '~> 3.2.9'
+gem 'addressable', '~> 2.3.2'

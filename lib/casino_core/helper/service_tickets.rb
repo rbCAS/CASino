@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 module CASinoCore
   module Helper
     module ServiceTickets
@@ -13,12 +15,11 @@ module CASinoCore
 
       def clean_service_url(dirty_service)
         return dirty_service if dirty_service.blank?
-        clean_service = dirty_service.dup
-        ['service', 'ticket', 'gateway', 'renew'].each do |p|
-          clean_service.sub!(Regexp.new("&?#{p}=[^&]*"), '')
+        service_uri = Addressable::URI.parse dirty_service
+        unless service_uri.query_values.nil?
+          service_uri.query_values = service_uri.query_values.except('service', 'ticket', 'gateway', 'renew')
         end
-
-        clean_service = clean_service.gsub(/[\/\?&]$/, '').gsub('?&', '?').gsub(' ', '+')
+        clean_service = service_uri.to_s
 
         logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
 

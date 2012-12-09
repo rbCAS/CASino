@@ -1,5 +1,6 @@
 require 'casino_core/model'
 require 'casino_core/settings'
+require 'addressable/uri'
 
 class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
   autoload :SingleSignOutNotifier, 'casino_core/model/service_ticket/single_sign_out_notifier.rb'
@@ -18,17 +19,9 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
   end
 
   def service_with_ticket_url
-    service_uri = URI.parse(service)
-    if service.include? '?'
-      if service_uri.query.empty?
-        query_separator = ''
-      else
-        query_separator = '&'
-      end
-    else
-      query_separator = '?'
-    end
-    self.service + query_separator + 'ticket=' + self.ticket
+    service_uri = Addressable::URI.parse(self.service)
+    service_uri.query_values = (service_uri.query_values || {}).merge(ticket: self.ticket)
+    service_uri.to_s
   end
 
   private
