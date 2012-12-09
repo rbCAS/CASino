@@ -45,14 +45,13 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   def validate_login_credentials(username, password)
     user_data = nil
     CASinoCore::Settings.authenticators.each do |authenticator|
-      instance = authenticator[:class].constantize.new(authenticator[:options])
-      data = instance.validate(username, password)
+      data = authenticator.validate(username, password)
       if data
         if data[:username].nil?
           data[:username] = username
         end
         user_data = data
-        logger.info("Credentials for username '#{data[:username]}' successfully validated using #{authenticator['class']}")
+        logger.info("Credentials for username '#{data[:username]}' successfully validated using #{authenticator.class}")
         break
       end
     end
