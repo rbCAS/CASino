@@ -22,26 +22,31 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
           user_agent: user_agent
         })
       }
-      context 'with the right browser' do
-        context 'with a service' do
-          it 'calls the #user_logged_in method on the listener' do
-            listener.should_receive(:user_logged_in).with('http://example.com/?ticket=foo')
-            processor.process({ service: 'http://example.com/' }, { tgt: ticket.ticket }, user_agent)
-          end
+      context 'with a service' do
+        it 'calls the #user_logged_in method on the listener' do
+          listener.should_receive(:user_logged_in).with('http://example.com/?ticket=foo')
+          processor.process({ service: 'http://example.com/' }, { tgt: ticket.ticket }, user_agent)
         end
 
-        context 'without a service' do
-          it 'calls the #user_logged_in method on the listener' do
-            listener.should_receive(:user_logged_in).with(nil)
-            processor.process(nil, { tgt: ticket.ticket }, user_agent)
+        context 'with renew parameter' do
+          it 'calls the #user_not_logged_in method on the listener' do
+            listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
+            processor.process({ renew: 'true', service: 'http://example.com/' }, { tgt: ticket.ticket })
           end
         end
       end
 
-      context 'with a changed browser' do
-        it 'calls the #user_not_logged_in method on the listener' do
-          listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
-          processor.process(nil, { tgt: ticket.ticket })
+      context 'without a service' do
+        it 'calls the #user_logged_in method on the listener' do
+          listener.should_receive(:user_logged_in).with(nil)
+          processor.process(nil, { tgt: ticket.ticket }, user_agent)
+        end
+
+        context 'with a changed browser' do
+          it 'calls the #user_not_logged_in method on the listener' do
+            listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
+            processor.process(nil, { tgt: ticket.ticket })
+          end
         end
       end
     end
