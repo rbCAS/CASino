@@ -18,7 +18,7 @@ describe CASinoCore::Authenticator::Static do
         subject.validate('foobar', 'test').should == false
       end
 
-      it 'returns false for a known username with wron password' do
+      it 'returns false for a known username with wrong password' do
         subject.validate('user', 'test').should == false
       end
     end
