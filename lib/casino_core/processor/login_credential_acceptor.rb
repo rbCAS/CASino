@@ -11,7 +11,7 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
     if login_ticket_valid?(params[:lt])
       user_data = validate_login_credentials(params[:username], params[:password])
       if !user_data.nil?
-        ticket_granting_ticket = acquire_ticket_granting_ticket(user_data[:username], user_data[:extra_attributes], request_env)
+        ticket_granting_ticket = acquire_ticket_granting_ticket(user_data, request_env)
         url = if params[:service].nil?
           nil
         else
@@ -59,11 +59,11 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
     user_data
   end
 
-  def acquire_ticket_granting_ticket(username, extra_attributes = nil, request_env = nil)
+  def acquire_ticket_granting_ticket(user_data, request_env = nil)
     CASinoCore::Model::TicketGrantingTicket.create!({
       ticket: random_ticket_string('TGC'),
-      username: username,
-      extra_attributes: extra_attributes,
+      username: user_data[:username],
+      extra_attributes: user_data[:extra_attributes],
       user_agent: (request_env.nil? ? nil : request_env['HTTP_USER_AGENT'])
     })
   end
