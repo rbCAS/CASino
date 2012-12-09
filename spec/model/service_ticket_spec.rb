@@ -8,7 +8,7 @@ describe CASinoCore::Model::ServiceTicket do
   }
 
   describe '.cleanup_unconsumed' do
-    it 'should delete expired unconsumed service tickets' do
+    it 'deletes expired unconsumed service tickets' do
       ticket.created_at = 10.hours.ago
       ticket.save!
       lambda do
@@ -23,7 +23,7 @@ describe CASinoCore::Model::ServiceTicket do
       described_class::SingleSignOutNotifier.any_instance.stub(:notify).and_return(true)
     end
 
-    it 'should delete expired consumed service tickets' do
+    it 'deletes expired consumed service tickets' do
       ticket.consumed = true
       ticket.created_at = 10.days.ago
       ticket.save!
@@ -35,7 +35,7 @@ describe CASinoCore::Model::ServiceTicket do
   end
 
   describe '.destroy' do
-    it 'should send out a single sign out notification' do
+    it 'sends out a single sign out notification' do
       described_class::SingleSignOutNotifier.any_instance.should_receive(:notify).and_return(true)
       ticket.consumed = true
       ticket.save!

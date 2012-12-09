@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CASinoCore::Model::LoginTicket do
   describe '.cleanup' do
-    it 'should delete expired login tickets' do
+    it 'deletes expired login tickets' do
       ticket = described_class.new ticket: 'LT-12345'
       ticket.save!
       ticket.created_at = 10.hours.ago

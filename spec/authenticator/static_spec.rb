@@ -26,15 +26,15 @@ describe CASinoCore::Authenticator::Static do
     context 'with valid credentials' do
       let(:result) { subject.validate('user', 'testing123') }
 
-      it 'should not return false' do
+      it 'does not return false' do
         result.should_not == false
       end
 
-      it 'should return the username' do
+      it 'returns the username' do
         result[:username].should == 'user'
       end
 
-      it 'should return extra attributes' do
+      it 'returns extra attributes' do
         result[:extra_attributes][:fullname].should == 'Example User'
       end
     end
