@@ -24,16 +24,29 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
       }
       let(:cookies) { { tgt: ticket.ticket } }
 
+      before(:each) do
+        listener.stub(:user_logged_in)
+      end
+
       context 'with a service' do
+        let(:service) { 'http://example.com/' }
+        let(:params) { { service: service } }
+
         it 'calls the #user_logged_in method on the listener' do
-          listener.should_receive(:user_logged_in).with('http://example.com/?ticket=foo')
-          processor.process({ service: 'http://example.com/' }, cookies, user_agent)
+          listener.should_receive(:user_logged_in).with(/^#{service}\?ticket=ST\-/)
+          processor.process(params, cookies, user_agent)
+        end
+
+        it 'generates a service ticket' do
+          lambda do
+            processor.process(params, cookies, user_agent)
+          end.should change(CASinoCore::Model::ServiceTicket, :count).by(1)
         end
 
         context 'with renew parameter' do
           it 'calls the #user_not_logged_in method on the listener' do
             listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
-            processor.process({ renew: 'true', service: 'http://example.com/' }, cookies)
+            processor.process(params.merge({ renew: 'true' }), cookies)
           end
         end
       end
@@ -42,6 +55,12 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
         it 'calls the #user_logged_in method on the listener' do
           listener.should_receive(:user_logged_in).with(nil)
           processor.process(nil, cookies, user_agent)
+        end
+
+        it 'does not generate a service ticket' do
+          lambda do
+            processor.process(nil, cookies, user_agent)
+          end.should change(CASinoCore::Model::ServiceTicket, :count).by(0)
         end
 
         context 'with a changed browser' do

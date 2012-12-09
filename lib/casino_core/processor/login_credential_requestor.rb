@@ -3,6 +3,7 @@ require 'casino_core/helper'
 
 class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   include CASinoCore::Helper
+  include CASinoCore::Helper::ServiceTickets
   include CASinoCore::Helper::Browser
 
   def process(params = nil, cookies = nil, user_agent = nil)
@@ -11,8 +12,8 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
     request_env ||= {}
     if !params[:renew] && (ticket_granting_ticket = find_valid_ticket_granting_ticket(cookies[:tgt], user_agent))
       # TODO create new service ticket and url
-      service_url_with_ticket = if params[:service]
-        params[:service] + '?ticket=foo'
+      service_url_with_ticket = unless params[:service].nil?
+        acquire_service_ticket(ticket_granting_ticket, params[:service], true).service_with_ticket_url
       end
       @listener.user_logged_in(service_url_with_ticket)
     else
