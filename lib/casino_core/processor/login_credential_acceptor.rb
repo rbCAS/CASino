@@ -5,16 +5,14 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   include CASinoCore::Helper
   include CASinoCore::Helper::ServiceTickets
 
-  def process(params = nil, cookies = nil, request_env = nil)
+  def process(params = nil, cookies = nil, user_agent = nil)
     params ||= {}
     cookies ||= {}
     if login_ticket_valid?(params[:lt])
       user_data = validate_login_credentials(params[:username], params[:password])
       if !user_data.nil?
-        ticket_granting_ticket = acquire_ticket_granting_ticket(user_data, request_env)
-        url = if params[:service].nil?
-          nil
-        else
+        ticket_granting_ticket = acquire_ticket_granting_ticket(user_data, user_agent)
+        url = unless params[:service].nil?
           acquire_service_ticket(ticket_granting_ticket, params[:service], true).service_with_ticket_url
         end
         @listener.user_logged_in(url, ticket_granting_ticket.ticket)
@@ -58,12 +56,12 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
     user_data
   end
 
-  def acquire_ticket_granting_ticket(user_data, request_env = nil)
+  def acquire_ticket_granting_ticket(user_data, user_agent = nil)
     CASinoCore::Model::TicketGrantingTicket.create!({
       ticket: random_ticket_string('TGC'),
       username: user_data[:username],
       extra_attributes: user_data[:extra_attributes],
-      user_agent: (request_env.nil? ? nil : request_env['HTTP_USER_AGENT'])
+      user_agent: user_agent
     })
   end
 end
