@@ -38,15 +38,15 @@ class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
       http.start do |conn|
         response = conn.request(request)
         if response.kind_of? Net::HTTPSuccess
-          Rails.logger.info "Logout notification successfully posted to #{uri}."
+          logger.info "Logout notification successfully posted to #{uri}."
           return true
         else
-          puts "Service #{uri} responed to logout notification with code '#{response.code}'!"
+          logger.warn "Service #{uri} responed to logout notification with code '#{response.code}'!"
           return false
         end
       end
     rescue Exception => e
-      puts "Failed to send logout notification to service #{uri} due to #{e}"
+      logger.warn "Failed to send logout notification to service #{uri} due to #{e}"
       return false
     end
   end
