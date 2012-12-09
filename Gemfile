@@ -21,3 +21,4 @@ end
 
 gem 'activerecord', '~> 3.2.9'
 gem 'addressable', '~> 2.3.2'
+gem 'useragent', '~> 0.4.13'
