@@ -1,16 +1,13 @@
 module CASinoCore
   class Settings
     class << self
+      attr_accessor :login_ticket, :service_ticket, :authenticators
       def init(config = {})
         config.each do |key,value|
-          define_singleton_method key do
-            value
+          if respond_to?("#{key}=")
+            send("#{key}=", value)
           end
         end
-      end
-
-      def method_missing(method_id, *args)
-        raise "#{method_id} is not defined in #{self.to_s}"
       end
     end
   end
