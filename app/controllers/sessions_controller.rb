@@ -1,15 +1,11 @@
-require 'casino/authenticator'
-
 class SessionsController < ApplicationController
   include SessionsHelper
-
-  before_filter :validate_login_ticket, only: :create
-  before_filter :authenticate, only: :index
 
   def index
   end
 
   def new
+    processor.process(params, cookies, request.user_agent)
   end
 
   def create
@@ -19,5 +15,11 @@ class SessionsController < ApplicationController
   end
 
   def logout
+  end
+
+  private
+  def processor
+    listener = CASino::Listener::LoginCredentialRequestor.new(self)
+    @processor = CASinoCore::Processor::LoginCredentialRequestor.new(listener)
   end
 end
