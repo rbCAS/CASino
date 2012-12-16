@@ -11,7 +11,6 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
     cookies ||= {}
     request_env ||= {}
     if !params[:renew] && (ticket_granting_ticket = find_valid_ticket_granting_ticket(cookies[:tgt], user_agent))
-      # TODO create new service ticket and url
       service_url_with_ticket = unless params[:service].nil?
         acquire_service_ticket(ticket_granting_ticket, params[:service], true).service_with_ticket_url
       end
