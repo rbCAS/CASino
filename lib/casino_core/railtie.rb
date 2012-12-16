@@ -6,5 +6,9 @@ module CASinoCore
     rake_tasks do
       CASinoCore::RakeTasks.load_tasks
     end
+
+    initializer "casino_core.load_configuration" do
+      CASinoCore.setup Rails.env
+    end
   end
 end
