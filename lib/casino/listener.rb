@@ -1,5 +1,9 @@
 module CASino
   class Listener
+
+    # include helpers to have the route path methods (like sessions_path)
+    include Rails.application.routes.url_helpers
+
     autoload :LoginCredentialAcceptor, 'casino/listener/login_credential_acceptor.rb'
     autoload :LoginCredentialRequestor, 'casino/listener/login_credential_requestor.rb'
 
