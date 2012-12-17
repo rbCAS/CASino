@@ -26,8 +26,11 @@ describe CASino::Listener::LoginCredentialAcceptor do
   [:invalid_login_credentials, :invalid_login_ticket].each do |method|
     context "##{method}" do
       let(:login_ticket) { Object.new }
+      let(:flash) { ActionDispatch::Flash::FlashHash.new }
+
       before(:each) do
         controller.stub(:render)
+        controller.stub(:flash).and_return(flash)
       end
 
       it 'tells the controller to render the new template' do
@@ -38,6 +41,11 @@ describe CASino::Listener::LoginCredentialAcceptor do
       it 'assigns a new login ticket' do
         listener.send(method, login_ticket)
         controller.instance_variable_get(:@login_ticket).should == login_ticket
+      end
+
+      it 'should add an error message' do
+        listener.send(method, login_ticket)
+        flash[:error].should == I18n.t("login_credential_acceptor.#{method}")
       end
     end
   end

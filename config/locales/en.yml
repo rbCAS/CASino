@@ -2,4 +2,6 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  login_credential_acceptor:
+    invalid_login_ticket: "Your login request did not include a valid login ticket."
+    invalid_login_credentials: "Incorrect username or password."

@@ -10,10 +10,12 @@ class CASino::Listener::LoginCredentialAcceptor < CASino::Listener
   end
 
   def invalid_login_credentials(login_ticket)
+    @controller.flash.now[:error] = I18n.t('login_credential_acceptor.invalid_login_credentials')
     rerender_login_page(login_ticket)
   end
 
   def invalid_login_ticket(login_ticket)
+    @controller.flash.now[:error] = I18n.t('login_credential_acceptor.invalid_login_ticket')
     rerender_login_page(login_ticket)
   end
 
