@@ -7,7 +7,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
     context 'without a valid login ticket' do
       it 'calls the #invalid_login_ticket method on the listener' do
-        listener.should_receive(:invalid_login_ticket).with(no_args)
+        listener.should_receive(:invalid_login_ticket).with(kind_of(CASinoCore::Model::LoginTicket))
         processor.process
       end
     end
@@ -17,7 +17,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
       context 'with invalid credentials' do
         it 'calls the #invalid_login_credentials method on the listener' do
-          listener.should_receive(:invalid_login_credentials).with(no_args)
+          listener.should_receive(:invalid_login_credentials).with(kind_of(CASinoCore::Model::LoginTicket))
           processor.process(lt: login_ticket.ticket)
         end
       end

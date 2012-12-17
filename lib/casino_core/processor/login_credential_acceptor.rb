@@ -3,6 +3,7 @@ require 'casino_core/helper'
 
 class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   include CASinoCore::Helper
+  include CASinoCore::Helper::LoginTickets
   include CASinoCore::Helper::ServiceTickets
 
   def process(params = nil, cookies = nil, user_agent = nil)
@@ -17,10 +18,10 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
         end
         @listener.user_logged_in(url, ticket_granting_ticket.ticket)
       else
-        @listener.invalid_login_credentials
+        @listener.invalid_login_credentials(acquire_login_ticket)
       end
     else
-      @listener.invalid_login_ticket
+      @listener.invalid_login_ticket(acquire_login_ticket)
     end
   end
 

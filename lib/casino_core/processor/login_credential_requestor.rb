@@ -3,8 +3,9 @@ require 'casino_core/helper'
 
 class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   include CASinoCore::Helper
-  include CASinoCore::Helper::ServiceTickets
   include CASinoCore::Helper::Browser
+  include CASinoCore::Helper::LoginTickets
+  include CASinoCore::Helper::ServiceTickets
 
   def process(params = nil, cookies = nil, user_agent = nil)
     params ||= {}
@@ -22,12 +23,6 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   end
 
   private
-  def acquire_login_ticket
-    ticket = CASinoCore::Model::LoginTicket.create ticket: random_ticket_string('LT')
-    logger.debug "Created login ticket '#{ticket.ticket}'"
-    ticket
-  end
-
   def find_valid_ticket_granting_ticket(tgt, user_agent)
     ticket_granting_ticket = CASinoCore::Model::TicketGrantingTicket.where(ticket: tgt).first
     unless ticket_granting_ticket.nil?
