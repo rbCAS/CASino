@@ -1,4 +1,8 @@
 <h1>Logged out</h1>
 <p>
-  The application you just logged out of has provided a link it would like you to follow: <a href="<%= @url %>"><%= @url %></a>
+  <% if @url.nil? %>
+    <%= t('logout.logged_out_without_url') %>
+  <% else %>
+    <%= t('logout.logged_out_with_url') %> <a href="<%= @url %>"><%= @url %></a>
+  <% end %>
 </p>

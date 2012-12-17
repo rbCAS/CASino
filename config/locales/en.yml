@@ -5,3 +5,6 @@ en:
   login_credential_acceptor:
     invalid_login_ticket: "Your login request did not include a valid login ticket."
     invalid_login_credentials: "Incorrect username or password."
+  logout:
+    logged_out_without_url: "You have successfully logged out."
+    logged_out_with_url: "The application you just logged out of has provided a link it would like you to follow:"
