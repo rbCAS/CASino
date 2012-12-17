@@ -30,4 +30,13 @@ describe SessionsController do
       get :index
     end
   end
+
+  describe 'DELETE "destroy"' do
+    it 'calls the process method of the SessionOverview processor' do
+      CASinoCore::Processor::SessionDestroyer.any_instance.should_receive(:process) do
+        @controller.render nothing: true
+      end
+      delete :destroy, id: 'foo'
+    end
+  end
 end
