@@ -3,7 +3,7 @@ require 'casino_core/helper'
 require 'casino_core/model'
 
 class CASinoCore::Processor::LegacyValidator < CASinoCore::Processor
-  include CASinoCore::Helper
+  include CASinoCore::Helper::Logger
   include CASinoCore::Helper::ServiceTickets
 
   def process(params = nil)

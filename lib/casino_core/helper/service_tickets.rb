@@ -3,7 +3,8 @@ require 'addressable/uri'
 module CASinoCore
   module Helper
     module ServiceTickets
-      include CASinoCore::Helper
+      include CASinoCore::Helper::Logger
+      include CASinoCore::Helper::Tickets
 
       def acquire_service_ticket(ticket_granting_ticket, service, credentials_supplied = nil)
         ticket_granting_ticket.service_tickets.create!({

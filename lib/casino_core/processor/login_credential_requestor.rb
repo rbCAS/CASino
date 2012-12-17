@@ -2,8 +2,8 @@ require 'casino_core/processor'
 require 'casino_core/helper'
 
 class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
-  include CASinoCore::Helper
   include CASinoCore::Helper::Browser
+  include CASinoCore::Helper::Logger
   include CASinoCore::Helper::LoginTickets
   include CASinoCore::Helper::ServiceTickets
 

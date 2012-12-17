@@ -1,5 +1,3 @@
-require 'addressable/uri'
-
 module CASinoCore
   module Helper
     module Browser
