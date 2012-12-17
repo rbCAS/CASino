@@ -22,4 +22,23 @@ describe CASino::Listener::LoginCredentialAcceptor do
       end
     end
   end
+
+  [:invalid_login_credentials, :invalid_login_ticket].each do |method|
+    context "##{method}" do
+      let(:login_ticket) { Object.new }
+      before(:each) do
+        controller.stub(:render)
+      end
+
+      it 'tells the controller to render the new template' do
+        controller.should_receive(:render).with('new', status: 403)
+        listener.send(method, login_ticket)
+      end
+
+      it 'assigns a new login ticket' do
+        listener.send(method, login_ticket)
+        controller.instance_variable_get(:@login_ticket).should == login_ticket
+      end
+    end
+  end
 end

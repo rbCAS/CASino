@@ -7,4 +7,13 @@ describe SessionsController do
       get :new
     end
   end
+
+  describe 'POST "create"' do
+    it 'calls the process method of the LoginCredentialAcceptor' do
+      CASinoCore::Processor::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+        @controller.render nothing: true
+      end
+      post :create
+    end
+  end
 end

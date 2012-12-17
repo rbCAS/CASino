@@ -5,10 +5,11 @@ class SessionsController < ApplicationController
   end
 
   def new
-    processor.process(params, cookies, request.user_agent)
+    processor(:LoginCredentialRequestor).process(params, cookies, request.user_agent)
   end
 
   def create
+    processor(:LoginCredentialAcceptor).process(params, cookies, request.user_agent)
   end
 
   def destroy
@@ -18,8 +19,8 @@ class SessionsController < ApplicationController
   end
 
   private
-  def processor
-    listener = CASino::Listener::LoginCredentialRequestor.new(self)
-    @processor = CASinoCore::Processor::LoginCredentialRequestor.new(listener)
+  def processor(name)
+    listener = CASino::Listener.const_get(name).new(self)
+    @processor = CASinoCore::Processor.const_get(name).new(listener)
   end
 end

@@ -8,4 +8,18 @@ class CASino::Listener::LoginCredentialAcceptor < CASino::Listener
       @controller.redirect_to url, status: :see_other
     end
   end
+
+  def invalid_login_credentials(login_ticket)
+    rerender_login_page(login_ticket)
+  end
+
+  def invalid_login_ticket(login_ticket)
+    rerender_login_page(login_ticket)
+  end
+
+  private
+  def rerender_login_page(login_ticket)
+    assign(:login_ticket, login_ticket)
+    @controller.render 'new', status: 403
+  end
 end
