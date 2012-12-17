@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
     "lib/casino_core/helper/logger.rb",
     "lib/casino_core/helper/login_tickets.rb",
     "lib/casino_core/helper/service_tickets.rb",
+    "lib/casino_core/helper/ticket_granting_tickets.rb",
     "lib/casino_core/helper/tickets.rb",
     "lib/casino_core/model.rb",
     "lib/casino_core/model/login_ticket.rb",
@@ -63,6 +64,7 @@ Gem::Specification.new do |s|
     "lib/casino_core/processor/login_credential_requestor.rb",
     "lib/casino_core/processor/logout.rb",
     "lib/casino_core/processor/session_destroyer.rb",
+    "lib/casino_core/processor/session_overview.rb",
     "lib/casino_core/railtie.rb",
     "lib/casino_core/rake_tasks.rb",
     "lib/casino_core/settings.rb",
@@ -76,6 +78,7 @@ Gem::Specification.new do |s|
     "spec/processor/login_credential_requestor_spec.rb",
     "spec/processor/logout_spec.rb",
     "spec/processor/session_destroyer_spec.rb",
+    "spec/processor/session_overview_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = "http://github.com/pencil/CASinoCore"
