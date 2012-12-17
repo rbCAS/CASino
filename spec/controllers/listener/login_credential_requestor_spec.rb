@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CASino::Listener::LoginCredentialRequestor do
   include Rails.application.routes.url_helpers
-  let(:controller) { Object.new }
+  let(:controller) { Struct.new(:cookies).new(cookies: {}) }
   let(:listener) { described_class.new(controller) }
 
   describe '#user_not_logged_in' do
@@ -10,6 +10,12 @@ describe CASino::Listener::LoginCredentialRequestor do
     it 'assigns the login ticket' do
       listener.user_not_logged_in(login_ticket)
       controller.instance_variable_get(:@login_ticket).should == login_ticket
+    end
+
+    it 'deletes an existing ticket-granting ticket cookie' do
+      controller.cookies = { tgt: 'TGT-12345' }
+      listener.user_not_logged_in(login_ticket)
+      controller.cookies[:tgt].should be_nil
     end
   end
 
