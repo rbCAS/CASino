@@ -1,7 +1,8 @@
 require 'casino/listener'
 
 class CASino::Listener::LoginCredentialAcceptor < CASino::Listener
-  def user_logged_in(url)
+  def user_logged_in(url, ticket_granting_ticket)
+    @controller.cookies[:tgt] = ticket_granting_ticket
     if url.nil?
       @controller.redirect_to sessions_path, status: :see_other
     else

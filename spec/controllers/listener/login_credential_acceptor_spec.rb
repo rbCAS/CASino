@@ -2,15 +2,20 @@ require 'spec_helper'
 
 describe CASino::Listener::LoginCredentialAcceptor do
   include Rails.application.routes.url_helpers
-  let(:controller) { Object.new }
+  let(:controller) { Struct.new(:cookies).new(cookies: {}) }
   let(:listener) { described_class.new(controller) }
 
+  before(:each) do
+    controller.stub(:redirect_to)
+  end
+
   describe '#user_logged_in' do
+    let(:ticket_granting_ticket) { 'TGT-123' }
     context 'with a service url' do
       let(:url) { 'http://www.example.com/?ticket=ST-123' }
       it 'tells the controller to redirect the client' do
         controller.should_receive(:redirect_to).with(url, status: :see_other)
-        listener.user_logged_in(url)
+        listener.user_logged_in(url, ticket_granting_ticket)
       end
     end
 
@@ -18,7 +23,12 @@ describe CASino::Listener::LoginCredentialAcceptor do
       let(:url) { nil }
       it 'tells the controller to redirect to the session overview' do
         controller.should_receive(:redirect_to).with(sessions_path, status: :see_other)
-        listener.user_logged_in(url)
+        listener.user_logged_in(url, ticket_granting_ticket)
+      end
+
+      it 'creates the tgt cookie' do
+        listener.user_logged_in(url, ticket_granting_ticket)
+        controller.cookies[:tgt].should == ticket_granting_ticket
       end
     end
   end
