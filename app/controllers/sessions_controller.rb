@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   include SessionsHelper
 
   def index
+    processor(:SessionOverview).process(cookies, request.user_agent)
   end
 
   def new

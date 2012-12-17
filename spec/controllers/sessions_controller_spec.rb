@@ -23,4 +23,11 @@ describe SessionsController do
       get :logout
     end
   end
+
+  describe 'GET "index"' do
+    it 'calls the process method of the SessionOverview processor' do
+      CASinoCore::Processor::SessionOverview.any_instance.should_receive(:process)
+      get :index
+    end
+  end
 end
