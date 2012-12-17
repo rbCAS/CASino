@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
-  s.date = "2012-12-16"
+  s.date = "2012-12-17"
   s.description = "A CAS server core library."
   s.email = "ncaspar@me.com"
   s.extra_rdoc_files = [
@@ -47,7 +47,10 @@ Gem::Specification.new do |s|
     "lib/casino_core/authenticator/static.rb",
     "lib/casino_core/helper.rb",
     "lib/casino_core/helper/browser.rb",
+    "lib/casino_core/helper/logger.rb",
+    "lib/casino_core/helper/login_tickets.rb",
     "lib/casino_core/helper/service_tickets.rb",
+    "lib/casino_core/helper/tickets.rb",
     "lib/casino_core/model.rb",
     "lib/casino_core/model/login_ticket.rb",
     "lib/casino_core/model/proxy_granting_ticket.rb",
