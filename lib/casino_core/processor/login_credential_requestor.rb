@@ -6,6 +6,7 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   include CASinoCore::Helper::Logger
   include CASinoCore::Helper::LoginTickets
   include CASinoCore::Helper::ServiceTickets
+  include CASinoCore::Helper::TicketGrantingTickets
 
   def process(params = nil, cookies = nil, user_agent = nil)
     params ||= {}
@@ -19,21 +20,6 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
     else
       login_ticket = acquire_login_ticket
       @listener.user_not_logged_in(login_ticket)
-    end
-  end
-
-  private
-  def find_valid_ticket_granting_ticket(tgt, user_agent)
-    ticket_granting_ticket = CASinoCore::Model::TicketGrantingTicket.where(ticket: tgt).first
-    unless ticket_granting_ticket.nil?
-      if same_browser?(ticket_granting_ticket.user_agent, user_agent)
-        ticket_granting_ticket.user_agent = user_agent
-        ticket_granting_ticket.save!
-        ticket_granting_ticket
-      else
-        logger.info 'User-Agent changed: ticket-granting ticket not valid for this browser'
-        nil
-      end
     end
   end
 end

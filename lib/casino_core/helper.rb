@@ -8,5 +8,6 @@ module CASinoCore
     autoload :LoginTickets, 'casino_core/helper/login_tickets.rb'
     autoload :ServiceTickets, 'casino_core/helper/service_tickets.rb'
     autoload :Tickets, 'casino_core/helper/tickets.rb'
+    autoload :TicketGrantingTickets, 'casino_core/helper/ticket_granting_tickets.rb'
   end
 end
