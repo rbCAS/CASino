@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
   end
 
   def logout
+    processor(:Logout).process(params, cookies)
   end
 
   private

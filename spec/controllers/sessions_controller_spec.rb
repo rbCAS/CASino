@@ -16,4 +16,11 @@ describe SessionsController do
       post :create
     end
   end
+
+  describe 'GET "logout"' do
+    it 'calls the process method of the Logout processor' do
+      CASinoCore::Processor::Logout.any_instance.should_receive(:process)
+      get :logout
+    end
+  end
 end
