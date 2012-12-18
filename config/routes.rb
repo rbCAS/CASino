@@ -1,5 +1,5 @@
 CASino::Application.routes.draw do
-  resources :sessions, only: [:index, :new, :create, :destroy]
+  resources :sessions, only: [:index, :destroy]
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#logout'
