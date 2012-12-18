@@ -20,10 +20,4 @@ class SessionsController < ApplicationController
   def logout
     processor(:Logout).process(params, cookies)
   end
-
-  private
-  def processor(name)
-    listener = CASino::Listener.const_get(name).new(self)
-    @processor = CASinoCore::Processor.const_get(name).new(listener)
-  end
 end
