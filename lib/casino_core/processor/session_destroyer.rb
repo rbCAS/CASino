@@ -10,10 +10,15 @@ require 'casino_core/model'
 class CASinoCore::Processor::SessionDestroyer < CASinoCore::Processor
 
   # This method will call `#ticket_not_found` or `#ticket_deleted` on the listener.
-  # @param [String] tgt ticket-granting ticket
-  def process(tgt)
-    ticket = CASinoCore::Model::TicketGrantingTicket.where(ticket: tgt).first
-    if ticket.nil?
+  # @param [Hash] params parameters supplied by user (ID of ticket-granting ticket to delete should by in params[:id])
+  # @param [Hash] cookies cookies supplied by user
+  # @param [String] user_agent user-agent delivered by the client
+  def process(params = nil, cookies = nil, user_agent = nil)
+    params ||= {}
+    cookies ||= {}
+    ticket = CASinoCore::Model::TicketGrantingTicket.where(id: params[:id]).first
+    owner_ticket = CASinoCore::Model::TicketGrantingTicket.where(ticket: cookies[:tgt]).first
+    if ticket.nil? || owner_ticket.nil? || ticket.username != owner_ticket.username
       @listener.ticket_not_found
     else
       ticket.destroy
