@@ -3,21 +3,15 @@ require 'casino_core/helper'
 require 'casino_core/model'
 
 class CASinoCore::Processor::Logout < CASinoCore::Processor
-  include CASinoCore::Helper
+  include CASinoCore::Helper::TicketGrantingTickets
 
-  def process(params = nil, cookies = nil)
-    params = params || {}
+  def process(params = nil, cookies = nil, user_agent = nil)
+    params ||= {}
     cookies ||= {}
-    session_destroyer = CASinoCore::Processor::SessionDestroyer.new(DummyListener.new)
-    session_destroyer.process(cookies[:tgt])
+    ticket_granting_ticket = find_valid_ticket_granting_ticket(cookies[:tgt], user_agent)
+    unless ticket_granting_ticket.nil?
+      ticket_granting_ticket.destroy
+    end
     @listener.user_logged_out(params[:url])
-  end
-
-  class DummyListener
-    def ticket_deleted(*args)
-    end
-
-    def ticket_not_found(*args)
-    end
   end
 end
