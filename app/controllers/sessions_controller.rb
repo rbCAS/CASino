@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    processor(:SessionDestroyer).process(params[:id])
+    processor(:SessionDestroyer).process(params, cookies, request.user_agent)
   end
 
   def logout
