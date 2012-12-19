@@ -37,18 +37,18 @@ describe CASinoCore::Processor::LegacyValidator do
       end
 
       context 'with renew flag' do
-        let(:parameters) { { service: service, ticket: service_ticket.ticket, renew: 'true' }}
+        let(:parameters_with_renew) { parameters.merge renew: 'true' }
 
         context 'with a service ticket without issued_from_credentials flag' do
           it 'consumes the service ticket' do
-            processor.process(parameters)
+            processor.process(parameters_with_renew)
             service_ticket.reload
             service_ticket.consumed.should == true
           end
 
           it 'calls the #validation_failed method on the listener' do
             listener.should_receive(:validation_failed).with("no\n\n")
-            processor.process(parameters)
+            processor.process(parameters_with_renew)
           end
         end
 
@@ -59,14 +59,14 @@ describe CASinoCore::Processor::LegacyValidator do
           end
 
           it 'consumes the service ticket' do
-            processor.process(parameters)
+            processor.process(parameters_with_renew)
             service_ticket.reload
             service_ticket.consumed.should == true
           end
 
           it 'calls the #validation_succeeded method on the listener' do
             listener.should_receive(:validation_succeeded).with("yes\ntest\n")
-            processor.process(parameters)
+            processor.process(parameters_with_renew)
           end
         end
       end
