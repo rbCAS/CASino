@@ -11,4 +11,12 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
     user_agent = UserAgent.parse(self.user_agent)
     "#{user_agent.browser} (#{user_agent.platform})"
   end
+
+  def same_user?(other_ticket)
+    if other_ticket.nil?
+      false
+    else
+      other_ticket.username == self.username
+    end
+  end
 end
