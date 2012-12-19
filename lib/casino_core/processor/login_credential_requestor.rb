@@ -1,6 +1,7 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
 
+# This processor should be used for GET requests to /login
 class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   include CASinoCore::Helper::Browser
   include CASinoCore::Helper::Logger
@@ -8,6 +9,15 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
   include CASinoCore::Helper::ServiceTickets
   include CASinoCore::Helper::TicketGrantingTickets
 
+  # Use this method to process the request.
+  #
+  # The method will call one of the following methods on the listener:
+  # * `#user_logged_in`: The first argument (String) is the URL (if any), the user should be redirected to.
+  # * `#user_not_logged_in`: The first argument is a LoginTicket. It should be stored in a hidden field with name "lt".
+  #
+  # @param [Hash] params parameters supplied by user
+  # @param [Hash] cookies cookies supplied by user
+  # @param [String] user_agent user-agent delivered by the client
   def process(params = nil, cookies = nil, user_agent = nil)
     params ||= {}
     cookies ||= {}
