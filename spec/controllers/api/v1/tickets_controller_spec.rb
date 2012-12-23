@@ -6,7 +6,7 @@ describe API::V1::TicketsController do
     context "with correct credentials" do
 
       before do
-        CASinoCore::Processor::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+        CASinoCore::Processor::LoginCredentialRequestor.any_instance.should_receive(:process) do
           @controller.user_logged_in nil, "TGT-long-string"
         end
 
@@ -21,7 +21,7 @@ describe API::V1::TicketsController do
     context "with incorrect credentials" do
 
       before do
-        CASinoCore::Processor::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+        CASinoCore::Processor::LoginCredentialRequestor.any_instance.should_receive(:process) do
           @controller.invalid_login_credentials mock()
         end
 
