@@ -17,7 +17,7 @@ class Cas::V1::TicketsController < ApplicationController
 
   # callbacks
   def user_logged_in(url, ticket_granting_ticket)
-    render nothing: true, status: :created_successful, location: cas_v1_ticket_url(ticket_granting_ticket)
+    render nothing: true, status: 201, location: cas_v1_ticket_url(ticket_granting_ticket)
   end
 
 end

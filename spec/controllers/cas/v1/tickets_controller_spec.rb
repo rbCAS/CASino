@@ -7,7 +7,7 @@ describe Cas::V1::TicketsController do
 
       before do
         CASinoCore::Processor::LoginCredentialAcceptor.any_instance.should_receive(:process) do
-          @controller.user_logged_in nil, {}
+          @controller.user_logged_in nil, "TGT-long-string"
         end
 
         post :create, params: {username: 'valid', password: 'valid'}
@@ -15,7 +15,7 @@ describe Cas::V1::TicketsController do
 
       subject { response }
       its(:response_code) { should eq 201 }
-      its(:location) { should eq 'http://test.com/cas/v1/tickets/TGT-asdf' }
+      its(:location) { should eq 'http://test.host/cas/v1/tickets/TGT-long-string' }
     end
   end
 
