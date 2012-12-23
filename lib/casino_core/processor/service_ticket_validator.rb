@@ -36,6 +36,10 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
         ticket_granting_ticket = options[:service_ticket].ticket_granting_ticket
         service_response.cas :authenticationSuccess do |authentication_success|
           authentication_success.cas :user, ticket_granting_ticket.username
+          if options[:proxy_granting_ticket]
+            proxy_granting_ticket = options[:proxy_granting_ticket]
+            authentication_success.cas :proxyGrantingTicket, proxy_granting_ticket.iou
+          end
         end
       else
         service_response.cas :authenticationFailure, options[:error_message], code: options[:error_code]
