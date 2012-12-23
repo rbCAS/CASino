@@ -9,6 +9,7 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
   validates :ticket, uniqueness: true
   belongs_to :ticket_granting_ticket
   before_destroy :send_single_sing_out_notification
+  has_many :proxy_granting_tickets
 
   def self.cleanup_unconsumed
     self.delete_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.service_ticket[:lifetime_unconsumed].seconds.ago, false])

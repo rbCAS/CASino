@@ -13,7 +13,8 @@ development:
       options:
         users:
           testuser:
-            password: foobar123
+            password: "foobar123"
+            name: "Test User"
 
 test:
   <<: *defaults
@@ -23,4 +24,5 @@ test:
       options:
         users:
           testuser:
-            password: foobar123
+            password: "foobar123"
+            name: "Test User"

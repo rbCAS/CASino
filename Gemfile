@@ -17,6 +17,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.7.1'
   gem 'sqlite3'
   gem 'database_cleaner'
+  gem 'webmock'
 end
 
 gem 'activerecord', '~> 3.2.9'

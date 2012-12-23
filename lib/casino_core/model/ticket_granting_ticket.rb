@@ -5,7 +5,6 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   serialize :extra_attributes, Hash
   validates :ticket, uniqueness: true
   has_many :service_tickets
-  has_many :proxy_granting_tickets
 
   def browser_info
     user_agent = UserAgent.parse(self.user_agent)
