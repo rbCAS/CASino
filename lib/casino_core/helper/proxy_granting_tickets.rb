@@ -12,12 +12,12 @@ module CASinoCore
 
       def acquire_proxy_granting_ticket(pgt_url, service_ticket)
         begin
-          uri = URI.parse(pgt_url)
-          https = Net::HTTP.new(uri.host, uri.port)
+          uri = Addressable::URI.parse(pgt_url)
+          https = Net::HTTP.new(uri.host, uri.port || 443)
           https.use_ssl = true
 
           https.start do |conn|
-            pgt = service_ticket.proxy_granting_ticket.new({
+            pgt = service_ticket.proxy_granting_tickets.new({
               ticket: random_ticket_string('PGT'),
               iou: random_ticket_string('PGTIOU')
             })
@@ -26,7 +26,7 @@ module CASinoCore
 
             response = conn.request_get(uri.request_uri)
             # TODO: follow redirects... 2.5.4 says that redirects MAY be followed
-            if response.code == 200
+            if "#{response.code}" == "200"
               # 3.4 (proxy-granting ticket IOU)
               pgt.save!
               logger.debug "Proxy-granting ticket generated for pgt_url '#{pgt_url}': #{pgt.inspect}"
@@ -35,7 +35,7 @@ module CASinoCore
               logger.warn "Proxy-granting ticket callback server responded with a bad result code '#{response.code}'. PGT will not be stored."
             end
           end
-        rescue Exception => e
+        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError
           logger.warn "Exception while communication with proxy-granting ticket callback server: #{e.message}"
         end
         nil
