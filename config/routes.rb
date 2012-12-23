@@ -10,6 +10,13 @@ CASino::Application.routes.draw do
   get 'proxyValidate' => 'proxy_tickets#proxy_validate'
   get 'proxy' => 'proxy_tickets#create'
 
+  # api
+  namespace :cas do
+    namespace :v1 do
+      resources :tickets, only: [:create, :update, :destroy]
+    end
+  end
+
   root to: redirect('/login')
 
   # The priority is based upon order of creation:
