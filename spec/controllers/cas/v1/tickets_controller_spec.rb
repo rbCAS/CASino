@@ -6,12 +6,13 @@ describe Cas::V1::TicketsController do
     context "with correct credentials" do
       it 'returns a 201 Created' do
         CASinoCore::Processor::LoginCredentialAcceptor.any_instance.should_receive(:process) do
-          @listener.user_logged_in
+          @controller.user_logged_in
         end
 
         post :create, params: {username: 'valid', password: 'invalid'}
+
+        response.response_code.should eq(201)
       end
-      #processor(:LoginCredentialAcceptor).process(params, cookies, request.user_agent)
     end
   end
 
