@@ -1,4 +1,4 @@
-class Cas::V1::TicketsController < ApplicationController
+class API::V1::TicketsController < ApplicationController
 
   # POST /cas/v1/tickets
   def create

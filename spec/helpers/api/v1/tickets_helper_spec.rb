@@ -10,6 +10,6 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe Cas::V1::TicketsHelper do
+describe API::V1::TicketsHelper do
   pending "add some examples to (or delete) #{__FILE__}"
 end

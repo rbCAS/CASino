@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Cas::V1::TicketsController do
+describe API::V1::TicketsController do
 
   describe "POST /cas/v1/tickets" do
     context "with correct credentials" do
