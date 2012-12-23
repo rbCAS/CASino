@@ -14,7 +14,9 @@ CASino::Application.routes.draw do
   scope '/cas' do
     scope module: :api, as: :api do
       namespace :v1 do
-        resources :tickets, only: [:create, :update, :destroy]
+        resources :tickets, only: [:create, :destroy] do
+          post :update, on: :member
+        end
       end
     end
   end
