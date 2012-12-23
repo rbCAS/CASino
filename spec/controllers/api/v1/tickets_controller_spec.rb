@@ -17,6 +17,20 @@ describe API::V1::TicketsController do
       its(:response_code) { should eq 201 }
       its(:location) { should eq 'http://test.host/cas/v1/tickets/TGT-long-string' }
     end
+
+    context "with incorrect credentials" do
+
+      before do
+        CASinoCore::Processor::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+          @controller.invalid_login_credentials mock()
+        end
+
+        post :create, params: {username: 'invalid', password: 'invalid'}
+      end
+
+      subject { response }
+      its(:response_code) { should eq 400 }
+    end
   end
 
   describe "POST /cas/v1/tickets/{TGT id}" do

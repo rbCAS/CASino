@@ -20,4 +20,8 @@ class API::V1::TicketsController < ApplicationController
     render nothing: true, status: 201, location: api_v1_ticket_url(ticket_granting_ticket)
   end
 
+  def invalid_login_credentials(login_ticket)
+    render nothing: true, status: 400
+  end
+
 end
