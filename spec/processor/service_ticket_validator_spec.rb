@@ -77,12 +77,34 @@ describe CASinoCore::Processor::ServiceTicketValidator do
       context 'with proxy-granting ticket callback server' do
         let(:parameters_with_pgt_url) { parameters.merge pgtUrl: 'https://www.example.com/' }
 
+        before(:each) do
+          stub_request(:get, /https:\/\/www\.example\.com\/\?pgtId=[^&]+&pgtIou=[^&]+/)
+        end
+
         it 'calls the #validation_succeeded method on the listener' do
           listener.should_receive(:validation_succeeded).with(regex_success)
           processor.process(parameters_with_pgt_url)
         end
 
-        # TODO use https://github.com/bblimke/webmock to test the HTTP calls
+        it 'includes the PGTIOU in the response' do
+          listener.should_receive(:validation_succeeded).with(/\<cas\:proxyGrantingTicket\>\n?\s*PGTIOU-.+/)
+          processor.process(parameters_with_pgt_url)
+        end
+
+        it 'creates a proxy-granting ticket' do
+          lambda do
+            processor.process(parameters_with_pgt_url)
+          end.should change(service_ticket.proxy_granting_tickets, :count).by(1)
+        end
+
+        it 'contacts the callback server' do
+          processor.process(parameters_with_pgt_url)
+          proxy_granting_ticket = CASinoCore::Model::ProxyGrantingTicket.last
+          WebMock.should have_requested(:get, 'https://www.example.com').with(query: {
+            pgtId: proxy_granting_ticket.ticket,
+            pgtIou: proxy_granting_ticket.iou
+          })
+        end
       end
     end
 
