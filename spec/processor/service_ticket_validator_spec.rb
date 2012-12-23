@@ -81,6 +81,8 @@ describe CASinoCore::Processor::ServiceTicketValidator do
           listener.should_receive(:validation_succeeded).with(regex_success)
           processor.process(parameters_with_pgt_url)
         end
+
+        # TODO use https://github.com/bblimke/webmock to test the HTTP calls
       end
     end
 
