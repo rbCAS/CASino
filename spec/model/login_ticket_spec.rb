@@ -13,4 +13,11 @@ describe CASinoCore::Model::LoginTicket do
       described_class.find_by_ticket('LT-12345').should be_false
     end
   end
+
+  describe '#to_s' do
+    it 'returns the ticket identifier' do
+      ticket = described_class.new ticket: 'LT-12345'
+      "#{ticket}".should == ticket.ticket
+    end
+  end
 end
