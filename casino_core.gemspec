@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "0.0.5"
+  s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
-  s.date = "2012-12-19"
+  s.date = "2012-12-24"
   s.description = "A CAS server core library."
   s.email = "ncaspar@me.com"
   s.extra_rdoc_files = [
@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
     "db/migrate/20121125091934_add_issued_from_credentials_to_service_tickets.rb",
     "db/migrate/20121125185415_create_proxy_granting_tickets.rb",
     "db/migrate/20121125190013_tickets_should_be_unique.rb",
+    "db/migrate/20121223135227_proxy_granting_tickets_belongs_to_service_ticket.rb",
     "db/schema.rb",
     "lib/casino_core.rb",
     "lib/casino_core/authenticator.rb",
@@ -49,6 +50,7 @@ Gem::Specification.new do |s|
     "lib/casino_core/helper/browser.rb",
     "lib/casino_core/helper/logger.rb",
     "lib/casino_core/helper/login_tickets.rb",
+    "lib/casino_core/helper/proxy_granting_tickets.rb",
     "lib/casino_core/helper/service_tickets.rb",
     "lib/casino_core/helper/ticket_granting_tickets.rb",
     "lib/casino_core/helper/tickets.rb",
@@ -63,6 +65,7 @@ Gem::Specification.new do |s|
     "lib/casino_core/processor/login_credential_acceptor.rb",
     "lib/casino_core/processor/login_credential_requestor.rb",
     "lib/casino_core/processor/logout.rb",
+    "lib/casino_core/processor/service_ticket_validator.rb",
     "lib/casino_core/processor/session_destroyer.rb",
     "lib/casino_core/processor/session_overview.rb",
     "lib/casino_core/railtie.rb",
@@ -77,6 +80,7 @@ Gem::Specification.new do |s|
     "spec/processor/login_credential_acceptor_spec.rb",
     "spec/processor/login_credential_requestor_spec.rb",
     "spec/processor/logout_spec.rb",
+    "spec/processor/service_ticket_validator_spec.rb",
     "spec/processor/session_destroyer_spec.rb",
     "spec/processor/session_overview_spec.rb",
     "spec/spec_helper.rb"
@@ -102,6 +106,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<simplecov>, ["~> 0.7.1"])
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
       s.add_development_dependency(%q<database_cleaner>, [">= 0"])
+      s.add_development_dependency(%q<webmock>, [">= 0"])
     else
       s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
       s.add_dependency(%q<addressable>, ["~> 2.3.2"])
@@ -114,6 +119,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<simplecov>, ["~> 0.7.1"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
       s.add_dependency(%q<database_cleaner>, [">= 0"])
+      s.add_dependency(%q<webmock>, [">= 0"])
     end
   else
     s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
@@ -127,6 +133,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<simplecov>, ["~> 0.7.1"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
     s.add_dependency(%q<database_cleaner>, [">= 0"])
+    s.add_dependency(%q<webmock>, [">= 0"])
   end
 end
 
