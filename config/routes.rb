@@ -5,6 +5,7 @@ CASino::Application.routes.draw do
   get 'logout' => 'sessions#logout'
 
   get 'validate' => 'service_tickets#validate'
+  get 'serviceValidate' => 'service_tickets#service_validate'
 
   root to: redirect('/login')
 

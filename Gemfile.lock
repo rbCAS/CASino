@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/pencil/CASinoCore.git
-  revision: b3d0279ad1c5d23e91370780a48f412e601e2789
+  revision: a7b6cf3adce87ef0fea4feef31a30a33f27da81e
   specs:
     casino_core (0.0.5)
       activerecord (~> 3.2.9)
