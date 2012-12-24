@@ -13,7 +13,7 @@ describe CASinoCore::Processor::ServiceTicketValidator do
         user_agent: user_agent
       })
     }
-    let(:service) { 'https://example.com/cas-service' }
+    let(:service) { 'https://www.example.com/cas-service' }
     let(:service_ticket) { ticket_granting_ticket.service_tickets.create! ticket: 'ST-2nOcXx56dtPTsB069yYf0h', service: service }
     let(:parameters) { { service: service, ticket: service_ticket.ticket }}
 
@@ -75,7 +75,7 @@ describe CASinoCore::Processor::ServiceTicketValidator do
       end
 
       context 'with proxy-granting ticket callback server' do
-        let(:parameters_with_pgt_url) { parameters.merge pgtUrl: 'https://www.example.com/' }
+        let(:parameters_with_pgt_url) { parameters.merge pgtUrl: "https://www.example.com" }
 
         before(:each) do
           stub_request(:get, /https:\/\/www\.example\.com\/\?pgtId=[^&]+&pgtIou=[^&]+/)
@@ -104,6 +104,21 @@ describe CASinoCore::Processor::ServiceTicketValidator do
             pgtId: proxy_granting_ticket.ticket,
             pgtIou: proxy_granting_ticket.iou
           })
+        end
+      end
+
+      context 'with proxy-granting ticket callback server not matching the service' do
+        let(:parameters_with_pgt_url) { parameters.merge pgtUrl: 'https://www.example.org/' }
+
+        it 'calls the #validation_succeeded method on the listener' do
+          listener.should_receive(:validation_succeeded).with(regex_success)
+          processor.process(parameters_with_pgt_url)
+        end
+
+        it 'does not create a proxy-granting ticket' do
+          lambda do
+            processor.process(parameters_with_pgt_url)
+          end.should_not change(service_ticket.proxy_granting_tickets, :count).by(1)
         end
       end
     end
