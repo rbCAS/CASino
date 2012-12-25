@@ -3,7 +3,7 @@ require 'casino_core/authenticator'
 module CASinoCore
   class Settings
     class << self
-      attr_accessor :login_ticket, :service_ticket, :authenticators, :logger
+      attr_accessor :login_ticket, :service_ticket, :proxy_ticket, :authenticators, :logger
       def init(config = {})
         config.each do |key,value|
           if respond_to?("#{key}=")

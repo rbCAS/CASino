@@ -8,8 +8,16 @@ namespace :casino_core do
     desc 'Remove expired service tickets.'
     task service_tickets: 'casino_core:db:configure_connection' do
       [:consumed, :unconsumed].each do |type|
-        rows_affected = CASinoCore::Model::ServiceTicket.send("cleanup_#{type}")
+        rows_affected = CASinoCore::Model::ServiceTicket.send("cleanup_#{type}").length
         puts "Deleted #{rows_affected} #{type} service tickets."
+      end
+    end
+
+    desc 'Remove expired proxy tickets.'
+    task proxy_tickets: 'casino_core:db:configure_connection' do
+      [:consumed, :unconsumed].each do |type|
+        rows_affected = CASinoCore::Model::ProxyTicket.send("cleanup_#{type}").length
+        puts "Deleted #{rows_affected} #{type} proxy tickets."
       end
     end
 
@@ -20,7 +28,7 @@ namespace :casino_core do
     end
 
     desc 'Perform all cleanup tasks.'
-    task all: [:service_tickets, :login_tickets] do
+    task all: [:service_tickets, :proxy_tickets, :login_tickets] do
     end
   end
 end

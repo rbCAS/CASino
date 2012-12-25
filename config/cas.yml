@@ -4,6 +4,9 @@ defaults: &defaults
   service_ticket:
     lifetime_unconsumed: 300
     lifetime_consumed: 86400
+  proxy_ticket:
+    lifetime_unconsumed: 300
+    lifetime_consumed: 86400
 
 development:
   <<: *defaults
