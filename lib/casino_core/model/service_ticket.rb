@@ -16,7 +16,7 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
   end
 
   def self.cleanup_consumed
-    self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.service_ticket[:lifetime_consumed].seconds.ago, true]).length
+    self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.service_ticket[:lifetime_consumed].seconds.ago, true])
   end
 
   def service_with_ticket_url

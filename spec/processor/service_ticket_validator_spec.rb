@@ -118,7 +118,7 @@ describe CASinoCore::Processor::ServiceTicketValidator do
         it 'does not create a proxy-granting ticket' do
           lambda do
             processor.process(parameters_with_pgt_url)
-          end.should_not change(service_ticket.proxy_granting_tickets, :count).by(1)
+          end.should_not change(service_ticket.proxy_granting_tickets, :count)
         end
       end
     end

@@ -5,4 +5,5 @@ class CASinoCore::Model::ProxyGrantingTicket < ActiveRecord::Base
   validates :ticket, uniqueness: true
   validates :iou, uniqueness: true
   belongs_to :service_ticket
+  has_many :proxy_tickets
 end
