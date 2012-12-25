@@ -15,26 +15,37 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
   # @param [Hash] params parameters delivered by the client
   def process(params = nil)
     params ||= {}
-    if params[:ticket].nil? || params[:service].nil?
-      @listener.validation_failed build_service_response(false, error_code: 'INVALID_REQUEST', error_message: '"ticket" and "service" parameters are both required')
-    else
+    if request_valid?(params)
       ticket = CASinoCore::Model::ServiceTicket.where(ticket: params[:ticket]).first
-      validation_result = validate_ticket_for_service(ticket, params[:service], !!params[:renew])
-      if validation_result.success?
-        options = { ticket: ticket }
-        unless params[:pgtUrl].nil?
-          options[:proxy_granting_ticket] = acquire_proxy_granting_ticket(params[:pgtUrl], ticket)
-        end
-        @listener.validation_succeeded(build_service_response(true, options))
-      else
-        @listener.validation_failed(build_service_response(false, error_code: validation_result.error_code, error_message: validation_result.error_message))
-      end
+      validate_ticket!(ticket, params)
     end
   end
 
-  private
+  protected
   def build_service_response(success, options = {})
     builder = CASinoCore::Builder::TicketValidationResponse.new(success, options)
     builder.build
+  end
+
+  def request_valid?(params)
+    if params[:ticket].nil? || params[:service].nil?
+      @listener.validation_failed build_service_response(false, error_code: 'INVALID_REQUEST', error_message: '"ticket" and "service" parameters are both required')
+      false
+    else
+      true
+    end
+  end
+
+  def validate_ticket!(ticket, params)
+    validation_result = validate_ticket_for_service(ticket, params[:service], !!params[:renew])
+    if validation_result.success?
+      options = { ticket: ticket }
+      unless params[:pgtUrl].nil?
+        options[:proxy_granting_ticket] = acquire_proxy_granting_ticket(params[:pgtUrl], ticket)
+      end
+      @listener.validation_succeeded(build_service_response(true, options))
+    else
+      @listener.validation_failed(build_service_response(false, error_code: validation_result.error_code, error_message: validation_result.error_message))
+    end
   end
 end
