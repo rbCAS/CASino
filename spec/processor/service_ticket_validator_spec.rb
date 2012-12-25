@@ -9,7 +9,7 @@ describe CASinoCore::Processor::ServiceTicketValidator do
       CASinoCore::Model::TicketGrantingTicket.create!({
         ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
         username: 'test',
-        extra_attributes: nil,
+        extra_attributes: { name: "Example User", roles: ['User', 'Admin'] },
         user_agent: user_agent
       })
     }
