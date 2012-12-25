@@ -15,10 +15,10 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
   # @param [Hash] params parameters delivered by the client
   def process(params = nil)
     params ||= {}
-    ticket = extract_ticket_from_params(params)
-    validation_result = validate_service_ticket_for_service(ticket, params[:service], !!params[:renew])
+    ticket = fetch_ticket(params[:ticket])
+    validation_result = validate_ticket_for_service(ticket, params[:service], !!params[:renew])
     if validation_result == true
-      options = { service_ticket: ticket }
+      options = { ticket: ticket }
       unless params[:pgtUrl].nil?
         options[:proxy_granting_ticket] = acquire_proxy_granting_ticket(params[:pgtUrl], ticket)
       end
@@ -29,13 +29,12 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
   end
 
   private
+  def build_service_response(success, options = {})
+    builder = CASinoCore::Builder::TicketValidationResponse.new(success, options)
+    builder.build
+  end
+
   def extract_ticket_from_params(params)
-    if params[:ticket].nil?
-      nil
-    elsif params[:ticket].starts_with?('PT-')
-      CASinoCore::Model::ProxyTicket.where(ticket: params[:ticket]).first
-    else
-      CASinoCore::Model::ServiceTicket.where(ticket: params[:ticket]).first
-    end
+    if()
   end
 end

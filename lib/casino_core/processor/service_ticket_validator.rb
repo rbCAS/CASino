@@ -15,16 +15,20 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
   # @param [Hash] params parameters delivered by the client
   def process(params = nil)
     params ||= {}
-    ticket = CASinoCore::Model::ServiceTicket.where(ticket: params[:ticket]).first
-    validation_result = validate_ticket_for_service(ticket, params[:service], !!params[:renew])
-    if validation_result == true
-      options = { ticket: ticket }
-      unless params[:pgtUrl].nil?
-        options[:proxy_granting_ticket] = acquire_proxy_granting_ticket(params[:pgtUrl], ticket)
-      end
-      @listener.validation_succeeded(build_service_response(true, options))
+    if params[:ticket].nil? || params[:service].nil?
+      @listener.validation_failed build_service_response(false, error_code: 'INVALID_REQUEST', error_message: '"ticket" and "service" parameters are both required')
     else
-      @listener.validation_failed(build_service_response(false, error_code: validation_result, error_message: 'Validation failed'))
+      ticket = CASinoCore::Model::ServiceTicket.where(ticket: params[:ticket]).first
+      validation_result = validate_ticket_for_service(ticket, params[:service], !!params[:renew])
+      if validation_result.success?
+        options = { ticket: ticket }
+        unless params[:pgtUrl].nil?
+          options[:proxy_granting_ticket] = acquire_proxy_granting_ticket(params[:pgtUrl], ticket)
+        end
+        @listener.validation_succeeded(build_service_response(true, options))
+      else
+        @listener.validation_failed(build_service_response(false, error_code: validation_result.error_code, error_message: validation_result.error_message))
+      end
     end
   end
 
