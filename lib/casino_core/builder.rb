@@ -2,6 +2,6 @@ require 'active_record'
 
 module CASinoCore
   class Builder
-    autoload :ServiceResponse, 'casino_core/builder/service_response.rb'
+    autoload :TicketValidationResponse, 'casino_core/builder/ticket_validation_response.rb'
   end
 end

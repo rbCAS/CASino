@@ -1,7 +1,7 @@
 require 'builder'
 require 'casino_core/builder'
 
-class CASinoCore::Builder::ServiceResponse < CASinoCore::Builder
+class CASinoCore::Builder::TicketValidationResponse < CASinoCore::Builder
   def initialize(success, options)
     @success = success
     @options = options

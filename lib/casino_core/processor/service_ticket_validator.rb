@@ -30,7 +30,7 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
 
   private
   def build_service_response(success, options = {})
-    builder = CASinoCore::Builder::ServiceResponse.new(success, options)
+    builder = CASinoCore::Builder::TicketValidationResponse.new(success, options)
     builder.build
   end
 end
