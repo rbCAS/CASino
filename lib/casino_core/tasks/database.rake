@@ -33,7 +33,7 @@ namespace :casino_core do
     end
 
     desc 'Rolls the schema back to the previous version (specify steps w/ STEP=n).'
-    task :rollback => [:environment, :load_config] do
+    task :rollback => :configure_connection do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       ActiveRecord::Migrator.rollback(ActiveRecord::Migrator.migrations_paths, step)
     end
