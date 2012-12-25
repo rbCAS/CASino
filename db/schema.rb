@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121224113737) do
+ActiveRecord::Schema.define(:version => 20121225153637) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20121224113737) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.integer  "service_ticket_id", :null => false
+    t.string   "pgt_url",           :null => false
   end
 
   add_index "proxy_granting_tickets", ["iou"], :name => "index_proxy_granting_tickets_on_iou", :unique => true
