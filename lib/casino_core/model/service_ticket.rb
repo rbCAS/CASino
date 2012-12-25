@@ -25,6 +25,10 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
     service_uri.to_s
   end
 
+  def expired?
+    Time.now - self.created_at > CASinoCore::Settings.service_ticket[:lifetime_unconsumed]
+  end
+
   private
   def send_single_sing_out_notification
     notifier = SingleSignOutNotifier.new(self)

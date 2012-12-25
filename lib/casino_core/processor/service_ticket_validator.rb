@@ -16,7 +16,7 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
   def process(params = nil)
     params ||= {}
     ticket = CASinoCore::Model::ServiceTicket.where(ticket: params[:ticket]).first
-    validation_result = validate_service_ticket_for_service(ticket, params[:service], !!params[:renew])
+    validation_result = validate_ticket_for_service(ticket, params[:service], !!params[:renew])
     if validation_result == true
       options = { service_ticket: ticket }
       unless params[:pgtUrl].nil?
