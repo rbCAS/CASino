@@ -8,6 +8,7 @@ CASino::Application.routes.draw do
   get 'serviceValidate' => 'service_tickets#service_validate'
 
   get 'proxyValidate' => 'proxy_tickets#proxy_validate'
+  get 'proxy' => 'proxy_tickets#create'
 
   root to: redirect('/login')
 
