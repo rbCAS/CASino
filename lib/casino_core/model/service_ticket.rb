@@ -26,7 +26,12 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
   end
 
   def expired?
-    Time.now - self.created_at > CASinoCore::Settings.service_ticket[:lifetime_unconsumed]
+    lifetime = if consumed?
+      CASinoCore::Settings.service_ticket[:lifetime_consumed]
+    else
+      CASinoCore::Settings.service_ticket[:lifetime_unconsumed]
+    end
+    Time.now - self.created_at > lifetime
   end
 
   private
