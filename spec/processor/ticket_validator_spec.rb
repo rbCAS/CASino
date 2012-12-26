@@ -76,10 +76,10 @@ require 'spec_helper'
         end
 
         context 'with proxy-granting ticket callback server' do
-          let(:parameters_with_pgt_url) { parameters.merge pgtUrl: "https://www.example.com" }
+          let(:parameters_with_pgt_url) { parameters.merge pgtUrl: "https://www.example.org" }
 
           before(:each) do
-            stub_request(:get, /https:\/\/www\.example\.com\/\?pgtId=[^&]+&pgtIou=[^&]+/)
+            stub_request(:get, /https:\/\/www\.example\.org\/\?pgtId=[^&]+&pgtIou=[^&]+/)
           end
 
           it 'calls the #validation_succeeded method on the listener' do
@@ -101,25 +101,10 @@ require 'spec_helper'
           it 'contacts the callback server' do
             processor.process(parameters_with_pgt_url)
             proxy_granting_ticket = CASinoCore::Model::ProxyGrantingTicket.last
-            WebMock.should have_requested(:get, 'https://www.example.com').with(query: {
+            WebMock.should have_requested(:get, 'https://www.example.org').with(query: {
               pgtId: proxy_granting_ticket.ticket,
               pgtIou: proxy_granting_ticket.iou
             })
-          end
-        end
-
-        context 'with proxy-granting ticket callback server not matching the service' do
-          let(:parameters_with_pgt_url) { parameters.merge pgtUrl: 'https://www.example.org/' }
-
-          it 'calls the #validation_succeeded method on the listener' do
-            listener.should_receive(:validation_succeeded).with(regex_success)
-            processor.process(parameters_with_pgt_url)
-          end
-
-          it 'does not create a proxy-granting ticket' do
-            lambda do
-              processor.process(parameters_with_pgt_url)
-            end.should_not change(service_ticket.proxy_granting_tickets, :count)
           end
         end
       end

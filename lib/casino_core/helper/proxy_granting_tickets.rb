@@ -12,14 +12,7 @@ module CASinoCore
 
       def acquire_proxy_granting_ticket(pgt_url, service_ticket)
         begin
-          callback_uri = Addressable::URI.parse(pgt_url)
-          service_uri = Addressable::URI.parse(service_ticket.service)
-
-          if service_uri.host != callback_uri.host
-            logger.warn "Proxy-granting ticket not created: Host of callback url '#{pgt_url}' does not match service '#{service_uri}'"
-          else
-            return contact_callback_server(callback_uri, service_ticket)
-          end
+          return contact_callback_server(pgt_url, service_ticket)
         rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError
           logger.warn "Exception while communicating with proxy-granting ticket callback server: #{e.message}"
         end
@@ -27,7 +20,8 @@ module CASinoCore
       end
 
       private
-      def contact_callback_server(callback_uri, service_ticket)
+      def contact_callback_server(pgt_url, service_ticket)
+        callback_uri = Addressable::URI.parse(pgt_url)
         https = Net::HTTP.new(callback_uri.host, callback_uri.port || 443)
         https.use_ssl = true
 
@@ -35,7 +29,7 @@ module CASinoCore
           pgt = service_ticket.proxy_granting_tickets.new({
             ticket: random_ticket_string('PGT'),
             iou: random_ticket_string('PGTIOU'),
-            pgt_url: "#{callback_uri}"
+            pgt_url: pgt_url
           })
 
           callback_uri.query_values = (callback_uri.query_values || {}).merge(pgtId: pgt.ticket, pgtIou: pgt.iou)
