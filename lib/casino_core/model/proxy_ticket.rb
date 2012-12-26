@@ -15,4 +15,13 @@ class CASinoCore::Model::ProxyTicket < ActiveRecord::Base
   def self.cleanup_consumed
     self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.proxy_ticket[:lifetime_consumed].seconds.ago, true])
   end
+
+  def expired?
+    lifetime = if consumed?
+      CASinoCore::Settings.proxy_ticket[:lifetime_consumed]
+    else
+      CASinoCore::Settings.proxy_ticket[:lifetime_unconsumed]
+    end
+    Time.now - self.created_at > lifetime
+  end
 end

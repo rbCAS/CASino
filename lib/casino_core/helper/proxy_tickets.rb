@@ -16,6 +16,7 @@ module CASinoCore
           ticket: random_ticket_string('ST'),
           service: service,
         })
+      end
 
       def validate_ticket_for_service(ticket, service, renew = false)
         if ticket.nil?
