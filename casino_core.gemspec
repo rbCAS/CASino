@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
-  s.date = "2012-12-24"
+  s.date = "2012-12-26"
   s.description = "A CAS server core library."
   s.email = "ncaspar@me.com"
   s.extra_rdoc_files = [
@@ -42,21 +42,30 @@ Gem::Specification.new do |s|
     "db/migrate/20121125185415_create_proxy_granting_tickets.rb",
     "db/migrate/20121125190013_tickets_should_be_unique.rb",
     "db/migrate/20121223135227_proxy_granting_tickets_belongs_to_service_ticket.rb",
+    "db/migrate/20121224113737_create_proxy_tickets.rb",
+    "db/migrate/20121225153637_add_pgt_url_to_proxy_granting_tickets.rb",
+    "db/migrate/20121225231301_proxy_granting_ticket_can_be_granted_by_proxy_ticket.rb",
+    "db/migrate/20121225231713_no_default_granter_type.rb",
+    "db/migrate/20121226192211_fix_index_for_granter_on_proxy_granting_ticket.rb",
     "db/schema.rb",
     "lib/casino_core.rb",
     "lib/casino_core/authenticator.rb",
     "lib/casino_core/authenticator/static.rb",
+    "lib/casino_core/builder.rb",
+    "lib/casino_core/builder/ticket_validation_response.rb",
     "lib/casino_core/helper.rb",
     "lib/casino_core/helper/browser.rb",
     "lib/casino_core/helper/logger.rb",
     "lib/casino_core/helper/login_tickets.rb",
     "lib/casino_core/helper/proxy_granting_tickets.rb",
+    "lib/casino_core/helper/proxy_tickets.rb",
     "lib/casino_core/helper/service_tickets.rb",
     "lib/casino_core/helper/ticket_granting_tickets.rb",
     "lib/casino_core/helper/tickets.rb",
     "lib/casino_core/model.rb",
     "lib/casino_core/model/login_ticket.rb",
     "lib/casino_core/model/proxy_granting_ticket.rb",
+    "lib/casino_core/model/proxy_ticket.rb",
     "lib/casino_core/model/service_ticket.rb",
     "lib/casino_core/model/service_ticket/single_sign_out_notifier.rb",
     "lib/casino_core/model/ticket_granting_ticket.rb",
@@ -65,6 +74,8 @@ Gem::Specification.new do |s|
     "lib/casino_core/processor/login_credential_acceptor.rb",
     "lib/casino_core/processor/login_credential_requestor.rb",
     "lib/casino_core/processor/logout.rb",
+    "lib/casino_core/processor/proxy_ticket_provider.rb",
+    "lib/casino_core/processor/proxy_ticket_validator.rb",
     "lib/casino_core/processor/service_ticket_validator.rb",
     "lib/casino_core/processor/session_destroyer.rb",
     "lib/casino_core/processor/session_overview.rb",
@@ -73,16 +84,20 @@ Gem::Specification.new do |s|
     "lib/casino_core/settings.rb",
     "lib/casino_core/tasks/cleanup.rake",
     "lib/casino_core/tasks/database.rake",
+    "spec/authenticator/base_spec.rb",
     "spec/authenticator/static_spec.rb",
     "spec/model/login_ticket_spec.rb",
+    "spec/model/proxy_ticket_spec.rb",
     "spec/model/service_ticket_spec.rb",
     "spec/processor/legacy_validator_spec.rb",
     "spec/processor/login_credential_acceptor_spec.rb",
     "spec/processor/login_credential_requestor_spec.rb",
     "spec/processor/logout_spec.rb",
-    "spec/processor/service_ticket_validator_spec.rb",
+    "spec/processor/proxy_ticket_provider_spec.rb",
+    "spec/processor/proxy_ticket_validator_spec.rb",
     "spec/processor/session_destroyer_spec.rb",
     "spec/processor/session_overview_spec.rb",
+    "spec/processor/ticket_validator_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = "http://github.com/pencil/CASinoCore"
