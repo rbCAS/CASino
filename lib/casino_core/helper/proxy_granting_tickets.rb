@@ -34,7 +34,8 @@ module CASinoCore
         https.start do |conn|
           pgt = service_ticket.proxy_granting_tickets.new({
             ticket: random_ticket_string('PGT'),
-            iou: random_ticket_string('PGTIOU')
+            iou: random_ticket_string('PGTIOU'),
+            pgt_url: "#{callback_uri}"
           })
 
           callback_uri.query_values = (callback_uri.query_values || {}).merge(pgtId: pgt.ticket, pgtIou: pgt.iou)

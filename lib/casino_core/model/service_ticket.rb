@@ -9,7 +9,7 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
   validates :ticket, uniqueness: true
   belongs_to :ticket_granting_ticket
   before_destroy :send_single_sing_out_notification, if: :consumed?
-  has_many :proxy_granting_tickets
+  has_many :proxy_granting_tickets, as: :granter
 
   def self.cleanup_unconsumed
     self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.service_ticket[:lifetime_unconsumed].seconds.ago, false])
@@ -23,6 +23,15 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
     service_uri = Addressable::URI.parse(self.service)
     service_uri.query_values = (service_uri.query_values || {}).merge(ticket: self.ticket)
     service_uri.to_s
+  end
+
+  def expired?
+    lifetime = if consumed?
+      CASinoCore::Settings.service_ticket[:lifetime_consumed]
+    else
+      CASinoCore::Settings.service_ticket[:lifetime_unconsumed]
+    end
+    Time.now - self.created_at > lifetime
   end
 
   private

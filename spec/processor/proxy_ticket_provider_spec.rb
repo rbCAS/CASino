@@ -48,7 +48,7 @@ describe CASinoCore::Processor::ProxyTicketProvider do
       }
       let(:service_ticket) { ticket_granting_ticket.service_tickets.create! ticket: 'ST-2nOcXx56dtPTsB069yYf0h', service: 'http://www.example.com/' }
       let(:proxy_granting_ticket) {
-        service_ticket.proxy_granting_tickets.create! ticket: 'PGT-OIE42ZadV3B9VcaG2xMjAf', iou: 'PGTIOU-PYg4CCPQHNyyS9s6bJF6Rg'
+        service_ticket.proxy_granting_tickets.create! ticket: 'PGT-OIE42ZadV3B9VcaG2xMjAf', iou: 'PGTIOU-PYg4CCPQHNyyS9s6bJF6Rg', pgt_url: 'https://www.example.com/pgtUrl'
       }
       let(:params_with_valid_pgt) { params.merge(pgt: proxy_granting_ticket.ticket) }
 
