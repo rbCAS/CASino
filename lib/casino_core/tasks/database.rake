@@ -11,7 +11,7 @@ namespace :casino_core do
           Gem.loaded_specs['casino_core'].full_gem_path
         end
       DATABASE_ENV = ENV['DATABASE_ENV'] || ENV['RAILS_ENV'] || 'development'
-      MIGRATIONS_DIR = File.join(BASE_DIR, 'db', 'migrate')
+      ActiveRecord::Migrator.migrations_paths = File.join(BASE_DIR, 'db', 'migrate')
       SCHEMA_PATH = ENV['SCHEMA'] || File.join(BASE_DIR, 'db', 'schema.rb')
     end
 
