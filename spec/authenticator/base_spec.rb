@@ -7,7 +7,7 @@ describe CASinoCore::Authenticator do
 
   context '#validate' do
     it 'should raise an error' do
-      expect { subject.validate }.to raise_error
+      expect { subject.validate(nil, nil) }.to raise_error(NotImplementedError)
     end
   end
 end
