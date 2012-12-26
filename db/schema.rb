@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121225231713) do
+ActiveRecord::Schema.define(:version => 20121226192211) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20121225231713) do
     t.string   "granter_type", :null => false
   end
 
-  add_index "proxy_granting_tickets", ["granter_id"], :name => "index_proxy_granting_tickets_on_service_ticket_id"
+  add_index "proxy_granting_tickets", ["granter_type", "granter_id"], :name => "index_proxy_granting_tickets_on_granter_type_and_granter_id", :unique => true
   add_index "proxy_granting_tickets", ["iou"], :name => "index_proxy_granting_tickets_on_iou", :unique => true
   add_index "proxy_granting_tickets", ["ticket"], :name => "index_proxy_granting_tickets_on_ticket", :unique => true
 
