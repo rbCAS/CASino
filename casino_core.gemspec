@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "0.0.6"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
     "db/migrate/20121225231301_proxy_granting_ticket_can_be_granted_by_proxy_ticket.rb",
     "db/migrate/20121225231713_no_default_granter_type.rb",
     "db/migrate/20121226192211_fix_index_for_granter_on_proxy_granting_ticket.rb",
+    "db/migrate/20121226211511_allow_service_tickets_without_ticket_granting_ticket.rb",
     "db/schema.rb",
     "lib/casino_core.rb",
     "lib/casino_core/authenticator.rb",
@@ -89,6 +90,7 @@ Gem::Specification.new do |s|
     "spec/model/login_ticket_spec.rb",
     "spec/model/proxy_ticket_spec.rb",
     "spec/model/service_ticket_spec.rb",
+    "spec/model/ticket_granting_ticket_spec.rb",
     "spec/processor/legacy_validator_spec.rb",
     "spec/processor/login_credential_acceptor_spec.rb",
     "spec/processor/login_credential_requestor_spec.rb",
