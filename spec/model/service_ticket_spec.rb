@@ -34,7 +34,7 @@ describe CASinoCore::Model::ServiceTicket do
     end
   end
 
-  describe '.destroy' do
+  describe '#destroy' do
     it 'sends out a single sign out notification' do
       described_class::SingleSignOutNotifier.any_instance.should_receive(:notify).and_return(true)
       ticket.consumed = true
