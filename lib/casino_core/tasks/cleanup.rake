@@ -11,6 +11,8 @@ namespace :casino_core do
         rows_affected = CASinoCore::Model::ServiceTicket.send("cleanup_#{type}").length
         puts "Deleted #{rows_affected} #{type} service tickets."
       end
+      rows_affected = CASinoCore::Model::ServiceTicket.cleanup_consumed_hard
+      puts "Force deleted #{rows_affected} consumed service tickets."
     end
 
     desc 'Remove expired proxy tickets.'

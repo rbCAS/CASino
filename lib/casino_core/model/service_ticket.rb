@@ -19,6 +19,10 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
     self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.service_ticket[:lifetime_consumed].seconds.ago, true])
   end
 
+  def self.cleanup_consumed_hard
+    self.delete_all(['created_at < ? AND consumed = ?', (CASinoCore::Settings.service_ticket[:lifetime_consumed].seconds * 2).ago, true])
+  end
+
   def service_with_ticket_url
     service_uri = Addressable::URI.parse(self.service)
     service_uri.query_values = (service_uri.query_values || {}).merge(ticket: self.ticket)
