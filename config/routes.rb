@@ -7,6 +7,8 @@ CASino::Application.routes.draw do
   get 'validate' => 'service_tickets#validate'
   get 'serviceValidate' => 'service_tickets#service_validate'
 
+  get 'proxyValidate' => 'proxy_tickets#proxy_validate'
+
   root to: redirect('/login')
 
   # The priority is based upon order of creation:
