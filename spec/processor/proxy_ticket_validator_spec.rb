@@ -7,7 +7,7 @@ describe CASinoCore::Processor::ProxyTicketValidator do
   describe '#process' do
     let(:regex_success) { /\A<cas:serviceResponse.*\n.*authenticationSuccess/ }
 
-    context 'with a valid proxy ticket' do
+    context 'with an unconsumed proxy ticket' do
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-Qu6B5IVQ7RmLc972TruM9u',
@@ -18,7 +18,7 @@ describe CASinoCore::Processor::ProxyTicketValidator do
       let(:proxy_granting_ticket) {
         service_ticket.proxy_granting_tickets.create! ticket: 'PGT-OIE42ZadV3B9VcaG2xMjAf', iou: 'PGTIOU-PYg4CCPQHNyyS9s6bJF6Rg', pgt_url: 'https://www.example.com/pgtUrl'
       }
-      let(:proxy_service) { 'http://www.google.com/' }
+      let(:proxy_service) { 'imaps://127.0.0.1:4578/' }
       let(:proxy_ticket) { proxy_granting_ticket.proxy_tickets.create! ticket: 'PT-8nA7vuxuNY7RcpVoaDvuZi', service: proxy_service }
       let(:parameters) { { ticket: proxy_ticket.ticket, service: proxy_service } }
       let(:regex_proxy) { /<cas:proxies>\s*<cas:proxy>https:\/\/www.example.com\/pgtUrl<\/cas:proxy>\s*<\/cas:proxies[>]/ }
@@ -31,6 +31,35 @@ describe CASinoCore::Processor::ProxyTicketValidator do
       it 'includes the proxy in the response' do
         listener.should_receive(:validation_succeeded).with(regex_proxy)
         processor.process(parameters)
+      end
+
+      context 'with an expired proxy ticket' do
+        before(:each) do
+          CASinoCore::Model::ProxyTicket.any_instance.stub(:expired?).and_return(true)
+        end
+
+        it 'calls the #validation_failed method on the listener' do
+          listener.should_receive(:validation_failed)
+          processor.process(parameters)
+        end
+      end
+
+      context 'with an other service' do
+        let(:parameters_with_other_service) { parameters.merge(service: 'this_is_another_service') }
+
+        it 'calls the #validation_failed method on the listener' do
+          listener.should_receive(:validation_failed)
+          processor.process(parameters_with_other_service)
+        end
+      end
+
+      context 'without an existing ticket' do
+        let(:parameters_without_existing_ticket) { { ticket: 'PT-1234', service: 'https://www.example.com/' } }
+
+        it 'calls the #validation_failed method on the listener' do
+          listener.should_receive(:validation_failed)
+          processor.process(parameters_without_existing_ticket)
+        end
       end
     end
   end
