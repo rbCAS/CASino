@@ -28,7 +28,7 @@ gem 'jquery-rails'
 gem 'yettings'
 gem 'useragent', '~> 0.4.13'
 
-gem 'casino_core', github: 'pencil/CASinoCore'
+gem 'casino_core', '~> 1.0.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

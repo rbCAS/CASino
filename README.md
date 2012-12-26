@@ -2,7 +2,7 @@
 
 A simple [CAS](http://www.jasig.org/cas) server written in Ruby using the Rails framework.
 
-It will support [CAS 1.0 and CAS 2.0](http://www.jasig.org/cas/protocol) as well as CAS 3.1 [Single Sign Out](https://wiki.jasig.org/display/CASUM/Single+Sign+Out) and [CAS RESTful API](https://wiki.jasig.org/display/CASUM/RESTful+API)
+It currently supports [CAS 1.0 and CAS 2.0](http://www.jasig.org/cas/protocol) as well as CAS 3.1 [Single Sign Out](https://wiki.jasig.org/display/CASUM/Single+Sign+Out). Coming soon: [CAS RESTful API](https://wiki.jasig.org/display/CASUM/RESTful+API)
 
 CASino is separated into a web app and core components:
 
@@ -11,7 +11,12 @@ CASino is separated into a web app and core components:
 
 This simplifies the creation of a CAS server implementation for other developers.
 
-The project is still under heavy development: It is far away from a feature complete CAS server.
+## Setup
+
+* Clone the project
+* Customize the design (`app/views`) and configurations (`config/cas.yml`, `config/database.yml`)
+* Publish it using capistrano, git, Jenkins, ...
+* Configure a cronjob to do a `RAILS_ENV=production rake casino_core:cleanup:all > /dev/null` every 5 minutes
 
 ## Contributing to CASino
 
