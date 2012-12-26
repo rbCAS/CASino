@@ -4,6 +4,6 @@ class ServiceTicketsController < ApplicationController
   end
 
   def service_validate
-    processor(:ServiceTicketValidator).process(params)
+    processor(:ServiceTicketValidator, :TicketValidator).process(params)
   end
 end

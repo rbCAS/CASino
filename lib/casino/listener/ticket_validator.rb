@@ -1,6 +1,6 @@
 require 'casino/listener'
 
-class CASino::Listener::ServiceTicketValidator < CASino::Listener
+class CASino::Listener::TicketValidator < CASino::Listener
   def validation_failed(xml)
     @controller.render xml: xml
   end
