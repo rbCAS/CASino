@@ -1,15 +1,18 @@
 require 'builder'
 require 'net/https'
 require 'casino_core/model/service_ticket'
+require 'addressable/uri'
 
 class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
+  include CASinoCore::Helper::Logger
+
   def initialize(service_ticket)
     @service_ticket = service_ticket
   end
 
   def notify
     xml = build_xml
-    uri = URI.parse(@service_ticket.service)
+    uri = Addressable::URI.parse(@service_ticket.service)
     request = build_request(uri, xml)
     send_notification(uri, request)
   end
@@ -25,12 +28,13 @@ class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
   end
 
   def build_request(uri, xml)
-    request = Net::HTTP::Post.new(uri.path || '/')
+    request = Net::HTTP::Post.new(uri.request_uri)
     request.set_form_data(logoutRequest: xml)
     return request
   end
 
   def send_notification(uri, request)
+    logger.info "Sending Single Sign Out notification for ticket '#{@service_ticket.ticket}'"
     begin
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true if uri.scheme =='https'
