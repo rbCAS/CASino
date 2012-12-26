@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121226192211) do
+ActiveRecord::Schema.define(:version => 20121226211511) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20121226192211) do
   create_table "service_tickets", :force => true do |t|
     t.string   "ticket",                                       :null => false
     t.string   "service",                                      :null => false
-    t.integer  "ticket_granting_ticket_id",                    :null => false
+    t.integer  "ticket_granting_ticket_id"
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
     t.boolean  "consumed",                  :default => false, :null => false
