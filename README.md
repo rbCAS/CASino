@@ -18,6 +18,10 @@ This simplifies the creation of a CAS server implementation for other developers
 * Publish it using capistrano, git, Jenkins, ...
 * Configure a cronjob to do a `RAILS_ENV=production rake casino_core:cleanup:all > /dev/null` every 5 minutes
 
+## Authenticators
+
+Work in progress... See `CASinoCore::Authenticator::Static` if you would like to implement an authenticator
+
 ## Contributing to CASino
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
