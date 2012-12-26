@@ -17,6 +17,7 @@ namespace :casino_core do
 
     task :configuration => :environment do
       @config = YAML.load_file('config/database.yml')[DATABASE_ENV]
+      CASinoCore.setup DATABASE_ENV
     end
 
     task :configure_connection => :configuration do
