@@ -12,7 +12,7 @@ group :development do
   gem 'yard', '~> 0.8.3', require: 'redcarpet'
 end
 
-group :test do
+group :development, :test do
   gem 'rspec', '~> 2.12.0'
   gem 'simplecov', '~> 0.7.1'
   gem 'sqlite3'
