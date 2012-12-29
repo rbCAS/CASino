@@ -10,6 +10,7 @@ gem 'sqlite3'
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'
   gem 'webrat'
+  gem 'simplecov', '~> 0.7.1'
 end
 
 # Gems used only for assets and not required

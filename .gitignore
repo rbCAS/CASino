@@ -14,3 +14,5 @@
 /log/*.log
 /tmp
 .rails_generators~
+
+/coverage
