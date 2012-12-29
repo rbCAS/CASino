@@ -40,6 +40,16 @@ describe CASinoCore::Model::ServiceTicket::SingleSignOutNotifier do
           end
         end
       end
+
+      context 'connection timeout' do
+        before(:each) do
+          stub_request(:post, service).to_raise Timeout::Error
+        end
+
+        it 'returns false' do
+          notifier.notify.should == false
+        end
+      end
     end
   end
 end
