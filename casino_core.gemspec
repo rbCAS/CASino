@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "1.0.2"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
@@ -89,6 +89,7 @@ Gem::Specification.new do |s|
     "spec/authenticator/static_spec.rb",
     "spec/model/login_ticket_spec.rb",
     "spec/model/proxy_ticket_spec.rb",
+    "spec/model/service_ticket/single_sign_out_notifier_spec.rb",
     "spec/model/service_ticket_spec.rb",
     "spec/model/ticket_granting_ticket_spec.rb",
     "spec/processor/legacy_validator_spec.rb",
@@ -124,6 +125,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
       s.add_development_dependency(%q<database_cleaner>, [">= 0"])
       s.add_development_dependency(%q<webmock>, [">= 0"])
+      s.add_development_dependency(%q<nokogiri>, [">= 0"])
     else
       s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
       s.add_dependency(%q<addressable>, ["~> 2.3.2"])
@@ -137,6 +139,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<sqlite3>, [">= 0"])
       s.add_dependency(%q<database_cleaner>, [">= 0"])
       s.add_dependency(%q<webmock>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 0"])
     end
   else
     s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
@@ -151,6 +154,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<sqlite3>, [">= 0"])
     s.add_dependency(%q<database_cleaner>, [">= 0"])
     s.add_dependency(%q<webmock>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 0"])
   end
 end
 
