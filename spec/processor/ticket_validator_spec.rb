@@ -40,6 +40,13 @@ require 'spec_helper'
           end
         end
 
+        context 'with empty query values' do
+          it 'calls the #validation_succeeded method on the listener' do
+            listener.should_receive(:validation_succeeded).with(regex_success)
+            processor.process(parameters.merge(service: "#{service}/?"))
+          end
+        end
+
         context 'with renew flag' do
           let(:parameters_with_renew) { parameters.merge renew: 'true' }
 

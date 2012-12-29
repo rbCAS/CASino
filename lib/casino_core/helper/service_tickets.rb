@@ -21,6 +21,12 @@ module CASinoCore
         unless service_uri.query_values.nil?
           service_uri.query_values = service_uri.query_values.except('service', 'ticket', 'gateway', 'renew')
         end
+        if service_uri.query_values.blank?
+          service_uri.query_values = nil
+        end
+        if "#{service_uri.path}".length > 1
+          service_uri.path = service_uri.path.gsub(/\/\z/, '')
+        end
         clean_service = service_uri.to_s
 
         logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
