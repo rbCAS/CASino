@@ -38,6 +38,22 @@ describe CASinoCore::Model::ServiceTicket do
       end.should change(described_class, :count).by(-1)
       described_class.find_by_ticket('ST-12345').should be_false
     end
+
+    it 'deletes consumed service tickets without ticket_granting_ticket' do
+      consumed_ticket.ticket_granting_ticket_id = nil
+      consumed_ticket.save!
+      lambda do
+        described_class.cleanup_consumed
+      end.should change(described_class, :count).by(-1)
+      described_class.find_by_ticket('ST-12345').should be_false
+    end
+
+    it 'does not delete unexpired service tickets' do
+      consumed_ticket # create the ticket
+      lambda do
+        described_class.cleanup_consumed
+      end.should_not change(described_class, :count)
+    end
   end
 
   describe '#destroy' do
