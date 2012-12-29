@@ -18,6 +18,6 @@ class SessionsController < ApplicationController
   end
 
   def logout
-    processor(:Logout).process(params, cookies)
+    processor(:Logout).process(params, cookies, request.user_agent)
   end
 end

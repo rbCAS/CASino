@@ -19,7 +19,11 @@ describe SessionsController do
 
   describe 'GET "logout"' do
     it 'calls the process method of the Logout processor' do
-      CASinoCore::Processor::Logout.any_instance.should_receive(:process)
+      CASinoCore::Processor::Logout.any_instance.should_receive(:process) do |params, cookies, user_agent|
+        params.should == controller.params
+        cookies.should == controller.cookies
+        user_agent.should == request.user_agent
+      end
       get :logout
     end
   end
