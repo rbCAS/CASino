@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
-  s.date = "2012-12-26"
+  s.date = "2012-12-29"
   s.description = "A CAS server core library."
   s.email = "ncaspar@me.com"
   s.extra_rdoc_files = [
