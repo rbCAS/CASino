@@ -19,7 +19,9 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  SimpleCov.start
+  SimpleCov.start do
+    add_filter '/spec'
+  end
 
   CASinoCore.setup 'test'
   CASinoCore::Settings.logger.level = ::Logger::Severity::UNKNOWN
