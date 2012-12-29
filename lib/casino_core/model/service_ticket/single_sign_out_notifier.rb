@@ -54,7 +54,7 @@ class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
           return false
         end
       end
-    rescue Exception => e
+    rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
       logger.warn "Failed to send logout notification to service #{uri} due to #{e}"
       return false
     end
