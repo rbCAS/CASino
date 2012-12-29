@@ -83,10 +83,11 @@ require 'spec_helper'
         end
 
         context 'with proxy-granting ticket callback server' do
-          let(:parameters_with_pgt_url) { parameters.merge pgtUrl: "https://www.example.org" }
+          let(:pgt_url) { 'https://www.example.org' }
+          let(:parameters_with_pgt_url) { parameters.merge pgtUrl: pgt_url }
 
           before(:each) do
-            stub_request(:get, /https:\/\/www\.example\.org\/\?pgtId=[^&]+&pgtIou=[^&]+/)
+            stub_request(:get, /#{pgt_url}\/\?pgtId=[^&]+&pgtIou=[^&]+/)
           end
 
           it 'calls the #validation_succeeded method on the listener' do
@@ -112,6 +113,40 @@ require 'spec_helper'
               pgtId: proxy_granting_ticket.ticket,
               pgtIou: proxy_granting_ticket.iou
             })
+          end
+
+          context 'when callback server gives an error' do
+            before(:each) do
+              stub_request(:get, /#{pgt_url}.*/).to_return status: 404
+            end
+
+            it 'calls the #validation_succeeded method on the listener' do
+              listener.should_receive(:validation_succeeded).with(regex_success)
+              processor.process(parameters_with_pgt_url)
+            end
+
+            it 'does not create a proxy-granting ticket' do
+              lambda do
+                processor.process(parameters_with_pgt_url)
+              end.should_not change(service_ticket.proxy_granting_tickets, :count)
+            end
+          end
+
+          context 'when callback server is unreachable' do
+            before(:each) do
+              stub_request(:get, /#{pgt_url}.*/).to_raise(Timeout::Error)
+            end
+
+            it 'calls the #validation_succeeded method on the listener' do
+              listener.should_receive(:validation_succeeded).with(regex_success)
+              processor.process(parameters_with_pgt_url)
+            end
+
+            it 'does not create a proxy-granting ticket' do
+              lambda do
+                processor.process(parameters_with_pgt_url)
+              end.should_not change(service_ticket.proxy_granting_tickets, :count)
+            end
           end
         end
       end

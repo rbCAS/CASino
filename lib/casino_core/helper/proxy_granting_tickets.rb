@@ -13,7 +13,7 @@ module CASinoCore
       def acquire_proxy_granting_ticket(pgt_url, service_ticket)
         begin
           return contact_callback_server(pgt_url, service_ticket)
-        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError
+        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
           logger.warn "Exception while communicating with proxy-granting ticket callback server: #{e.message}"
         end
         nil
