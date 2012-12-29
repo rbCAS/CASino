@@ -20,8 +20,8 @@ class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
   private
   def build_xml
     xml = Builder::XmlMarkup.new(indent: 2)
-    xml.samlp :LogoutRequest, ID: SecureRandom.uuid, Version: '2.0', IsseInstant: Time.now do |logout_request|
-      logout_request.samlp :NameID, '@NOT_USED@'
+    xml.samlp :LogoutRequest, ID: SecureRandom.uuid, Version: '2.0', IssueInstant: Time.now do |logout_request|
+      logout_request.saml :NameID, '@NOT_USED@'
       logout_request.samlp :SessionIndex, @service_ticket.ticket
     end
     xml.target!
