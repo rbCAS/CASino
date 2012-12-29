@@ -15,8 +15,9 @@ This simplifies the creation of a CAS server implementation for other developers
 
 * Clone the project
 * Customize the design (`app/assets/stylesheets`, `app/views/layouts`) and configurations (`config/cas.yml`, `config/database.yml`)
-* Publish it using capistrano, git, Jenkins, ...
-* Configure a cronjob to do a `RAILS_ENV=production rake casino_core:cleanup:all > /dev/null` every 5 minutes
+* Deploy it using capistrano, git, Jenkins, ...
+* Load the default DB schema: `DATABASE_ENV=production rake casino_core:db:schema:load` (after and update, run `DATABASE_ENV=production casino_core:db:migrate` instead)
+* Configure a cronjob to do a `DATABASE_ENV=production rake casino_core:cleanup:all > /dev/null` every 5 minutes
 
 ## Authenticators
 
