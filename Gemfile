@@ -12,12 +12,13 @@ group :development do
   gem 'yard', '~> 0.8.3', require: 'redcarpet'
 end
 
-group :development, :test do
+group :test do
   gem 'rspec', '~> 2.12.0'
   gem 'simplecov', '~> 0.7.1'
   gem 'sqlite3'
   gem 'database_cleaner'
   gem 'webmock'
+  gem 'nokogiri'
 end
 
 gem 'activerecord', '~> 3.2.9'
