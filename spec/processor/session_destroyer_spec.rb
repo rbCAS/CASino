@@ -57,19 +57,6 @@ describe CASinoCore::Processor::SessionDestroyer do
         listener.should_receive(:ticket_deleted).with(no_args)
         processor.process(params, cookies, user_agent)
       end
-
-      it 'deletes the dependent service ticket' do
-        service_ticket.ticket # creates the service ticket
-        lambda {
-          processor.process(params, cookies, user_agent)
-        }.should change(CASinoCore::Model::ServiceTicket, :count).by(-1)
-      end
-
-      it 'nullifies the dependent service ticket if destroying fails' do
-        lambda {
-          processor.process(params, cookies, user_agent)
-        }.should change { consumed_service_ticket.reload.ticket_granting_ticket_id }.to(nil)
-      end
     end
 
     context 'with an invalid ticket-granting ticket' do
