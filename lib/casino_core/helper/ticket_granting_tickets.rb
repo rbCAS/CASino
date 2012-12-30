@@ -32,6 +32,12 @@ module CASinoCore
         })
       end
 
+      def remove_ticket_granting_ticket(ticket_granting_ticket, user_agent = nil)
+        tgt = find_valid_ticket_granting_ticket(ticket_granting_ticket, user_agent)
+        tgt.destroy if tgt
+        tgt || false
+      end
+
     end
   end
 end

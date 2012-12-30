@@ -17,10 +17,7 @@ class CASinoCore::Processor::Logout < CASinoCore::Processor
   def process(params = nil, cookies = nil, user_agent = nil)
     params ||= {}
     cookies ||= {}
-    ticket_granting_ticket = find_valid_ticket_granting_ticket(cookies[:tgt], user_agent)
-    unless ticket_granting_ticket.nil?
-      ticket_granting_ticket.destroy
-    end
+    remove_ticket_granting_ticket(cookies[:tgt], user_agent)
     @listener.user_logged_out(params[:url])
   end
 end
