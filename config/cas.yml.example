@@ -11,19 +11,19 @@ defaults: &defaults
 development:
   <<: *defaults
   authenticators:
-    -
+    static:
       class: "CASinoCore::Authenticator::Static"
       options:
         users:
           testuser:
-            password: foobar123
+            password: "foobar123"
 
 test:
   <<: *defaults
   authenticators:
-    -
+    static:
       class: "CASinoCore::Authenticator::Static"
       options:
         users:
           testuser:
-            password: foobar123
+            password: "foobar123"
