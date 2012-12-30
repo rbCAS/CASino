@@ -25,7 +25,7 @@ class API::V1::TicketsController < ApplicationController
   end
 
   def granted_service_ticket_via_api(service_ticket)
-    render text: service_ticket, status: 200, content_type: 'text/plain'
+    render text: service_ticket, status: 200, content_type: Mime::TEXT
   end
 
   def invalid_ticket_granting_ticket_via_api
