@@ -7,6 +7,7 @@ class API::V1::TicketsController < ApplicationController
 
   # POST /cas/v1/tickets/{TGT id}
   def update
+    CASinoCore::Processor::API::ServiceTicketProvider.new(self).process(params[:id], {service: params[:service]})
   end
 
   # DELETE /cas/v1/tickets/TGT-fdsjfsdfjkalfewrihfdhfaie
@@ -20,7 +21,25 @@ class API::V1::TicketsController < ApplicationController
   end
 
   def invalid_login_credentials_via_api
+    error_response
+  end
+
+  def granted_service_ticket_via_api(service_ticket)
+    render text: service_ticket, status: 200
+  end
+
+  def invalid_ticket_granting_ticket_via_api
+    error_response
+  end
+
+  def no_service_provided_via_api
+    error_response
+  end
+
+  def error_response
     render nothing: true, status: 400
   end
+
+
 
 end
