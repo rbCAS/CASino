@@ -8,7 +8,14 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   include CASinoCore::Helper::ServiceTickets
   include CASinoCore::Helper::TicketGrantingTickets
 
-
+  # Use this method to process the request.
+  #
+  # The method will call one of the following methods on the listener:
+  # * `#granted_service_ticket_via_api`: First and only argument is a String with the TS-id
+  # * `#invalid_tgt_via_api`: No argument
+  # * `#no_service_provided_via_api`: No argument
+  #
+  # @param [Hash] parameters parameters supplied by user (ticket granting ticket and service url)
   def process(parameters)
     @client_ticket_granting_ticket = parameters[:ticket_granting_ticket]
     @service_url = parameters[:service]
