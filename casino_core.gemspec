@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "1.0.4"
+  s.version = "1.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
@@ -56,6 +56,7 @@ Gem::Specification.new do |s|
     "lib/casino_core/builder.rb",
     "lib/casino_core/builder/ticket_validation_response.rb",
     "lib/casino_core/helper.rb",
+    "lib/casino_core/helper/authentication.rb",
     "lib/casino_core/helper/browser.rb",
     "lib/casino_core/helper/logger.rb",
     "lib/casino_core/helper/login_tickets.rb",
@@ -72,6 +73,10 @@ Gem::Specification.new do |s|
     "lib/casino_core/model/service_ticket/single_sign_out_notifier.rb",
     "lib/casino_core/model/ticket_granting_ticket.rb",
     "lib/casino_core/processor.rb",
+    "lib/casino_core/processor/api.rb",
+    "lib/casino_core/processor/api/login_credential_acceptor.rb",
+    "lib/casino_core/processor/api/logout.rb",
+    "lib/casino_core/processor/api/service_ticket_provider.rb",
     "lib/casino_core/processor/legacy_validator.rb",
     "lib/casino_core/processor/login_credential_acceptor.rb",
     "lib/casino_core/processor/login_credential_requestor.rb",
@@ -93,6 +98,9 @@ Gem::Specification.new do |s|
     "spec/model/service_ticket/single_sign_out_notifier_spec.rb",
     "spec/model/service_ticket_spec.rb",
     "spec/model/ticket_granting_ticket_spec.rb",
+    "spec/processor/api/login_credential_acceptor_spec.rb",
+    "spec/processor/api/logout_spec.rb",
+    "spec/processor/api/service_ticket_provider_spec.rb",
     "spec/processor/legacy_validator_spec.rb",
     "spec/processor/login_credential_acceptor_spec.rb",
     "spec/processor/login_credential_requestor_spec.rb",
