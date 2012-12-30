@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121226211511) do
+ActiveRecord::Schema.define(:version => 20121231114141) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -67,9 +67,10 @@ ActiveRecord::Schema.define(:version => 20121226211511) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
     t.string   "user_agent"
+    t.string   "authenticator",    :null => false
   end
 
+  add_index "ticket_granting_tickets", ["authenticator", "username"], :name => "index_ticket_granting_tickets_on_authenticator_and_username"
   add_index "ticket_granting_tickets", ["ticket"], :name => "index_ticket_granting_tickets_on_ticket", :unique => true
-  add_index "ticket_granting_tickets", ["username"], :name => "index_ticket_granting_tickets_on_username"
 
 end

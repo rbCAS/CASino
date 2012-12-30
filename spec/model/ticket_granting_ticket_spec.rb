@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CASinoCore::Model::TicketGrantingTicket do
-  let(:subject) { described_class.create! ticket: 'TGT-3ep9awhy2ty5UhL8wM1xAZ', username: 'example-user' }
+  let(:subject) { described_class.create! ticket: 'TGT-3ep9awhy2ty5UhL8wM1xAZ', username: 'example-user', authenticator: 'test' }
   let(:service_ticket) {
     subject.service_tickets.create! ticket: 'ST-12345', service: 'https://example.com/cas-service'
   }

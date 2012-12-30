@@ -17,6 +17,7 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-9H6Vx4850i2Ksp3R8hTCwO',
+          authenticator: 'test',
           username: 'test',
           extra_attributes: nil,
           user_agent: user_agent

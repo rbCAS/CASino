@@ -23,9 +23,9 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
     params ||= {}
     cookies ||= {}
     if login_ticket_valid?(params[:lt])
-      user_data = validate_login_credentials(params[:username], params[:password])
-      if !user_data.nil?
-        ticket_granting_ticket = acquire_ticket_granting_ticket(user_data, user_agent)
+      authentication_result = validate_login_credentials(params[:username], params[:password])
+      if !authentication_result.nil?
+        ticket_granting_ticket = acquire_ticket_granting_ticket(authentication_result, user_agent)
         url = unless params[:service].nil?
           acquire_service_ticket(ticket_granting_ticket, params[:service], true).service_with_ticket_url
         end
@@ -55,24 +55,23 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   end
 
   def validate_login_credentials(username, password)
-    user_data = nil
-    CASinoCore::Settings.authenticators.each do |authenticator|
+    authentication_result = nil
+    CASinoCore::Settings.authenticators.each do |authenticator_name, authenticator|
       data = authenticator.validate(username, password)
       if data
-        if data[:username].nil?
-          data[:username] = username
-        end
-        user_data = data
-        logger.info("Credentials for username '#{data[:username]}' successfully validated using #{authenticator.class}")
+        authentication_result = { authenticator: authenticator_name, user_data: data }
+        logger.info("Credentials for username '#{data[:username]}' successfully validated using authenticator '#{authenticator_name}' (#{authenticator.class})")
         break
       end
     end
-    user_data
+    authentication_result
   end
 
-  def acquire_ticket_granting_ticket(user_data, user_agent = nil)
+  def acquire_ticket_granting_ticket(authentication_result, user_agent = nil)
+    user_data = authentication_result[:user_data]
     CASinoCore::Model::TicketGrantingTicket.create!({
       ticket: random_ticket_string('TGC'),
+      authenticator: authentication_result[:authenticator],
       username: user_data[:username],
       extra_attributes: user_data[:extra_attributes],
       user_agent: user_agent

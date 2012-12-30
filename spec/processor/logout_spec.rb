@@ -17,6 +17,7 @@ describe CASinoCore::Processor::Logout do
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
+          authenticator: 'test',
           username: 'test',
           extra_attributes: nil,
           user_agent: user_agent

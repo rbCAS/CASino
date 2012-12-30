@@ -17,12 +17,12 @@ module CASinoCore
       end
 
       def authenticators=(authenticators)
-        @authenticators = []
-        authenticators.each do |authenticator|
+        @authenticators = {}
+        authenticators.each do |index, authenticator|
           unless authenticator.is_a?(CASinoCore::Authenticator)
             authenticator = authenticator[:class].constantize.new(authenticator[:options])
           end
-          @authenticators << authenticator
+          @authenticators[index] = authenticator
         end
       end
     end

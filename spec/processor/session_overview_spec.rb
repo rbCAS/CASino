@@ -8,6 +8,7 @@ describe CASinoCore::Processor::SessionOverview do
     let(:other_ticket_granting_ticket) {
       CASinoCore::Model::TicketGrantingTicket.create!({
         ticket: 'TGC-ocCudGzZjJtrvOXJ485mt3',
+        authenticator: 'test',
         username: 'test',
         extra_attributes: nil,
         user_agent: user_agent
@@ -25,6 +26,7 @@ describe CASinoCore::Processor::SessionOverview do
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
+          authenticator: 'test',
           username: 'test',
           extra_attributes: nil,
           user_agent: user_agent
@@ -34,6 +36,26 @@ describe CASinoCore::Processor::SessionOverview do
       it 'calls the #ticket_granting_tickets_found method on the listener' do
         listener.should_receive(:ticket_granting_tickets_found) do |tickets|
           tickets.length.should == 2
+        end
+        processor.process(cookies, user_agent)
+      end
+    end
+
+    context 'with a ticket-granting ticket with same username but different authenticator' do
+      let(:ticket_granting_ticket) {
+        CASinoCore::Model::TicketGrantingTicket.create!({
+          ticket: 'TGC-Xz9iea8ro7O5eR99e54vWN',
+          authenticator: 'lala',
+          username: 'test',
+          extra_attributes: nil,
+          user_agent: user_agent
+        })
+      }
+      let(:tgt) { ticket_granting_ticket.ticket }
+
+      it 'calls the #ticket_granting_tickets_found method on the listener' do
+        listener.should_receive(:ticket_granting_tickets_found) do |tickets|
+          tickets.length.should == 1
         end
         processor.process(cookies, user_agent)
       end

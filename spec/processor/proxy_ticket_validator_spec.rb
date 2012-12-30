@@ -11,6 +11,7 @@ describe CASinoCore::Processor::ProxyTicketValidator do
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-Qu6B5IVQ7RmLc972TruM9u',
+          authenticator: 'test',
           username: 'test'
         })
       }

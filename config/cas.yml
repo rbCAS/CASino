@@ -7,25 +7,24 @@ defaults: &defaults
   proxy_ticket:
     lifetime_unconsumed: 300
     lifetime_consumed: 86400
+  authenticators:
+    static_1:
+      class: "CASinoCore::Authenticator::Static"
+      options:
+        users:
+          testuser:
+            password: "foobar123"
+            name: "Test User"
+    static_2:
+      class: "CASinoCore::Authenticator::Static"
+      options:
+        users:
+          example:
+            password: "dito123"
+            name: "Test User"
 
 development:
   <<: *defaults
-  authenticators:
-    -
-      class: "CASinoCore::Authenticator::Static"
-      options:
-        users:
-          testuser:
-            password: "foobar123"
-            name: "Test User"
 
 test:
   <<: *defaults
-  authenticators:
-    -
-      class: "CASinoCore::Authenticator::Static"
-      options:
-        users:
-          testuser:
-            password: "foobar123"
-            name: "Test User"

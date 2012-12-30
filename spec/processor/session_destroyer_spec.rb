@@ -8,6 +8,7 @@ describe CASinoCore::Processor::SessionDestroyer do
     let(:owner_ticket_granting_ticket) {
       CASinoCore::Model::TicketGrantingTicket.create!({
         ticket: 'TGC-ocCudGzZjJtrvOXJ485mt3',
+        authenticator: 'test',
         username: 'test',
         extra_attributes: nil,
         user_agent: user_agent
@@ -24,6 +25,7 @@ describe CASinoCore::Processor::SessionDestroyer do
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
+          authenticator: 'test',
           username: 'test',
           extra_attributes: nil,
           user_agent: user_agent
@@ -78,6 +80,7 @@ describe CASinoCore::Processor::SessionDestroyer do
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
+          authenticator: 'test',
           username: 'this_is_another_user',
           extra_attributes: nil,
           user_agent: user_agent

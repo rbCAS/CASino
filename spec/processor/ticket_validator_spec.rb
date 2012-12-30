@@ -9,6 +9,7 @@ require 'spec_helper'
       let(:ticket_granting_ticket) {
         CASinoCore::Model::TicketGrantingTicket.create!({
           ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
+          authenticator: 'foo',
           username: 'test',
           extra_attributes: { name: "Example User", roles: ['User', 'Admin'] },
           user_agent: user_agent
