@@ -13,7 +13,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
     end
 
     context 'with a valid login ticket' do
-      let(:login_ticket) { CASinoCore::Model::LoginTicket.create! ticket: "LT-#{Random.rand(10000000)}" }
+      let(:login_ticket) { FactoryGirl.create :login_ticket }
 
       context 'with invalid credentials' do
         it 'calls the #invalid_login_credentials method on the listener' do
