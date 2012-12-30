@@ -26,6 +26,12 @@ RSpec.configure do |config|
 
   SimpleCov.start do
     add_filter '/spec'
+    base_path = "#{File.dirname(__FILE__)}/../"
+    Dir["#{base_path}lib/casino_core/*.rb"].each do |f|
+      f.gsub!(/\A#{base_path}(.+)\.rb\z/, '\1')
+      name = File.basename(f).humanize.pluralize
+      add_group name, f
+    end
   end
 
   CASinoCore.setup 'test'
