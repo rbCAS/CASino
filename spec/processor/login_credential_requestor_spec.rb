@@ -10,6 +10,27 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
         listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
         processor.process
       end
+
+      context 'with gateway parameter' do
+        context 'with a service' do
+          let(:service) { 'http://example.com/' }
+          let(:params) { { service: service, gateway: 'true' } }
+
+          it 'calls the #user_logged_in method on the listener' do
+            listener.should_receive(:user_logged_in).with(service)
+            processor.process(params)
+          end
+        end
+
+        context 'without a service' do
+          let(:params) { { gateway: 'true' } }
+
+          it 'calls the #user_not_logged_in method on the listener' do
+            listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
+            processor.process
+          end
+        end
+      end
     end
 
     context 'when logged in' do

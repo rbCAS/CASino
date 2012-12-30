@@ -28,8 +28,13 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
       end
       @listener.user_logged_in(service_url_with_ticket)
     else
-      login_ticket = acquire_login_ticket
-      @listener.user_not_logged_in(login_ticket)
+      if params[:gateway] == 'true' && params[:service]
+        # we actually lie to the listener to simplify things
+        @listener.user_logged_in(params[:service])
+      else
+        login_ticket = acquire_login_ticket
+        @listener.user_not_logged_in(login_ticket)
+      end
     end
   end
 end
