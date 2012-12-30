@@ -19,6 +19,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'webmock'
   gem 'nokogiri'
+  gem 'factory_girl', '~> 4.1.0'
 end
 
 gem 'activerecord', '~> 3.2.9'
