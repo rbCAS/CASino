@@ -11,7 +11,7 @@ describe CASinoCore::Processor::API::ServiceTicketProvider do
       let(:parameters) { default_parameters.merge(ticket_granting_ticket: 'TGT-INVALID') }
 
       it 'calls the #invalid_tgt_via_api method on the listener' do
-        listener.should_receive(:invalid_ticket_graning_ticket_via_api)
+        listener.should_receive(:invalid_ticket_granting_ticket_via_api)
         processor.process(parameters).should be_false
       end
     end
