@@ -82,6 +82,16 @@ describe API::V1::TicketsController do
   end
 
   describe "DELETE /cas/v1/tickets/TGT-fdsjfsdfjkalfewrihfdhfaie" do
+     before do
+      CASinoCore::Processor::API::Logout.any_instance.should_receive(:process).with('TGT-fdsjfsdfjkalfewrihfdhfaie') do
+        @controller.user_logged_out_via_api
+      end
+      post :destroy, id: 'TGT-fdsjfsdfjkalfewrihfdhfaie'
+    end
+
+    subject { response }
+
+    its(:response_code) { should eq 200 }
   end
 
 end

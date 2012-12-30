@@ -11,8 +11,8 @@ class API::V1::TicketsController < ApplicationController
   end
 
   # DELETE /cas/v1/tickets/TGT-fdsjfsdfjkalfewrihfdhfaie
-  def delete
-
+  def destroy
+    CASinoCore::Processor::API::Logout.new(self).process(params[:id])
   end
 
   # callbacks
@@ -34,6 +34,10 @@ class API::V1::TicketsController < ApplicationController
 
   def no_service_provided_via_api
     error_response
+  end
+
+  def user_logged_out_via_api
+    render nothing: true, status: 200
   end
 
   private
