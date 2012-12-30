@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "1.0.3"
+  s.version = "1.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
-  s.date = "2012-12-29"
+  s.date = "2012-12-30"
   s.description = "A CAS server core library."
   s.email = "ncaspar@me.com"
   s.extra_rdoc_files = [
@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
     "db/migrate/20121225231713_no_default_granter_type.rb",
     "db/migrate/20121226192211_fix_index_for_granter_on_proxy_granting_ticket.rb",
     "db/migrate/20121226211511_allow_service_tickets_without_ticket_granting_ticket.rb",
+    "db/migrate/20121231114141_add_authenticator_to_ticket_granting_tickets.rb",
     "db/schema.rb",
     "lib/casino_core.rb",
     "lib/casino_core/authenticator.rb",
@@ -101,7 +102,12 @@ Gem::Specification.new do |s|
     "spec/processor/session_destroyer_spec.rb",
     "spec/processor/session_overview_spec.rb",
     "spec/processor/ticket_validator_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "spec/support/factories/login_ticket_factory.rb",
+    "spec/support/factories/proxy_granting_ticket_factory.rb",
+    "spec/support/factories/proxy_ticket_factory.rb",
+    "spec/support/factories/service_ticket_factory.rb",
+    "spec/support/factories/ticket_granting_ticket_factory.rb"
   ]
   s.homepage = "http://github.com/pencil/CASinoCore"
   s.licenses = ["MIT"]
@@ -126,6 +132,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<database_cleaner>, [">= 0"])
       s.add_development_dependency(%q<webmock>, [">= 0"])
       s.add_development_dependency(%q<nokogiri>, [">= 0"])
+      s.add_development_dependency(%q<factory_girl>, ["~> 4.1.0"])
     else
       s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
       s.add_dependency(%q<addressable>, ["~> 2.3.2"])
@@ -140,6 +147,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<database_cleaner>, [">= 0"])
       s.add_dependency(%q<webmock>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
+      s.add_dependency(%q<factory_girl>, ["~> 4.1.0"])
     end
   else
     s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
@@ -155,6 +163,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<database_cleaner>, [">= 0"])
     s.add_dependency(%q<webmock>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
+    s.add_dependency(%q<factory_girl>, ["~> 4.1.0"])
   end
 end
 
