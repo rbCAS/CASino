@@ -5,12 +5,8 @@ require 'spec_helper'
     describe '#process' do
       let(:listener) { Object.new }
       let(:processor) { described_class.new(listener) }
-      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
-      let(:user_agent) { ticket_granting_ticket.user_agent }
-      let(:service) { 'https://www.example.com/cas-service' }
-      let(:service_ticket) { ticket_granting_ticket.service_tickets.create! ticket: 'ST-2nOcXx56dtPTsB069yYf0h', service: service }
-      let(:parameters) { { service: service, ticket: service_ticket.ticket }}
-
+      let(:service_ticket) { FactoryGirl.create :service_ticket }
+      let(:parameters) { { service: service_ticket.service, ticket: service_ticket.ticket }}
       let(:regex_failure) { /\A\<cas\:serviceResponse.*\n.*authenticationFailure/ }
       let(:regex_success) { /\A\<cas\:serviceResponse.*\n.*authenticationSuccess/ }
 
@@ -36,7 +32,7 @@ require 'spec_helper'
         context 'with empty query values' do
           it 'calls the #validation_succeeded method on the listener' do
             listener.should_receive(:validation_succeeded).with(regex_success)
-            processor.process(parameters.merge(service: "#{service}/?"))
+            processor.process(parameters.merge(service: "#{service_ticket.service}/?"))
           end
         end
 

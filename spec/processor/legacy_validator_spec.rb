@@ -4,11 +4,8 @@ describe CASinoCore::Processor::LegacyValidator do
   describe '#process' do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }
-    let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
-    let(:user_agent) { ticket_granting_ticket.user_agent }
-    let(:service) { 'https://example.com/cas-service' }
-    let(:service_ticket) { ticket_granting_ticket.service_tickets.create! ticket: 'ST-2nOcXx56dtPTsB069yYf0h', service: service }
-    let(:parameters) { { service: service, ticket: service_ticket.ticket }}
+    let(:service_ticket) { FactoryGirl.create :service_ticket }
+    let(:parameters) { { service: service_ticket.service, ticket: service_ticket.ticket }}
 
     before(:each) do
       listener.stub(:validation_failed)

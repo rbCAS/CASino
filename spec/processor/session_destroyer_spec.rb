@@ -15,15 +15,8 @@ describe CASinoCore::Processor::SessionDestroyer do
 
     context 'with an existing ticket-granting ticket' do
       let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
-      let(:service_ticket) {
-        ticket_granting_ticket.service_tickets.create! ticket: 'ST-6NBRr5DAg2NW181H5chaHh', service: 'http://www.example.com'
-      }
-      let(:consumed_service_ticket) {
-        st = ticket_granting_ticket.service_tickets.create! ticket: 'ST-6NBRr5DAg2NW181H5chaHh', service: 'http://www.example.com'
-        st.consumed = true
-        st.save!
-        st
-      }
+      let(:service_ticket) { FactoryGirl.create :service_ticket, ticket_granting_ticket: ticket_granting_ticket }
+      let(:consumed_service_ticket) { FactoryGirl.create :service_ticket, :consumed, ticket_granting_ticket: ticket_granting_ticket }
       let(:params) { { id: ticket_granting_ticket.id } }
 
       it 'deletes only one ticket-granting ticket' do

@@ -2,9 +2,8 @@ require 'spec_helper'
 require 'nokogiri'
 
 describe CASinoCore::Model::ServiceTicket::SingleSignOutNotifier do
-  let(:ticket) { 'ST-123456' }
-  let(:service) { 'http://www.example.org/' }
-  let(:service_ticket) { CASinoCore::Model::ServiceTicket.create ticket: ticket, service: service }
+  let(:service_ticket) { FactoryGirl.create :service_ticket }
+  let(:service) { service_ticket.service }
   let(:notifier) { described_class.new service_ticket }
 
   describe '#notify' do
@@ -18,7 +17,7 @@ describe CASinoCore::Model::ServiceTicket::SingleSignOutNotifier do
         post_params = CGI.parse(request.body)
         post_params.should_not be_nil
         xml = Nokogiri::XML post_params['logoutRequest'].first
-        xml.at_xpath('/samlp:LogoutRequest/samlp:SessionIndex').text.strip.should == service_ticket.ticket
+        xml.at_xpath('/samlp:LogoutRequest/samlp:SessionIndex').text.should == service_ticket.ticket
       }
     end
 

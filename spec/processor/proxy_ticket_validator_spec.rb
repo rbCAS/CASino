@@ -8,8 +8,7 @@ describe CASinoCore::Processor::ProxyTicketValidator do
     let(:regex_success) { /\A<cas:serviceResponse.*\n.*authenticationSuccess/ }
 
     context 'with an unconsumed proxy ticket' do
-      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
-      let(:service_ticket) { ticket_granting_ticket.service_tickets.create! ticket: 'ST-2nOcXx56dtPTsB069yYf0h', service: 'http://www.example.com/' }
+      let(:service_ticket) { FactoryGirl.create :service_ticket }
       let(:proxy_granting_ticket) {
         service_ticket.proxy_granting_tickets.create! ticket: 'PGT-OIE42ZadV3B9VcaG2xMjAf', iou: 'PGTIOU-PYg4CCPQHNyyS9s6bJF6Rg', pgt_url: 'https://www.example.com/pgtUrl'
       }
