@@ -12,6 +12,15 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
       end
     end
 
+    context 'with an expired login ticket' do
+      let(:expired_login_ticket) { FactoryGirl.create :login_ticket, :expired }
+
+      it 'calls the #invalid_login_ticket method on the listener' do
+        listener.should_receive(:invalid_login_ticket).with(kind_of(CASinoCore::Model::LoginTicket))
+        processor.process(lt: expired_login_ticket.ticket)
+      end
+    end
+
     context 'with a valid login ticket' do
       let(:login_ticket) { FactoryGirl.create :login_ticket }
 

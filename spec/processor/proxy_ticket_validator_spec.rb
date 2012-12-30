@@ -7,6 +7,16 @@ describe CASinoCore::Processor::ProxyTicketValidator do
   describe '#process' do
     let(:regex_success) { /\A<cas:serviceResponse.*\n.*authenticationSuccess/ }
 
+    context 'with a login ticket' do
+      let(:login_ticket) { FactoryGirl.create :login_ticket }
+      let(:parameters) { { ticket: login_ticket.ticket, service: 'http://www.example.org/' } }
+
+      it 'calls the #validation_failed method on the listener' do
+        listener.should_receive(:validation_failed)
+        processor.process(parameters)
+      end
+    end
+
     context 'with an unconsumed proxy ticket' do
       let(:proxy_ticket) { FactoryGirl.create :proxy_ticket }
       let(:parameters) { { ticket: proxy_ticket.ticket, service: proxy_ticket.service } }

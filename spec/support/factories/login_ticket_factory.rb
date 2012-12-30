@@ -9,5 +9,8 @@ FactoryGirl.define do
     trait :consumed do
       consumed true
     end
+    trait :expired do
+      created_at 601.seconds.ago
+    end
   end
 end

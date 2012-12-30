@@ -15,6 +15,19 @@ require 'spec_helper'
         listener.stub(:validation_succeeded)
       end
 
+      context 'without all required parameters' do
+        [:ticket, :service].each do |missing_parameter|
+          let(:invalid_parameters) { parameters.except(missing_parameter) }
+
+          context "without '#{missing_parameter}'" do
+            it 'calls the #validation_failed method on the listener' do
+              listener.should_receive(:validation_failed).with(regex_failure)
+              processor.process(invalid_parameters)
+            end
+          end
+        end
+      end
+
       context 'with an unconsumed service ticket' do
         context 'without renew flag' do
           it 'consumes the service ticket' do
