@@ -3,6 +3,7 @@ require 'addressable/uri'
 module CASinoCore
   module Helper
     module TicketGrantingTickets
+
       include CASinoCore::Helper::Browser
       include CASinoCore::Helper::Logger
 
@@ -19,6 +20,18 @@ module CASinoCore
           end
         end
       end
+
+      def acquire_ticket_granting_ticket(authentication_result, user_agent = nil)
+        user_data = authentication_result[:user_data]
+        CASinoCore::Model::TicketGrantingTicket.create!({
+          ticket: random_ticket_string('TGC'),
+          authenticator: authentication_result[:authenticator],
+          username: user_data[:username],
+          extra_attributes: user_data[:extra_attributes],
+          user_agent: user_agent
+        })
+      end
+
     end
   end
 end
