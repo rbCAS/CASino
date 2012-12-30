@@ -12,6 +12,8 @@ module CASinoCore
     autoload :SessionDestroyer, 'casino_core/processor/session_destroyer.rb'
     autoload :SessionOverview, 'casino_core/processor/session_overview.rb'
 
+    autoload :API, 'casino_core/processor/api.rb'
+
     def initialize(listener)
       @listener = listener
     end
