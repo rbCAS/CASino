@@ -12,12 +12,10 @@ class CASinoCore::Processor::API::LoginCredentialAcceptor < CASinoCore::Processo
   # in "password".
   #
   # The method will call one of the following methods on the listener:
-  # * `#api_user_logged_in`:
-  # * `#api_invalid_login_credentials`:
+  # * `#user_logged_in_via_api`: First and only argument is a String with the TGT-id
+  # * `#invalid_login_credentials_via_api`: No argument
   #
-  # @param [Hash] params parameters supplied by user
-  # @param [Hash] cookies cookies supplied by user
-  # @param [String] user_agent user-agent delivered by the client
+  # @param [Hash] login_data parameters supplied by user (username and password)
   def process(login_data)
     @login_data = login_data
 
