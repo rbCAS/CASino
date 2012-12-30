@@ -7,7 +7,7 @@ FactoryGirl.define do
     end
     authenticator 'test'
     username 'test'
-    extra_attributes nil
+    extra_attributes({ fullname: "Test User", age: 15, roles: [:user] })
     user_agent 'TestBrowser 1.0'
   end
 end
