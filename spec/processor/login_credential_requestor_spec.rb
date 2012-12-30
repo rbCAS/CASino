@@ -13,16 +13,8 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
     end
 
     context 'when logged in' do
-      let(:user_agent) { 'TestBrowser 1.0' }
-      let(:ticket_granting_ticket) {
-        CASinoCore::Model::TicketGrantingTicket.create!({
-          ticket: 'TGC-9H6Vx4850i2Ksp3R8hTCwO',
-          authenticator: 'test',
-          username: 'test',
-          extra_attributes: nil,
-          user_agent: user_agent
-        })
-      }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
       let(:cookies) { { tgt: ticket_granting_ticket.ticket } }
 
       before(:each) do
@@ -65,9 +57,11 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
         end
 
         context 'with a changed browser' do
+          let(:user_agent) { 'FooBar 1.0' }
+
           it 'calls the #user_not_logged_in method on the listener' do
             listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
-            processor.process(nil, cookies)
+            processor.process(nil, cookies, user_agent)
           end
         end
       end

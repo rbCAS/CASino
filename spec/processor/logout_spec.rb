@@ -7,23 +7,15 @@ describe CASinoCore::Processor::Logout do
     let(:cookies) { { tgt: tgt } }
     let(:url) { nil }
     let(:params) { { :url => url } unless url.nil? }
-    let(:user_agent) { 'TestBrowser 1.0' }
 
     before(:each) do
       listener.stub(:user_logged_out)
     end
 
     context 'with an existing ticket-granting ticket' do
-      let(:ticket_granting_ticket) {
-        CASinoCore::Model::TicketGrantingTicket.create!({
-          ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
-          authenticator: 'test',
-          username: 'test',
-          extra_attributes: nil,
-          user_agent: user_agent
-        })
-      }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
       let(:tgt) { ticket_granting_ticket.ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
 
       it 'deletes the ticket-granting ticket' do
         processor.process(params, cookies, user_agent)

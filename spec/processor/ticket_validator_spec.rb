@@ -5,16 +5,8 @@ require 'spec_helper'
     describe '#process' do
       let(:listener) { Object.new }
       let(:processor) { described_class.new(listener) }
-      let(:user_agent) { 'TestBrowser 1.0' }
-      let(:ticket_granting_ticket) {
-        CASinoCore::Model::TicketGrantingTicket.create!({
-          ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
-          authenticator: 'foo',
-          username: 'test',
-          extra_attributes: { name: "Example User", roles: ['User', 'Admin'] },
-          user_agent: user_agent
-        })
-      }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
       let(:service) { 'https://www.example.com/cas-service' }
       let(:service_ticket) { ticket_granting_ticket.service_tickets.create! ticket: 'ST-2nOcXx56dtPTsB069yYf0h', service: service }
       let(:parameters) { { service: service, ticket: service_ticket.ticket }}

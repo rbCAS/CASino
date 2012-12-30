@@ -4,16 +4,8 @@ describe CASinoCore::Processor::SessionOverview do
   describe '#process' do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }
-    let(:user_agent) { 'TestBrowser 1.0' }
-    let(:other_ticket_granting_ticket) {
-      CASinoCore::Model::TicketGrantingTicket.create!({
-        ticket: 'TGC-ocCudGzZjJtrvOXJ485mt3',
-        authenticator: 'test',
-        username: 'test',
-        extra_attributes: nil,
-        user_agent: user_agent
-      })
-    }
+    let(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+    let(:user_agent) { other_ticket_granting_ticket.user_agent }
     let(:cookies) { { tgt: tgt } }
 
     before(:each) do
@@ -23,15 +15,7 @@ describe CASinoCore::Processor::SessionOverview do
     end
 
     context 'with an existing ticket-granting ticket' do
-      let(:ticket_granting_ticket) {
-        CASinoCore::Model::TicketGrantingTicket.create!({
-          ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
-          authenticator: 'test',
-          username: 'test',
-          extra_attributes: nil,
-          user_agent: user_agent
-        })
-      }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
       let(:tgt) { ticket_granting_ticket.ticket }
       it 'calls the #ticket_granting_tickets_found method on the listener' do
         listener.should_receive(:ticket_granting_tickets_found) do |tickets|
@@ -42,15 +26,7 @@ describe CASinoCore::Processor::SessionOverview do
     end
 
     context 'with a ticket-granting ticket with same username but different authenticator' do
-      let(:ticket_granting_ticket) {
-        CASinoCore::Model::TicketGrantingTicket.create!({
-          ticket: 'TGC-Xz9iea8ro7O5eR99e54vWN',
-          authenticator: 'lala',
-          username: 'test',
-          extra_attributes: nil,
-          user_agent: user_agent
-        })
-      }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, authenticator: 'other' }
       let(:tgt) { ticket_granting_ticket.ticket }
 
       it 'calls the #ticket_granting_tickets_found method on the listener' do

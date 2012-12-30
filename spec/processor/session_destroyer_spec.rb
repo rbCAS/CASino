@@ -4,16 +4,8 @@ describe CASinoCore::Processor::SessionDestroyer do
   describe '#process' do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }
-    let(:user_agent) { 'TestBrowser 1.0' }
-    let(:owner_ticket_granting_ticket) {
-      CASinoCore::Model::TicketGrantingTicket.create!({
-        ticket: 'TGC-ocCudGzZjJtrvOXJ485mt3',
-        authenticator: 'test',
-        username: 'test',
-        extra_attributes: nil,
-        user_agent: user_agent
-      })
-    }
+    let(:owner_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+    let(:user_agent) { owner_ticket_granting_ticket.user_agent }
     let(:cookies) { { tgt: owner_ticket_granting_ticket.ticket } }
 
     before(:each) do
@@ -22,15 +14,7 @@ describe CASinoCore::Processor::SessionDestroyer do
     end
 
     context 'with an existing ticket-granting ticket' do
-      let(:ticket_granting_ticket) {
-        CASinoCore::Model::TicketGrantingTicket.create!({
-          ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
-          authenticator: 'test',
-          username: 'test',
-          extra_attributes: nil,
-          user_agent: user_agent
-        })
-      }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
       let(:service_ticket) {
         ticket_granting_ticket.service_tickets.create! ticket: 'ST-6NBRr5DAg2NW181H5chaHh', service: 'http://www.example.com'
       }
@@ -77,15 +61,7 @@ describe CASinoCore::Processor::SessionDestroyer do
     end
 
     context 'when trying to delete ticket-granting ticket of another user' do
-      let(:ticket_granting_ticket) {
-        CASinoCore::Model::TicketGrantingTicket.create!({
-          ticket: 'TGC-HXdkW233TsRtiqYGq4b8U7',
-          authenticator: 'test',
-          username: 'this_is_another_user',
-          extra_attributes: nil,
-          user_agent: user_agent
-        })
-      }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, username: 'other_user' }
       let(:params) { { id: ticket_granting_ticket.id } }
 
       it 'does not delete a ticket-granting ticket' do
