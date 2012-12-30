@@ -8,14 +8,11 @@ describe CASinoCore::Processor::ProxyTicketValidator do
     let(:regex_success) { /\A<cas:serviceResponse.*\n.*authenticationSuccess/ }
 
     context 'with an unconsumed proxy ticket' do
-      let(:service_ticket) { FactoryGirl.create :service_ticket }
-      let(:proxy_granting_ticket) {
-        service_ticket.proxy_granting_tickets.create! ticket: 'PGT-OIE42ZadV3B9VcaG2xMjAf', iou: 'PGTIOU-PYg4CCPQHNyyS9s6bJF6Rg', pgt_url: 'https://www.example.com/pgtUrl'
-      }
+      let(:proxy_granting_ticket) { FactoryGirl.create :proxy_granting_ticket }
       let(:proxy_service) { 'imaps://127.0.0.1:4578/' }
       let(:proxy_ticket) { proxy_granting_ticket.proxy_tickets.create! ticket: 'PT-8nA7vuxuNY7RcpVoaDvuZi', service: proxy_service }
       let(:parameters) { { ticket: proxy_ticket.ticket, service: proxy_service } }
-      let(:regex_proxy) { /<cas:proxies>\s*<cas:proxy>https:\/\/www.example.com\/pgtUrl<\/cas:proxy>\s*<\/cas:proxies[>]/ }
+      let(:regex_proxy) { /<cas:proxies>\s*<cas:proxy>#{proxy_granting_ticket.pgt_url}<\/cas:proxy>\s*<\/cas:proxies>/ }
 
       it 'calls the #validation_succeeded method on the listener' do
         listener.should_receive(:validation_succeeded).with(regex_success)

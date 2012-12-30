@@ -40,10 +40,7 @@ describe CASinoCore::Processor::ProxyTicketProvider do
     end
 
     context 'with a proxy-granting ticket' do
-      let(:service_ticket) { FactoryGirl.create :service_ticket }
-      let(:proxy_granting_ticket) {
-        service_ticket.proxy_granting_tickets.create! ticket: 'PGT-OIE42ZadV3B9VcaG2xMjAf', iou: 'PGTIOU-PYg4CCPQHNyyS9s6bJF6Rg', pgt_url: 'https://www.example.com/pgtUrl'
-      }
+      let(:proxy_granting_ticket) { FactoryGirl.create :proxy_granting_ticket }
       let(:params_with_valid_pgt) { params.merge(pgt: proxy_granting_ticket.ticket) }
 
       it 'calls the #request_succeeded method on the listener' do
