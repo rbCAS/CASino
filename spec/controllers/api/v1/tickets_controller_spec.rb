@@ -6,8 +6,8 @@ describe API::V1::TicketsController do
     context "with correct credentials" do
 
       before do
-        CASinoCore::Processor::LoginCredentialRequestor.any_instance.should_receive(:process) do
-          @controller.user_logged_in nil, "TGT-long-string"
+        CASinoCore::Processor::API::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+          @controller.user_logged_in_via_api "TGT-long-string"
         end
 
         post :create, params: {username: 'valid', password: 'valid'}
@@ -21,8 +21,8 @@ describe API::V1::TicketsController do
     context "with incorrect credentials" do
 
       before do
-        CASinoCore::Processor::LoginCredentialRequestor.any_instance.should_receive(:process) do
-          @controller.invalid_login_credentials mock()
+        CASinoCore::Processor::API::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+          @controller.invalid_login_credentials_via_api
         end
 
         post :create, params: {username: 'invalid', password: 'invalid'}
