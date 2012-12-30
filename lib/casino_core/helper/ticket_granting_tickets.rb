@@ -32,6 +32,10 @@ module CASinoCore
         })
       end
 
+      def remove_ticket_granting_ticket(ticket_granting_ticket)
+        ticket_granting_ticket.destroy
+      end
+
     end
   end
 end
