@@ -36,6 +36,7 @@ class API::V1::TicketsController < ApplicationController
     error_response
   end
 
+  private
   def error_response
     render nothing: true, status: 400
   end
