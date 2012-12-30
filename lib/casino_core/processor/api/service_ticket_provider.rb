@@ -9,9 +9,9 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   include CASinoCore::Helper::TicketGrantingTickets
 
 
-  def process(ticket_granting_ticket, service_url)
-    @client_ticket_granting_ticket = ticket_granting_ticket
-    @service_url = service_url
+  def process(parameters)
+    @client_ticket_granting_ticket = parameters[:ticket_granting_ticket]
+    @service_url = parameters[:service]
 
     fetch_valid_ticket_granting_ticket
     handle_ticket_granting_ticket
@@ -23,16 +23,31 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   end
 
   def handle_ticket_granting_ticket
-    if @ticket_granting_ticket
+    case
+    when (@service_url and @ticket_granting_ticket)
       create_service_ticket
-      @listener.granted_service_ticket_via_api @service_ticket.ticket
-    else
-      @listener.invalid_tgt_via_api
+      callback_granted_service_ticket
+    when (@service_url and not @ticket_granting_ticket)
+      callback_invalid_tgt
+    when (not @service_url and @ticket_granting_ticket)
+      callback_empty_service
     end
   end
 
   def create_service_ticket
     @service_ticket = acquire_service_ticket(@ticket_granting_ticket, @service_url)
+  end
+
+  def callback_granted_service_ticket
+    @listener.granted_service_ticket_via_api @service_ticket.ticket
+  end
+
+  def callback_invalid_tgt
+    @listener.invalid_tgt_via_api
+  end
+
+  def callback_empty_service
+    @listener.no_service_provided_via_api
   end
 
 end
