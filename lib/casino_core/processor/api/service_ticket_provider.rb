@@ -12,7 +12,7 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   #
   # The method will call one of the following methods on the listener:
   # * `#granted_service_ticket_via_api`: First and only argument is a String with the TS-id
-  # * `#invalid_tgt_via_api`: No argument
+  # * `#invalid_ticket_granting_ticket_via_api`: No argument
   # * `#no_service_provided_via_api`: No argument
   #
   # @param [Hash] parameters parameters supplied by user (ticket granting ticket and service url)
@@ -50,7 +50,7 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   end
 
   def callback_invalid_tgt
-    @listener.invalid_tgt_via_api
+    @listener.invalid_ticket_granting_ticket_via_api
   end
 
   def callback_empty_service
