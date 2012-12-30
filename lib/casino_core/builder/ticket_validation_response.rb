@@ -37,8 +37,6 @@ class CASinoCore::Builder::TicketValidationResponse < CASinoCore::Builder
   def serialize_extra_attribute(builder, key, value)
     if value.kind_of?(String) || value.kind_of?(Numeric) || value.kind_of?(Symbol)
       builder.cas key, "#{value}"
-    elsif value.kind_of?(Numeric)
-      builder.cas key, value.to_s
     else
       builder.cas key do |container|
         container.cdata! value.to_yaml
