@@ -11,15 +11,19 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   # Use this method to process the request.
   #
   # The method will call one of the following methods on the listener:
-  # * `#granted_service_ticket_via_api`: First and only argument is a String with the ST-id
-  # * `#invalid_ticket_granting_ticket_via_api`: No argument
-  # * `#no_service_provided_via_api`: No argument
+  # * `#granted_service_ticket_via_api`: First and only argument is a String with the service ticket.
+  #   The service ticket (and nothing else) should be displayed.
+  # * `#invalid_ticket_granting_ticket_via_api`: No argument. The application should respond with status "400 Bad Request"
+  # * `#no_service_provided_via_api`: No argument. The application should respond with status "400 Bad Request"
   #
   # @param [String] ticket_granting_ticket ticket_granting_ticket supplied by the user in the URL
-  # @param [Hash] parameters parameters supplied by user (ticket granting ticket and service url)
-  def process(ticket_granting_ticket, parameters)
+  # @param [Hash] parameters parameters supplied by user (`service` in particular)
+  # @param [String] user_agent user-agent delivered by the client
+  def process(ticket_granting_ticket, parameters = nil, user_agent = nil)
+    parameters ||= {}
     @client_ticket_granting_ticket = ticket_granting_ticket
     @service_url = parameters[:service]
+    @user_agent = user_agent
 
     fetch_valid_ticket_granting_ticket
     handle_ticket_granting_ticket
@@ -27,7 +31,7 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
 
   private
   def fetch_valid_ticket_granting_ticket
-    @ticket_granting_ticket = find_valid_ticket_granting_ticket(@client_ticket_granting_ticket, nil)
+    @ticket_granting_ticket = find_valid_ticket_granting_ticket(@client_ticket_granting_ticket, @user_agent)
   end
 
   def handle_ticket_granting_ticket

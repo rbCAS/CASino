@@ -17,17 +17,19 @@ describe CASinoCore::Processor::API::ServiceTicketProvider do
     end
 
     context 'with a valid ticket-granting ticket' do
-      let(:ticket_granting_ticket) { FactoryGirl.create(:ticket_granting_ticket, user_agent: nil).ticket }
+      let(:ticket_granting_ticket) { FactoryGirl.create(:ticket_granting_ticket) }
+      let(:ticket) { ticket_granting_ticket.ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
 
       it 'calls the #granted_service_ticket_via_api method on the listener' do
         listener.should_receive(:granted_service_ticket_via_api).with(/^ST\-/)
-        processor.process(ticket_granting_ticket, parameters)
+        processor.process(ticket, parameters, user_agent)
       end
 
       it 'generates a ticket-granting ticket' do
         listener.should_receive(:granted_service_ticket_via_api).with(/^ST\-/)
         expect {
-          processor.process(ticket_granting_ticket, parameters)
+          processor.process(ticket, parameters, user_agent)
         }.to change(CASinoCore::Model::ServiceTicket, :count).by(1)
       end
 
@@ -36,7 +38,7 @@ describe CASinoCore::Processor::API::ServiceTicketProvider do
 
         it 'calls the #no_service_provided_via_api method on the listener' do
           listener.should_receive(:no_service_provided_via_api)
-          processor.process(ticket_granting_ticket, parameters)
+          processor.process(ticket, parameters, user_agent)
         end
       end
 
