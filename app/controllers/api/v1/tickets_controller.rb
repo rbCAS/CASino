@@ -2,17 +2,17 @@ class API::V1::TicketsController < ApplicationController
 
   # POST /cas/v1/tickets
   def create
-    CASinoCore::Processor::API::LoginCredentialAcceptor.new(self).process(params)
+    CASinoCore::Processor::API::LoginCredentialAcceptor.new(self).process(params, request.user_agent)
   end
 
   # POST /cas/v1/tickets/{TGT id}
   def update
-    CASinoCore::Processor::API::ServiceTicketProvider.new(self).process(params[:id], {service: params[:service]})
+    CASinoCore::Processor::API::ServiceTicketProvider.new(self).process(params[:id], params, request.user_agent)
   end
 
   # DELETE /cas/v1/tickets/TGT-fdsjfsdfjkalfewrihfdhfaie
   def destroy
-    CASinoCore::Processor::API::Logout.new(self).process(params[:id])
+    CASinoCore::Processor::API::Logout.new(self).process(params[:id], request.user_agent)
   end
 
   # callbacks
@@ -44,7 +44,5 @@ class API::V1::TicketsController < ApplicationController
   def error_response
     render nothing: true, status: 400
   end
-
-
 
 end

@@ -38,7 +38,8 @@ describe API::V1::TicketsController do
     context "with a valid TGT" do
 
       before do
-        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-valid', {service: 'http://example.org/'}) do
+        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-valid', kind_of(Hash), request.user_agent) do |ticket, params|
+          params.should == controller.params
           @controller.granted_service_ticket_via_api 'ST-1-VALIDSERVICETICKET'
         end
         post :update, id: 'TGT-valid', service: 'http://example.org/'
@@ -53,7 +54,8 @@ describe API::V1::TicketsController do
     context "with an invalid TGT" do
 
       before do
-        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-invalid', {service: 'http://example.org/'}) do
+        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-invalid', kind_of(Hash), request.user_agent) do |ticket, params|
+          params.should == controller.params
           @controller.invalid_ticket_granting_ticket_via_api
         end
         post :update, id: 'TGT-invalid', service: 'http://example.org/'
@@ -68,7 +70,8 @@ describe API::V1::TicketsController do
     context "without a service" do
 
       before do
-        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-valid', {service: nil}) do
+        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-valid', kind_of(Hash), request.user_agent) do |ticket, params|
+          params.should == controller.params
           @controller.no_service_provided_via_api
         end
         post :update, id: 'TGT-valid'
@@ -83,7 +86,7 @@ describe API::V1::TicketsController do
 
   describe "DELETE /cas/v1/tickets/TGT-fdsjfsdfjkalfewrihfdhfaie" do
      before do
-      CASinoCore::Processor::API::Logout.any_instance.should_receive(:process).with('TGT-fdsjfsdfjkalfewrihfdhfaie') do
+      CASinoCore::Processor::API::Logout.any_instance.should_receive(:process).with('TGT-fdsjfsdfjkalfewrihfdhfaie', request.user_agent) do
         @controller.user_logged_out_via_api
       end
       post :destroy, id: 'TGT-fdsjfsdfjkalfewrihfdhfaie'
