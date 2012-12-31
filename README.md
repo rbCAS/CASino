@@ -1,4 +1,4 @@
-# CASinoCore [![Build Status](https://secure.travis-ci.org/pencil/CASinoCore.png?branch=master)](https://travis-ci.org/pencil/CASinoCore)
+# CASinoCore [![Build Status](https://secure.travis-ci.org/rbCAS/CASinoCore.png?branch=master)](https://travis-ci.org/pencil/CASinoCore)
 
 A CAS server core library.
 
