@@ -16,8 +16,9 @@ class CASinoCore::Processor::API::LoginCredentialAcceptor < CASinoCore::Processo
   # * `#invalid_login_credentials_via_api`: No argument
   #
   # @param [Hash] login_data parameters supplied by user (username and password)
-  def process(login_data)
+  def process(login_data, user_agent = nil)
     @login_data = login_data
+    @user_agent = user_agent
 
     validate_login_data
 
@@ -39,7 +40,7 @@ class CASinoCore::Processor::API::LoginCredentialAcceptor < CASinoCore::Processo
   end
 
   def generate_ticket_granting_ticket
-    @ticket_granting_ticket = acquire_ticket_granting_ticket(@authentication_result)
+    @ticket_granting_ticket = acquire_ticket_granting_ticket(@authentication_result, @user_agent)
   end
 
   def callback_invalid_login_credentials
