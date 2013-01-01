@@ -1,5 +1,5 @@
-class SessionsController < ApplicationController
-  include SessionsHelper
+class CASino::SessionsController < CASino::ApplicationController
+  include CASino::SessionsHelper
 
   def index
     processor(:SessionOverview).process(cookies, request.user_agent)

@@ -1,7 +1,9 @@
-require 'casino/listener'
+require 'casino'
 require 'casino_core'
 
-class ApplicationController < ActionController::Base
+class CASino::ApplicationController < ::ApplicationController
+  layout 'application'
+
   include ApplicationHelper
 
   def cookies

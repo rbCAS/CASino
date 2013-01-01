@@ -13,15 +13,39 @@ This simplifies the creation of a CAS server implementation for other developers
 
 ## Setup
 
-* Clone the project
-* Customize the design (`app/assets/stylesheets`, `app/views/layouts`) and configurations (`config/cas.yml`, `config/database.yml`)
-* Deploy it using capistrano, git, Jenkins, ...
-* Load the default DB schema: `DATABASE_ENV=production rake casino_core:db:schema:load` (after an update: run `DATABASE_ENV=production rake casino_core:db:migrate` instead)
-* Configure a cronjob to do a `DATABASE_ENV=production rake casino_core:cleanup:all > /dev/null` every 5 minutes
+### 1. Create a Ruby on Rails application
 
-## Authenticators
+Make sure you installed Ruby on Rails 3.2.x!
 
-Work in progress... See `CASinoCore::Authenticator::Static` if you would like to implement an authenticator
+    rails new my-casino --skip-active-record --skip-test-unit --skip-bundle
+    cd my-casino
+
+### 2. Include and install CASino engine gem
+
+Edit your application's Gemfile and add these lines if missing:
+
+    gem 'casino', :require => 'casino/engine'
+
+Run `bundle install` afterwards
+
+### 3. Generate the initial configuration
+
+    bundle exec rake casino:setup
+
+### 4. Edit the configuration
+
+    mate config/cas.yml
+    mate config/database.yml
+
+Information about configuration can be found in our Wiki: [Configuration](https://github.com/pencil/CASino/wiki/Configuration)
+
+### 5. Load the database
+
+Load the default DB schema with `rake casino_core:db:schema:load`. After an update, run `rake casino_core:db:migrate` instead.
+
+### 6. Configure a cronjob
+
+Configure a cronjob to do a `rake casino_core:cleanup:all > /dev/null` every 5 minutes.
 
 ## Contributing to CASino
 

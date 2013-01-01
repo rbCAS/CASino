@@ -1,4 +1,6 @@
+require 'casino_core'
+
 module CASino
-  autoload :Listener, 'casino/listener.rb'
   autoload :Engine, 'casino/engine.rb'
+  autoload :Listener, 'casino/listener.rb'
 end

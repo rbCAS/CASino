@@ -1,4 +1,4 @@
-class ProxyTicketsController < ApplicationController
+class CASino::ProxyTicketsController < CASino::ApplicationController
   def proxy_validate
     processor(:ProxyTicketValidator, :TicketValidator).process(params)
   end

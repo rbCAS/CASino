@@ -1,4 +1,4 @@
-class ServiceTicketsController < ApplicationController
+class CASino::ServiceTicketsController < CASino::ApplicationController
   def validate
     processor(:LegacyValidator).process(params)
   end
