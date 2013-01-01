@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "1.0.7"
+  s.version = "1.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
@@ -110,6 +110,7 @@ Gem::Specification.new do |s|
     "spec/processor/session_destroyer_spec.rb",
     "spec/processor/session_overview_spec.rb",
     "spec/processor/ticket_validator_spec.rb",
+    "spec/settings_spec.rb",
     "spec/spec_helper.rb",
     "spec/support/factories/login_ticket_factory.rb",
     "spec/support/factories/proxy_granting_ticket_factory.rb",
@@ -127,6 +128,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<casino_core>, [">= 0"])
       s.add_runtime_dependency(%q<activerecord>, ["~> 3.2.9"])
       s.add_runtime_dependency(%q<addressable>, ["~> 2.3.2"])
       s.add_runtime_dependency(%q<useragent>, ["~> 0.4.13"])
@@ -141,7 +143,19 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<webmock>, [">= 0"])
       s.add_development_dependency(%q<nokogiri>, [">= 0"])
       s.add_development_dependency(%q<factory_girl>, ["~> 4.1.0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.2.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_development_dependency(%q<redcarpet>, [">= 0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.8.3"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.12.0"])
+      s.add_development_dependency(%q<simplecov>, ["~> 0.7.1"])
+      s.add_development_dependency(%q<sqlite3>, [">= 0"])
+      s.add_development_dependency(%q<database_cleaner>, [">= 0"])
+      s.add_development_dependency(%q<webmock>, [">= 0"])
+      s.add_development_dependency(%q<nokogiri>, [">= 0"])
+      s.add_development_dependency(%q<factory_girl>, ["~> 4.1.0"])
     else
+      s.add_dependency(%q<casino_core>, [">= 0"])
       s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
       s.add_dependency(%q<addressable>, ["~> 2.3.2"])
       s.add_dependency(%q<useragent>, ["~> 0.4.13"])
@@ -156,11 +170,34 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<webmock>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<factory_girl>, ["~> 4.1.0"])
+      s.add_dependency(%q<bundler>, ["~> 1.2.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_dependency(%q<redcarpet>, [">= 0"])
+      s.add_dependency(%q<yard>, ["~> 0.8.3"])
+      s.add_dependency(%q<rspec>, ["~> 2.12.0"])
+      s.add_dependency(%q<simplecov>, ["~> 0.7.1"])
+      s.add_dependency(%q<sqlite3>, [">= 0"])
+      s.add_dependency(%q<database_cleaner>, [">= 0"])
+      s.add_dependency(%q<webmock>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 0"])
+      s.add_dependency(%q<factory_girl>, ["~> 4.1.0"])
     end
   else
+    s.add_dependency(%q<casino_core>, [">= 0"])
     s.add_dependency(%q<activerecord>, ["~> 3.2.9"])
     s.add_dependency(%q<addressable>, ["~> 2.3.2"])
     s.add_dependency(%q<useragent>, ["~> 0.4.13"])
+    s.add_dependency(%q<bundler>, ["~> 1.2.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+    s.add_dependency(%q<redcarpet>, [">= 0"])
+    s.add_dependency(%q<yard>, ["~> 0.8.3"])
+    s.add_dependency(%q<rspec>, ["~> 2.12.0"])
+    s.add_dependency(%q<simplecov>, ["~> 0.7.1"])
+    s.add_dependency(%q<sqlite3>, [">= 0"])
+    s.add_dependency(%q<database_cleaner>, [">= 0"])
+    s.add_dependency(%q<webmock>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 0"])
+    s.add_dependency(%q<factory_girl>, ["~> 4.1.0"])
     s.add_dependency(%q<bundler>, ["~> 1.2.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
     s.add_dependency(%q<redcarpet>, [">= 0"])
