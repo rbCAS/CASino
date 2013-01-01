@@ -36,15 +36,15 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  CASinoCore.setup 'test'
-  CASinoCore::Settings.logger.level = ::Logger::Severity::UNKNOWN
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
   end
 
   config.before(:each) do
+    CASinoCore.setup 'test'
+    CASinoCore::Settings.logger.level = ::Logger::Severity::UNKNOWN
+    DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.start
   end
 
