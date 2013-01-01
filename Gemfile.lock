@@ -1,3 +1,11 @@
+PATH
+  remote: .
+  specs:
+    casino_core (1.0.7)
+      activerecord (~> 3.2.9)
+      addressable (~> 2.3.2)
+      useragent (~> 0.4.13)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -61,6 +69,7 @@ DEPENDENCIES
   activerecord (~> 3.2.9)
   addressable (~> 2.3.2)
   bundler (~> 1.2.0)
+  casino_core!
   database_cleaner
   factory_girl (~> 4.1.0)
   jeweler (~> 1.8.4)
