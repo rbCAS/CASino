@@ -19,6 +19,11 @@ module CASinoCore
       config = YAML.load_file('config/cas.yml')[@environment].symbolize_keys
       recursive_symbolize_keys!(config)
       CASinoCore::Settings.init config
+
+      ActiveSupport::Inflector.inflections do |inflect|
+        inflect.acronym 'CAS'
+        inflect.acronym 'CASino'
+      end
     end
 
     private
