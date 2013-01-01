@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CASinoCore::Model::ServiceTicket do
-  let(:ticket) {
+  let(:unconsumed_ticket) {
     ticket = described_class.new ticket: 'ST-12345', service: 'https://example.com/cas-service'
     ticket.ticket_granting_ticket_id = 1
     ticket
@@ -14,14 +14,53 @@ describe CASinoCore::Model::ServiceTicket do
     ticket
   }
 
+  describe '#expired?' do
+    [:unconsumed, :consumed].each do |state|
+      context "with an #{state} ticket" do
+        let(:ticket) { send("#{state}_ticket") }
+
+        context 'with an expired ticket' do
+          before(:each) do
+            ticket.created_at = (CASinoCore::Settings.service_ticket[:"lifetime_#{state}"].seconds + 1).ago
+            ticket.save!
+          end
+
+          it 'returns true' do
+            ticket.expired?.should == true
+          end
+        end
+
+        context 'with an unexpired ticket' do
+          it 'returns false' do
+            ticket.expired?.should == false
+          end
+        end
+      end
+    end
+  end
+
   describe '.cleanup_unconsumed' do
     it 'deletes expired unconsumed service tickets' do
-      ticket.created_at = 10.hours.ago
-      ticket.save!
+      unconsumed_ticket.created_at = 10.hours.ago
+      unconsumed_ticket.save!
       lambda do
         described_class.cleanup_unconsumed
       end.should change(described_class, :count).by(-1)
       described_class.find_by_ticket('ST-12345').should be_false
+    end
+  end
+
+  describe '.cleanup_consumed_hard' do
+    before(:each) do
+      described_class::SingleSignOutNotifier.any_instance.stub(:notify).and_return(false)
+    end
+
+    it 'deletes consumed service tickets with an unreachable Single Sign Out callback server' do
+      consumed_ticket.created_at = 10.days.ago
+      consumed_ticket.save!
+      lambda do
+        described_class.cleanup_consumed_hard
+      end.should change(described_class, :count).by(-1)
     end
   end
 

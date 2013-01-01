@@ -22,6 +22,6 @@ class CASinoCore::Model::ProxyTicket < ActiveRecord::Base
     else
       CASinoCore::Settings.proxy_ticket[:lifetime_unconsumed]
     end
-    Time.now - self.created_at > lifetime
+    (Time.now - (self.created_at || Time.now)) > lifetime
   end
 end

@@ -35,7 +35,7 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
     else
       CASinoCore::Settings.service_ticket[:lifetime_unconsumed]
     end
-    Time.now - self.created_at > lifetime
+    (Time.now - (self.created_at || Time.now)) > lifetime
   end
 
   private
