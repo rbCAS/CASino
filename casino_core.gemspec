@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "casino_core"
-  s.version = "1.0.6"
+  s.version = "1.0.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nils Caspar"]
-  s.date = "2012-12-31"
+  s.date = "2013-01-01"
   s.description = "A CAS server core library."
   s.email = "ncaspar@me.com"
   s.extra_rdoc_files = [
@@ -117,7 +117,7 @@ Gem::Specification.new do |s|
     "spec/support/factories/service_ticket_factory.rb",
     "spec/support/factories/ticket_granting_ticket_factory.rb"
   ]
-  s.homepage = "http://github.com/pencil/CASinoCore"
+  s.homepage = "http://rbcas.org/"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.24"
