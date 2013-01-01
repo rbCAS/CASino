@@ -1,1 +1,3 @@
 language: ruby
+before_script:
+  - "cd spec/dummy && RAILS_ENV=test rake casino_core:db:schema:load"
