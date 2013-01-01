@@ -32,10 +32,24 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
       end
 
       context 'with valid credentials' do
+        let(:service) { 'https://www.example.org' }
         let(:login_data) { { lt: login_ticket.ticket, username: 'testuser', password: 'foobar123', service: service } }
 
         before(:each) do
           listener.stub(:user_logged_in)
+        end
+
+        context 'when all authenticators raise an error' do
+          before(:each) do
+            CASinoCore::Authenticator::Static.any_instance.stub(:validate) do
+              raise CASinoCore::Authenticator::AuthenticatorError, 'error123'
+            end
+          end
+
+          it 'calls the #invalid_login_credentials method on the listener' do
+            listener.should_receive(:invalid_login_credentials).with(kind_of(CASinoCore::Model::LoginTicket))
+            processor.process(login_data)
+          end
         end
 
         context 'without a service' do
@@ -43,7 +57,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
           it 'calls the #user_logged_in method on the listener' do
             listener.should_receive(:user_logged_in).with(nil, /^TGC\-/)
-            processor.process(lt: login_ticket.ticket, username: 'testuser', password: 'foobar123')
+            processor.process(login_data)
           end
 
           it 'generates a ticket-granting ticket' do
