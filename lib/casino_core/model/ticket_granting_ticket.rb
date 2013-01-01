@@ -10,8 +10,14 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   after_destroy :destroy_proxy_granting_tickets
 
   def browser_info
-    user_agent = UserAgent.parse(self.user_agent)
-    "#{user_agent.browser} (#{user_agent.platform})"
+    unless self.user_agent.blank?
+      user_agent = UserAgent.parse(self.user_agent)
+      if user_agent.platform.nil?
+        "#{user_agent.browser}"
+      else
+        "#{user_agent.browser} (#{user_agent.platform})"
+      end
+    end
   end
 
   def same_user?(other_ticket)
