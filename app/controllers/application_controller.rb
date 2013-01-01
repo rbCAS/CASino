@@ -1,4 +1,5 @@
 require 'casino/listener'
+require 'casino_core'
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
