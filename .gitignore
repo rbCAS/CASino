@@ -20,4 +20,4 @@
 # Dummy application crap
 /spec/dummy/log/*.log
 /spec/dummy/tmp
-/spec//db/*.sqlite3
+/spec/dummy/db/*.sqlite3
