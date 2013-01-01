@@ -8,7 +8,7 @@ module CASinoCore
     end
 
     initializer 'casino_core.load_configuration' do
-      CASinoCore.setup Rails.env
+      CASinoCore.setup Rails.env, application_root: Rails.root
     end
 
     initializer 'casino_core.setup_logger' do

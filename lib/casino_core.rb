@@ -13,12 +13,13 @@ module CASinoCore
   class << self
     def setup(environment = nil, options = {})
       @environment = environment || 'development'
+      root_path = options[:application_root] || '.'
       require 'active_record'
       require 'yaml'
       YAML::ENGINE.yamler = 'syck'
-      ActiveRecord::Base.establish_connection YAML.load_file('config/database.yml')[@environment]
+      ActiveRecord::Base.establish_connection YAML.load_file(File.join(root_path, 'config/database.yml'))[@environment]
 
-      config = YAML.load_file('config/cas.yml')[@environment].symbolize_keys
+      config = YAML.load_file(File.join(root_path, 'config/cas.yml'))[@environment].symbolize_keys
       recursive_symbolize_keys!(config)
       CASinoCore::Settings.init config
     end
