@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CASino::Listener::LoginCredentialAcceptor do
-  include Rails.application.routes.url_helpers
+  include CASino::Engine.routes.url_helpers
   let(:controller) { Struct.new(:cookies).new(cookies: {}) }
   let(:listener) { described_class.new(controller) }
 
