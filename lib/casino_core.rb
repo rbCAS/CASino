@@ -1,3 +1,5 @@
+require 'active_support/inflector'
+
 module CASinoCore
   autoload :Authenticator, 'casino_core/authenticator.rb'
   autoload :Helper, 'casino_core/helper.rb'
@@ -19,11 +21,6 @@ module CASinoCore
       config = YAML.load_file('config/cas.yml')[@environment].symbolize_keys
       recursive_symbolize_keys!(config)
       CASinoCore::Settings.init config
-
-      ActiveSupport::Inflector.inflections do |inflect|
-        inflect.acronym 'CAS'
-        inflect.acronym 'CASino'
-      end
     end
 
     private
@@ -35,4 +32,9 @@ module CASinoCore
       hash.values.select{|v| v.is_a? Array}.each{|a| a.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}}
     end
   end
+end
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.acronym 'CAS'
+  inflect.acronym 'CASino'
 end
