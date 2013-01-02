@@ -1,5 +1,3 @@
 language: ruby
 before_script:
-  - cp config/database.yml.example config/database.yml
-  - cp config/cas.yml.example config/cas.yml
-  - RAILS_ENV=test rake casino_core:db:schema:load
+  - "cd spec/dummy && RAILS_ENV=test rake casino_core:db:schema:load && cd ../.."

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ServiceTicketsController do
+describe CASino::ServiceTicketsController do
   describe 'GET "validate"' do
     let(:params) { { service: 'https://www.example.com/' } }
     it 'calls the process method of the LegacyValidator' do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProxyTicketsController do
+describe CASino::ProxyTicketsController do
   describe 'GET "serviceValidate"' do
     let(:params) { { service: 'https://www.example.com/' } }
     it 'calls the process method of the ProxyTicketValidator' do
