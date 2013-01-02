@@ -17,6 +17,8 @@
 
 /coverage
 
+/pkg
+
 # Dummy application crap
 /spec/dummy/log/*.log
 /spec/dummy/tmp
