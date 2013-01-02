@@ -23,9 +23,7 @@ module Casino # CASino would lead to c_a_sino...
     end
 
     def insert_engine_routes
-      route %(
-  mount CASino::Engine => '/', :as => 'CASino'
-      )
+      route "mount CASino::Engine => '/', :as => 'CASino'"
     end
 
     def remove_index_html
