@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/rbCAS/CASinoCore.git
-  revision: 8acde1edb6f4a2b09a11969e56438b30e5c79c1e
+  revision: 4f11b7c7a66c75789fa28c78745904aa47a1f8f4
   branch: master
   specs:
-    casino_core (1.0.11)
+    casino_core (1.0.12)
       activerecord (~> 3.2.9)
       addressable (~> 2.3)
       useragent (~> 0.4)
