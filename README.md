@@ -27,7 +27,7 @@ Edit your application's Gemfile and add these lines if missing:
     gem 'sqlite3', '~> 1.3'
     gem 'casino'
 
-Run `bundle install` afterwards
+Run `bundle install` afterwards.
 
 ### 3. Generate the initial configuration
 
