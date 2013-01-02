@@ -31,7 +31,7 @@ Run `bundle install` afterwards
 
 ### 3. Generate the initial configuration
 
-    bundle exec rake casino:setup
+    bundle exec rails g casino:install
 
 ### 4. Edit the configuration
 
@@ -46,7 +46,17 @@ Load the default DB schema with `rake casino_core:db:schema:load`. After an upda
 
 ### 6. Configure a cronjob
 
-Configure a cronjob to do a `rake casino_core:cleanup:all > /dev/null` every 5 minutes.
+Configure a cronjob to do a `rake casino_core:cleanup:all > /dev/null` every 5 minutes. This is not essential in a development environment.
+
+### 7. Customize it!
+
+Learn how to customize your CASino installation: [Customization](https://github.com/pencil/CASino/wiki/Customization)
+
+### 8. Ship it!
+
+To start the server in a development environment, run:
+
+    bundle exec rails s
 
 ## Contributing to CASino
 
