@@ -38,7 +38,7 @@ Run `bundle install` afterwards.
     mate config/cas.yml
     mate config/database.yml
 
-Information about configuration can be found in our Wiki: [Configuration](https://github.com/pencil/CASino/wiki/Configuration)
+Information about configuration can be found in our Wiki: [Configuration](https://github.com/rbCAS/CASino/wiki/Configuration)
 
 ### 5. Load the database
 
@@ -50,7 +50,7 @@ Configure a cronjob to do a `rake casino_core:cleanup:all > /dev/null` every 5 m
 
 ### 7. Customize it!
 
-Learn how to customize your CASino installation: [Customization](https://github.com/pencil/CASino/wiki/Customization)
+Learn how to customize your CASino installation: [Customization](https://github.com/rbCAS/CASino/wiki/Customization)
 
 ### 8. Ship it!
 
