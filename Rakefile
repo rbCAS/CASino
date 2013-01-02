@@ -8,8 +8,6 @@ require 'casino_core'
 
 task :default => :spec
 
-CASinoCore::RakeTasks.load_tasks
-
 desc 'Run all specs'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
