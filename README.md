@@ -24,7 +24,7 @@ Make sure you installed Ruby on Rails 3.2.x!
 
 Edit your application's Gemfile and add these lines if missing:
 
-    gem 'sqlite3', '~> 1.3'
+    gem 'sqlite3', '~> 1.3', :group => :development
     gem 'casino'
 
 Run `bundle install` afterwards.
