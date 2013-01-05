@@ -11,7 +11,7 @@ describe CASinoCore::Model::ServiceRule do
 
   context 'with a regex rule' do
     before(:each) do
-      FactoryGirl.create :service_rule, :regex, url: '^https://.*$'
+      FactoryGirl.create :service_rule, :regex, url: '^https://.*'
     end
 
     ['https://www.example.org/', 'https://www.google.com/'].each do |service_url|
@@ -30,7 +30,7 @@ describe CASinoCore::Model::ServiceRule do
   context 'with many regex rules' do
     before(:each) do
       100.times do |counter|
-        FactoryGirl.create :service_rule, :regex, url: "^https://www#{counter}.example.com.*$"
+        FactoryGirl.create :service_rule, :regex, url: "^https://www#{counter}.example.com"
       end
     end
 
