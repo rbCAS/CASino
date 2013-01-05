@@ -5,6 +5,19 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }
 
+    context 'with a not allowed service' do
+      before(:each) do
+        FactoryGirl.create :service_rule, :regex, url: '^https://.*'
+      end
+      let(:service) { 'http://www.example.org/' }
+      let(:params) { { service: service } }
+
+      it 'calls the #service_not_allowed method on the listener' do
+        listener.should_receive(:service_not_allowed).with(service)
+        processor.process(params)
+      end
+    end
+
     context 'when logged out' do
       it 'calls the #user_not_logged_in method on the listener' do
         listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
