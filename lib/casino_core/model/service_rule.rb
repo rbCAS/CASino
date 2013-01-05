@@ -3,7 +3,7 @@ require 'casino_core/model'
 class CASinoCore::Model::ServiceRule < ActiveRecord::Base
   attr_accessible :enabled, :order, :name, :url, :regex
 
-  def self.is_allowed?(service_url)
+  def self.allowed?(service_url)
     rules = self.where(enabled: true)
     if rules.empty?
       true
