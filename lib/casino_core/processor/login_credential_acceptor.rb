@@ -17,6 +17,7 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   #   The second argument (String) is the ticket-granting ticket. It should be stored in a cookie named "tgt".
   # * `#invalid_login_ticket` and `#invalid_login_credentials`: The first argument is a LoginTicket.
   #   See {CASinoCore::Processor::LoginCredentialRequestor} for details.
+  # * `#service_not_allowed`: The user tried to access a service that this CAS server is not allowed to serve.
   #
   # @param [Hash] params parameters supplied by user
   # @param [Hash] cookies cookies supplied by user
