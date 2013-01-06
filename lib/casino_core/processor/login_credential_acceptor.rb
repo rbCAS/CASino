@@ -33,21 +33,6 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   end
 
   private
-  def login_ticket_valid?(lt)
-    ticket = CASinoCore::Model::LoginTicket.find_by_ticket lt
-    if ticket.nil?
-      logger.info "Login ticket '#{lt}' not found"
-      false
-    elsif ticket.created_at < CASinoCore::Settings.login_ticket[:lifetime].seconds.ago
-      logger.info "Login ticket '#{ticket.ticket}' expired"
-      false
-    else
-      logger.debug "Login ticket '#{ticket.ticket}' successfully validated"
-      ticket.delete
-      true
-    end
-  end
-
   def authenticate_user
     authentication_result = validate_login_credentials(@params[:username], @params[:password])
     if !authentication_result.nil?
