@@ -22,19 +22,11 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   # @param [Hash] cookies cookies supplied by user
   # @param [String] user_agent user-agent delivered by the client
   def process(params = nil, cookies = nil, user_agent = nil)
-    params ||= {}
-    cookies ||= {}
-    if login_ticket_valid?(params[:lt])
-      authentication_result = validate_login_credentials(params[:username], params[:password])
-      if !authentication_result.nil?
-        ticket_granting_ticket = acquire_ticket_granting_ticket(authentication_result, user_agent)
-        url = unless params[:service].nil?
-          acquire_service_ticket(ticket_granting_ticket, params[:service], true).service_with_ticket_url
-        end
-        @listener.user_logged_in(url, ticket_granting_ticket.ticket)
-      else
-        @listener.invalid_login_credentials(acquire_login_ticket)
-      end
+    @params = params || {}
+    @cookies = cookies || {}
+    @user_agent = user_agent
+    if login_ticket_valid?(@params[:lt])
+      authenticate_user
     else
       @listener.invalid_login_ticket(acquire_login_ticket)
     end
@@ -56,4 +48,24 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
     end
   end
 
+  def authenticate_user
+    authentication_result = validate_login_credentials(@params[:username], @params[:password])
+    if !authentication_result.nil?
+      user_logged_in(authentication_result)
+    else
+      @listener.invalid_login_credentials(acquire_login_ticket)
+    end
+  end
+
+  def user_logged_in(authentication_result)
+    begin
+      ticket_granting_ticket = acquire_ticket_granting_ticket(authentication_result, @user_agent)
+      url = unless @params[:service].nil?
+        acquire_service_ticket(ticket_granting_ticket, @params[:service], true).service_with_ticket_url
+      end
+      @listener.user_logged_in(url, ticket_granting_ticket.ticket)
+    rescue ServiceNotAllowedError => e
+      @listener.service_not_allowed(clean_service_url @params[:service])
+    end
+  end
 end
