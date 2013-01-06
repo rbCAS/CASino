@@ -20,11 +20,9 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   # * `#service_not_allowed`: The user tried to access a service that this CAS server is not allowed to serve.
   #
   # @param [Hash] params parameters supplied by user
-  # @param [Hash] cookies cookies supplied by user
   # @param [String] user_agent user-agent delivered by the client
-  def process(params = nil, cookies = nil, user_agent = nil)
+  def process(params = nil, user_agent = nil)
     @params = params || {}
-    @cookies = cookies || {}
     @user_agent = user_agent
     if login_ticket_valid?(@params[:lt])
       authenticate_user
