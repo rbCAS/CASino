@@ -5,7 +5,8 @@ describe CASinoCore::Processor::API::ServiceTicketProvider do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }
 
-    let(:parameters) { { service: 'http://example.org/' } }
+    let(:service) { 'http://example.org/' }
+    let(:parameters) { { service: service } }
 
     context 'with an invalid ticket-granting ticket' do
       let(:ticket_granting_ticket) { 'TGT-INVALID' }
@@ -20,6 +21,18 @@ describe CASinoCore::Processor::API::ServiceTicketProvider do
       let(:ticket_granting_ticket) { FactoryGirl.create(:ticket_granting_ticket) }
       let(:ticket) { ticket_granting_ticket.ticket }
       let(:user_agent) { ticket_granting_ticket.user_agent }
+
+      context 'with a not allowed service' do
+        before(:each) do
+          FactoryGirl.create :service_rule, :regex, url: '^https://.*'
+        end
+        let(:service) { 'http://www.example.org/' }
+
+        it 'calls the #service_not_allowed method on the listener' do
+          listener.should_receive(:service_not_allowed_via_api).with(service)
+          processor.process(ticket, parameters, user_agent)
+        end
+      end
 
       it 'calls the #granted_service_ticket_via_api method on the listener' do
         listener.should_receive(:granted_service_ticket_via_api).with(/^ST\-/)
