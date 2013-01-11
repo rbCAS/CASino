@@ -2,6 +2,8 @@ require 'casino_core/model'
 
 class CASinoCore::Model::ServiceRule < ActiveRecord::Base
   attr_accessible :enabled, :order, :name, :url, :regex
+  validates :name, presence: true
+  validates :url, uniqueness: true, presence: true
 
   def self.allowed?(service_url)
     rules = self.where(enabled: true)
