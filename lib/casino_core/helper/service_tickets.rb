@@ -33,7 +33,7 @@ module CASinoCore
           service_uri.query_values = nil
         end
         if "#{service_uri.path}".length > 1
-          service_uri.path = service_uri.path.gsub(/\/\z/, '')
+          service_uri.path = service_uri.path.gsub(/\/+\z/, '')
         end
         clean_service = service_uri.to_s
 
