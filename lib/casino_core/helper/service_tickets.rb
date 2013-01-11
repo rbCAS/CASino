@@ -32,9 +32,10 @@ module CASinoCore
         if service_uri.query_values.blank?
           service_uri.query_values = nil
         end
-        if "#{service_uri.path}".length > 1
-          service_uri.path = service_uri.path.gsub(/\/+\z/, '')
-        end
+
+        service_uri.path = (service_uri.path || '').gsub(/\/+\z/, '')
+        service_uri.path = '/' if service_uri.path.blank?
+
         clean_service = service_uri.to_s
 
         logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
