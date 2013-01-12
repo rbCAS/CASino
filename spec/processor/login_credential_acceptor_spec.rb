@@ -83,7 +83,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           let(:service) { 'https://www.example.com' }
 
           it 'calls the #user_logged_in method on the listener' do
-            listener.should_receive(:user_logged_in).with(/^#{service}\?ticket=ST\-/, /^TGC\-/)
+            listener.should_receive(:user_logged_in).with(/^#{service}\/\?ticket=ST\-/, /^TGC\-/)
             processor.process(login_data)
           end
 
