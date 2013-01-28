@@ -35,8 +35,8 @@ Run `bundle install` afterwards.
 
 ### 4. Edit the configuration
 
-    mate config/cas.yml
-    mate config/database.yml
+    vim config/cas.yml
+    vim config/database.yml
 
 Information about configuration can be found in our Wiki: [Configuration](https://github.com/rbCAS/CASino/wiki/Configuration)
 
