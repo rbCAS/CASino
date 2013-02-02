@@ -6,6 +6,7 @@ describe CASinoCore::Processor::LegacyValidator do
     let(:processor) { described_class.new(listener) }
     let(:service_ticket) { FactoryGirl.create :service_ticket }
     let(:parameters) { { service: service_ticket.service, ticket: service_ticket.ticket }}
+    let(:username) { service_ticket.ticket_granting_ticket.user.username }
 
     before(:each) do
       listener.stub(:validation_failed)
@@ -21,7 +22,7 @@ describe CASinoCore::Processor::LegacyValidator do
         end
 
         it 'calls the #validation_succeeded method on the listener' do
-          listener.should_receive(:validation_succeeded).with("yes\ntest\n")
+          listener.should_receive(:validation_succeeded).with("yes\n#{username}\n")
           processor.process(parameters)
         end
       end
@@ -55,7 +56,7 @@ describe CASinoCore::Processor::LegacyValidator do
           end
 
           it 'calls the #validation_succeeded method on the listener' do
-            listener.should_receive(:validation_succeeded).with("yes\ntest\n")
+            listener.should_receive(:validation_succeeded).with("yes\n#{username}\n")
             processor.process(parameters_with_renew)
           end
         end

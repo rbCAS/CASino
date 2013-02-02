@@ -25,7 +25,7 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
     if other_ticket.nil?
       false
     else
-      other_ticket.username == self.username && other_ticket.authenticator == self.authenticator
+      other_ticket.user_id == self.user_id
     end
   end
 

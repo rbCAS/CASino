@@ -45,11 +45,12 @@ class CASinoCore::Builder::TicketValidationResponse < CASinoCore::Builder
   end
 
   def build_success_xml(service_response, ticket, ticket_granting_ticket, proxies)
+    user = ticket_granting_ticket.user
     service_response.cas :authenticationSuccess do |authentication_success|
-      authentication_success.cas :user, ticket_granting_ticket.username
-      unless ticket_granting_ticket.extra_attributes.blank?
+      authentication_success.cas :user, user.username
+      unless user.extra_attributes.blank?
         authentication_success.cas :attributes do |attributes|
-          ticket_granting_ticket.extra_attributes.each do |key, value|
+          user.extra_attributes.each do |key, value|
             serialize_extra_attribute(attributes, key, value)
           end
         end

@@ -18,10 +18,7 @@ class CASinoCore::Processor::SessionOverview < CASinoCore::Processor
     if tgt.nil?
       @listener.user_not_logged_in
     else
-      ticket_granting_tickets = CASinoCore::Model::TicketGrantingTicket.where(
-        username: tgt.username,
-        authenticator: tgt.authenticator
-      ).order('updated_at DESC')
+      ticket_granting_tickets = tgt.user.ticket_granting_tickets
       @listener.ticket_granting_tickets_found(ticket_granting_tickets)
     end
   end
