@@ -41,7 +41,7 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
       begin
         create_service_ticket
         callback_granted_service_ticket
-      rescue ServiceNotAllowedError => e
+      rescue ServiceNotAllowedError
         callback_service_not_allowed
       end
     when (@service_url and not @ticket_granting_ticket)
