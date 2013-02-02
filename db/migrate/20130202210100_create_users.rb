@@ -1,11 +1,5 @@
 class CreateUsers < ActiveRecord::Migration
   def up
-    tgt = CASinoCore::Model::TicketGrantingTicket.new
-    tgt.authenticator = 'foo'
-    tgt.username = 'bar'
-    tgt.ticket = 'TGT-bla'
-    tgt.save!
-
     create_table :users do |t|
       t.string :authenticator, null: false
       t.string :username, null: false
