@@ -1,9 +1,10 @@
 require 'casino_core/model'
 
 class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
-  attr_accessible :ticket, :authenticator, :username, :user_agent, :extra_attributes
-  serialize :extra_attributes, Hash
+  attr_accessible :ticket, :user_agent
   validates :ticket, uniqueness: true
+
+  belongs_to :user
   has_many :service_tickets
 
   before_destroy :destroy_service_tickets

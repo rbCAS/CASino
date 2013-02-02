@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130105152327) do
+ActiveRecord::Schema.define(:version => 20130202210100) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -73,16 +73,23 @@ ActiveRecord::Schema.define(:version => 20130105152327) do
   add_index "service_tickets", ["ticket_granting_ticket_id"], :name => "index_service_tickets_on_ticket_granting_ticket_id"
 
   create_table "ticket_granting_tickets", :force => true do |t|
-    t.string   "ticket",           :null => false
+    t.string   "ticket",     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "user_agent"
+    t.integer  "user_id",    :null => false
+  end
+
+  add_index "ticket_granting_tickets", ["ticket"], :name => "index_ticket_granting_tickets_on_ticket", :unique => true
+
+  create_table "users", :force => true do |t|
+    t.string   "authenticator",    :null => false
     t.string   "username",         :null => false
     t.text     "extra_attributes"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
-    t.string   "user_agent"
-    t.string   "authenticator",    :null => false
   end
 
-  add_index "ticket_granting_tickets", ["authenticator", "username"], :name => "index_ticket_granting_tickets_on_authenticator_and_username"
-  add_index "ticket_granting_tickets", ["ticket"], :name => "index_ticket_granting_tickets_on_ticket", :unique => true
+  add_index "users", ["authenticator", "username"], :name => "index_users_on_authenticator_and_username", :unique => true
 
 end
