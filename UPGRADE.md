@@ -2,7 +2,7 @@
 
 Here is a list of backward-incompatible changes that were introduced.
 
-## 1.x.y
+## 1.2.0
 
 API changes:
 
