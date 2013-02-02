@@ -12,6 +12,7 @@ module CASinoCore
         unless ticket_granting_ticket.nil?
           if same_browser?(ticket_granting_ticket.user_agent, user_agent)
             ticket_granting_ticket.user_agent = user_agent
+            ticket_granting_ticket.touch
             ticket_granting_ticket.save!
             ticket_granting_ticket
           else
