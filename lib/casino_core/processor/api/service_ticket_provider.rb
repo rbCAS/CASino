@@ -15,6 +15,7 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   #   The service ticket (and nothing else) should be displayed.
   # * `#invalid_ticket_granting_ticket_via_api`: No argument. The application should respond with status "400 Bad Request"
   # * `#no_service_provided_via_api`: No argument. The application should respond with status "400 Bad Request"
+  # * `#service_not_allowed_via_api`: The user tried to access a service that this CAS server is not allowed to serve.
   #
   # @param [String] ticket_granting_ticket ticket_granting_ticket supplied by the user in the URL
   # @param [Hash] parameters parameters supplied by user (`service` in particular)
@@ -37,8 +38,12 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
   def handle_ticket_granting_ticket
     case
     when (@service_url and @ticket_granting_ticket)
-      create_service_ticket
-      callback_granted_service_ticket
+      begin
+        create_service_ticket
+        callback_granted_service_ticket
+      rescue ServiceNotAllowedError
+        callback_service_not_allowed
+      end
     when (@service_url and not @ticket_granting_ticket)
       callback_invalid_tgt
     when (not @service_url and @ticket_granting_ticket)
@@ -60,6 +65,10 @@ class CASinoCore::Processor::API::ServiceTicketProvider < CASinoCore::Processor
 
   def callback_empty_service
     @listener.no_service_provided_via_api
+  end
+
+  def callback_service_not_allowed
+    @listener.service_not_allowed_via_api(clean_service_url @service_url)
   end
 
 end

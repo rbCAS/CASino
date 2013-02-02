@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121231114141) do
+ActiveRecord::Schema.define(:version => 20130105152327) do
 
   create_table "login_tickets", :force => true do |t|
     t.string   "ticket",     :null => false
@@ -46,6 +46,18 @@ ActiveRecord::Schema.define(:version => 20121231114141) do
 
   add_index "proxy_tickets", ["proxy_granting_ticket_id"], :name => "index_proxy_tickets_on_proxy_granting_ticket_id"
   add_index "proxy_tickets", ["ticket"], :name => "index_proxy_tickets_on_ticket", :unique => true
+
+  create_table "service_rules", :force => true do |t|
+    t.boolean  "enabled",    :default => true,  :null => false
+    t.integer  "order",      :default => 10,    :null => false
+    t.string   "name",                          :null => false
+    t.string   "url",                           :null => false
+    t.boolean  "regex",      :default => false, :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "service_rules", ["url"], :name => "index_service_rules_on_url", :unique => true
 
   create_table "service_tickets", :force => true do |t|
     t.string   "ticket",                                       :null => false

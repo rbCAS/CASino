@@ -39,6 +39,18 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           listener.stub(:user_logged_in)
         end
 
+        context 'with a not allowed service' do
+          before(:each) do
+            FactoryGirl.create :service_rule, :regex, url: '^https://.*'
+          end
+          let(:service) { 'http://www.example.org/' }
+
+          it 'calls the #service_not_allowed method on the listener' do
+            listener.should_receive(:service_not_allowed).with(service)
+            processor.process(login_data)
+          end
+        end
+
         context 'when all authenticators raise an error' do
           before(:each) do
             CASinoCore::Authenticator::Static.any_instance.stub(:validate) do
@@ -71,7 +83,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           let(:service) { 'https://www.example.com' }
 
           it 'calls the #user_logged_in method on the listener' do
-            listener.should_receive(:user_logged_in).with(/^#{service}\?ticket=ST\-/, /^TGC\-/)
+            listener.should_receive(:user_logged_in).with(/^#{service}\/\?ticket=ST\-/, /^TGC\-/)
             processor.process(login_data)
           end
 
