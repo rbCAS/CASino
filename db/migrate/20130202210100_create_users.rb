@@ -28,7 +28,6 @@ class CreateUsers < ActiveRecord::Migration
       ticket.user_id = user.id
       ticket.save!
     end
-    p CASinoCore::Model::TicketGrantingTicket.all
     change_column :ticket_granting_tickets, :user_id, :integer, null: false
     remove_columns :ticket_granting_tickets, :authenticator, :username, :extra_attributes
   end
