@@ -24,13 +24,20 @@ module CASinoCore
 
       def acquire_ticket_granting_ticket(authentication_result, user_agent = nil)
         user_data = authentication_result[:user_data]
-        CASinoCore::Model::TicketGrantingTicket.create!({
+        user = load_or_initialize_user(authentication_result[:authenticator], user_data[:username], user_data[:extra_attributes])
+        user.ticket_granting_tickets.create!({
           ticket: random_ticket_string('TGC'),
-          authenticator: authentication_result[:authenticator],
-          username: user_data[:username],
-          extra_attributes: user_data[:extra_attributes],
           user_agent: user_agent
         })
+      end
+
+      def load_or_initialize_user(authenticator, username, extra_attributes)
+        user = CASinoCore::Model::User.where(
+          authenticator: authenticator,
+          username: username).first_or_initialize
+        user.extra_attributes = extra_attributes
+        user.save!
+        return user
       end
 
       def remove_ticket_granting_ticket(ticket_granting_ticket, user_agent = nil)

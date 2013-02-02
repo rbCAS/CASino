@@ -1,9 +1,10 @@
 require 'casino_core/model'
 
 class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
-  attr_accessible :ticket, :authenticator, :username, :user_agent, :extra_attributes
-  serialize :extra_attributes, Hash
+  attr_accessible :ticket, :user_agent
   validates :ticket, uniqueness: true
+
+  belongs_to :user
   has_many :service_tickets
 
   before_destroy :destroy_service_tickets
@@ -24,7 +25,7 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
     if other_ticket.nil?
       false
     else
-      other_ticket.username == self.username && other_ticket.authenticator == self.authenticator
+      other_ticket.user_id == self.user_id
     end
   end
 

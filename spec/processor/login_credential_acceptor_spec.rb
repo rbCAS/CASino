@@ -33,7 +33,9 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
       context 'with valid credentials' do
         let(:service) { 'https://www.example.org' }
-        let(:login_data) { { lt: login_ticket.ticket, username: 'testuser', password: 'foobar123', service: service } }
+        let(:username) { 'testuser' }
+        let(:authenticator) { 'static_1' }
+        let(:login_data) { { lt: login_ticket.ticket, username: username, password: 'foobar123', service: service } }
 
         before(:each) do
           listener.stub(:user_logged_in)
@@ -76,6 +78,38 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
             lambda do
               processor.process(login_data)
             end.should change(CASinoCore::Model::TicketGrantingTicket, :count).by(1)
+          end
+
+          context 'when the user does not exist yet' do
+            it 'generates exactly one user' do
+              lambda do
+                processor.process(login_data)
+              end.should change(CASinoCore::Model::User, :count).by(1)
+            end
+
+            it 'sets the users attributes' do
+              processor.process(login_data)
+              user = CASinoCore::Model::User.last
+              user.username.should == username
+              user.authenticator.should == 'static_1'
+            end
+          end
+
+          context 'when the user already exists' do
+            it 'does not regenerate the user' do
+              CASinoCore::Model::User.create! username: username, authenticator: authenticator
+              lambda do
+                processor.process(login_data)
+              end.should_not change(CASinoCore::Model::User, :count)
+            end
+
+            it 'updates the extra attributes' do
+              user = CASinoCore::Model::User.create! username: username, authenticator: authenticator
+              lambda do
+                processor.process(login_data)
+                user.reload
+              end.should change(user, :extra_attributes)
+            end
           end
         end
 

@@ -65,23 +65,15 @@ describe CASinoCore::Model::TicketGrantingTicket do
     end
 
     context 'with a ticket from another user' do
-      let(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, username: 'bla'  }
+      let(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket  }
 
       it 'should return false' do
         ticket_granting_ticket.same_user?(other_ticket_granting_ticket).should == false
       end
     end
 
-    context 'with a ticket from another authenticator' do
-      let(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, authenticator: 'bla'  }
-
-      it 'should return false' do
-        ticket_granting_ticket.same_user?(other_ticket_granting_ticket).should == false
-      end
-    end
-
-    context 'with a ticket from the same user and authenticator' do
-      let(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+    context 'with a ticket from the same user' do
+      let(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: ticket_granting_ticket.user }
 
       it 'should return true' do
         ticket_granting_ticket.same_user?(other_ticket_granting_ticket).should == true

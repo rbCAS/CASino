@@ -5,6 +5,7 @@ describe CASinoCore::Processor::SessionDestroyer do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }
     let(:owner_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+    let(:user) { owner_ticket_granting_ticket.user }
     let(:user_agent) { owner_ticket_granting_ticket.user_agent }
     let(:cookies) { { tgt: owner_ticket_granting_ticket.ticket } }
 
@@ -14,12 +15,12 @@ describe CASinoCore::Processor::SessionDestroyer do
     end
 
     context 'with an existing ticket-granting ticket' do
-      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: user }
       let(:service_ticket) { FactoryGirl.create :service_ticket, ticket_granting_ticket: ticket_granting_ticket }
       let(:consumed_service_ticket) { FactoryGirl.create :service_ticket, :consumed, ticket_granting_ticket: ticket_granting_ticket }
       let(:params) { { id: ticket_granting_ticket.id } }
 
-      it 'deletes only one ticket-granting ticket' do
+      it 'deletes exactly one ticket-granting ticket' do
         ticket_granting_ticket
         owner_ticket_granting_ticket
         lambda do
@@ -54,7 +55,7 @@ describe CASinoCore::Processor::SessionDestroyer do
     end
 
     context 'when trying to delete ticket-granting ticket of another user' do
-      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, username: 'other_user' }
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
       let(:params) { { id: ticket_granting_ticket.id } }
 
       it 'does not delete a ticket-granting ticket' do
