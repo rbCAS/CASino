@@ -36,6 +36,10 @@ class CASino::API::V1::TicketsController < CASino::ApplicationController
     error_response
   end
 
+  def service_not_allowed_via_api
+    error_response
+  end
+
   def user_logged_out_via_api
     render nothing: true, status: 200
   end

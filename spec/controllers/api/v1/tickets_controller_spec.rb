@@ -31,6 +31,20 @@ describe CASino::API::V1::TicketsController do
       subject { response }
       its(:response_code) { should eq 400 }
     end
+
+    context "with a not allowed service" do
+
+      before do
+        CASinoCore::Processor::API::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+          @controller.service_not_allowed_via_api
+        end
+
+        post :create, params: {username: 'example', password: 'example'}
+      end
+
+      subject { response }
+      its(:response_code) { should eq 400 }
+    end
   end
 
   describe "POST /cas/v1/tickets/{TGT id}" do
