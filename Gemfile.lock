@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    casino_core (1.0.12)
+    casino_core (1.1.0)
       activerecord (~> 3.2.9)
       addressable (~> 2.3)
       terminal-table (~> 1.4)
