@@ -10,5 +10,5 @@ API changes:
 
 New callbacks:
 
-* `login_credential_requestor` calls `#service_not_allowed` on the listener, when a service is not in the service whitelist.
+* `login_credential_requestor` and `login_credential_acceptor` call `#service_not_allowed` on the listener, when a service is not in the service whitelist.
 * `api/service_ticket_provider` calls `#service_not_allowed_via_api` on the listener, when a service is not in the service whitelist.
