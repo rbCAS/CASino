@@ -1,6 +1,6 @@
 <h1>Welcome</h1>
 <p>
-  You are currently logged in as <strong><%= @ticket_granting_tickets[0].username %></strong>.
+  You are currently logged in as <strong><%= @ticket_granting_tickets[0].user.username %></strong>.
   <%= link_to 'Logout', logout_path %>
 </p>
 <h2>Sessions</h2>
