@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    casino (0.0.1)
+    casino (0.0.2)
       casino_core (~> 1.0)
       jquery-rails (~> 2.1)
       rails (~> 3.2.9)
