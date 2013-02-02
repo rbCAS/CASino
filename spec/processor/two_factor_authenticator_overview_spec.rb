@@ -1,0 +1,45 @@
+require 'spec_helper'
+
+describe CASinoCore::Processor::TwoFactorAuthenticatorOverview do
+  describe '#process' do
+    let(:listener) { Object.new }
+    let(:processor) { described_class.new(listener) }
+    let(:cookies) { { tgt: tgt } }
+
+    before(:each) do
+      listener.stub(:user_not_logged_in)
+      listener.stub(:ticket_granting_tickets_found)
+    end
+
+    context 'with an existing ticket-granting ticket' do
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:tgt) { ticket_granting_ticket.ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
+
+      context 'without a two-factor authenticator registered' do
+        
+      end
+
+      context 'with a two-factor authenticator registered' do
+        let(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator }
+        before(:each) do
+          two_factor_authenticator
+        end
+
+        it 'calls the #two_factor_authenticators_found method on the listener' do
+          listener.should_receive(:two_factor_authenticators_found).with([two_factor_authenticator])
+          processor.process(cookies, user_agent)
+        end
+      end
+    end
+
+    context 'with an invalid ticket-granting ticket' do
+      let(:tgt) { 'TGT-lalala' }
+      let(:user_agent) { 'TestBrowser 1.0' }
+      it 'calls the #user_not_logged_in method on the listener' do
+        listener.should_receive(:user_not_logged_in).with(no_args)
+        processor.process(cookies, user_agent)
+      end
+    end
+  end
+end
