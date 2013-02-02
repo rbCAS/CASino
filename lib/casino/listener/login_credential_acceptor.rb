@@ -20,6 +20,11 @@ class CASino::Listener::LoginCredentialAcceptor < CASino::Listener
     rerender_login_page(login_ticket)
   end
 
+  def service_not_allowed(service)
+    assign(:service, service)
+    @controller.render 'service_not_allowed', status: 403
+  end
+
   private
   def rerender_login_page(login_ticket)
     assign(:login_ticket, login_ticket)

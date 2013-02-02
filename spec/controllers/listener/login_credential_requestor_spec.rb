@@ -36,4 +36,22 @@ describe CASino::Listener::LoginCredentialRequestor do
       end
     end
   end
+
+  context '#service_not_allowed' do
+    let(:service) { 'http://www.example.com/foo' }
+
+    before(:each) do
+      controller.stub(:render)
+    end
+
+    it 'tells the controller to render the service_not_allowed template' do
+      controller.should_receive(:render).with('service_not_allowed', status: 403)
+      listener.send(:service_not_allowed, service)
+    end
+
+    it 'assigns the not allowed service' do
+      listener.send(:service_not_allowed, service)
+      controller.instance_variable_get(:@service).should == service
+    end
+  end
 end
