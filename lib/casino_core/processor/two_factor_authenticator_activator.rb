@@ -10,7 +10,12 @@ class CASinoCore::Processor::TwoFactorAuthenticatorActivator < CASinoCore::Proce
   include CASinoCore::Helper::TicketGrantingTickets
   include CASinoCore::Helper::TwoFactorAuthenticators
 
-  # This method will call `#user_not_logged_in` on the listener.
+  # The method will call one of the following methods on the listener:
+  # * `#user_not_logged_in`: The user is not logged in and should be redirected to /login.
+  # * `#two_factor_authenticator_activated`: The two-factor authenticator was successfully activated.
+  # * `#invalid_two_factor_authenticator`: The two-factor authenticator is not valid.
+  # * `#invalid_one_time_password`: The user should be asked for a new OTP.
+  #
   # @param [Hash] params parameters supplied by user. The processor will look for keys :otp and :id.
   # @param [Hash] cookies cookies delivered by the client
   # @param [String] user_agent user-agent delivered by the client
