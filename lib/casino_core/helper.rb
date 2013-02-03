@@ -12,5 +12,6 @@ module CASinoCore
     autoload :ServiceTickets, 'casino_core/helper/service_tickets.rb'
     autoload :Tickets, 'casino_core/helper/tickets.rb'
     autoload :TicketGrantingTickets, 'casino_core/helper/ticket_granting_tickets.rb'
+    autoload :TwoFactorAuthenticators, 'casino_core/helper/two_factor_authenticators.rb'
   end
 end
