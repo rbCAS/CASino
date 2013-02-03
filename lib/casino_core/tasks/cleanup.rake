@@ -29,8 +29,14 @@ namespace :casino_core do
       puts "Deleted #{rows_affected} login tickets."
     end
 
+    desc 'Remove expired inactive two-factor authenticators.'
+    task two_factor_authenticators: 'casino_core:db:configure_connection' do
+      rows_affected = CASinoCore::Model::TwoFactorAuthenticator.cleanup
+      puts "Deleted #{rows_affected} inactive two-factor authenticators."
+    end
+
     desc 'Perform all cleanup tasks.'
-    task all: [:service_tickets, :proxy_tickets, :login_tickets] do
+    task all: [:service_tickets, :proxy_tickets, :login_tickets, :two_factor_authenticators] do
     end
   end
 end
