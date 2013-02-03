@@ -12,6 +12,7 @@ module CASinoCore
     autoload :SessionDestroyer, 'casino_core/processor/session_destroyer.rb'
     autoload :SessionOverview, 'casino_core/processor/session_overview.rb'
     autoload :TwoFactorAuthenticatorOverview, 'casino_core/processor/two_factor_authenticator_overview.rb'
+    autoload :TwoFactorAuthenticatorProvider, 'casino_core/processor/two_factor_authenticator_provider.rb'
 
     autoload :API, 'casino_core/processor/api.rb'
 
