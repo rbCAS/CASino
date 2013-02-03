@@ -8,7 +8,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorOverview do
 
     before(:each) do
       listener.stub(:user_not_logged_in)
-      listener.stub(:ticket_granting_tickets_found)
+      listener.stub(:two_factor_authenticators_found)
     end
 
     context 'with an existing ticket-granting ticket' do
@@ -19,6 +19,15 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorOverview do
 
       context 'without a two-factor authenticator registered' do
         it 'calls the #two_factor_authenticators_found method on the listener' do
+          listener.should_receive(:two_factor_authenticators_found).with([])
+          processor.process(cookies, user_agent)
+        end
+      end
+
+      context 'with an inactive two-factor authenticator' do
+        let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, :inactive, user: user }
+
+        it 'does not include the inactive authenticator' do
           listener.should_receive(:two_factor_authenticators_found).with([])
           processor.process(cookies, user_agent)
         end

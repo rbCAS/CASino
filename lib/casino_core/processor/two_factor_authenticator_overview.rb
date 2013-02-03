@@ -18,7 +18,7 @@ class CASinoCore::Processor::TwoFactorAuthenticatorOverview < CASinoCore::Proces
     if tgt.nil?
       @listener.user_not_logged_in
     else
-      @listener.two_factor_authenticators_found(tgt.user.two_factor_authenticators)
+      @listener.two_factor_authenticators_found(tgt.user.two_factor_authenticators.where(active: true))
     end
   end
 end

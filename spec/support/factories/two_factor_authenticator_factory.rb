@@ -7,5 +7,10 @@ FactoryGirl.define do
     secret do |a|
       ROTP::Base32.random_base32
     end
+    active true
+
+    trait :inactive do
+      active false
+    end
   end
 end
