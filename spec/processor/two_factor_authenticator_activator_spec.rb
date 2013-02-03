@@ -21,6 +21,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
       let(:user_agent) { ticket_granting_ticket.user_agent }
       let(:id) { two_factor_authenticator.id }
       let(:otp) { '123456' }
+      let(:params) { { otp: otp, id: id } }
 
       context 'with an invalid authenticator' do
         context 'with an expired authenticator' do
@@ -33,7 +34,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
 
           it 'calls the `#invalid_two_factor_authenticator` method an the listener' do
             listener.should_receive(:invalid_two_factor_authenticator).with(no_args)
-            processor.process(cookies, user_agent, id, otp)
+            processor.process(params, cookies, user_agent)
           end
         end
 
@@ -47,7 +48,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
 
           it 'calls the `#invalid_two_factor_authenticator` method an the listener' do
             listener.should_receive(:invalid_two_factor_authenticator).with(no_args)
-            processor.process(cookies, user_agent, id, otp)
+            processor.process(params, cookies, user_agent)
           end
         end
       end
@@ -62,11 +63,11 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
 
           it 'calls the `#two_factor_authenticator_activated` method an the listener' do
             listener.should_receive(:two_factor_authenticator_activated).with(no_args)
-            processor.process(cookies, user_agent, id, otp)
+            processor.process(params, cookies, user_agent)
           end
 
           it 'does activate the authenticator' do
-            processor.process(cookies, user_agent, id, otp)
+            processor.process(params, cookies, user_agent)
             two_factor_authenticator.reload
             two_factor_authenticator.should be_active
           end
@@ -75,13 +76,13 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
             let!(:other_two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
 
             it 'does activate the authenticator' do
-              processor.process(cookies, user_agent, id, otp)
+              processor.process(params, cookies, user_agent)
               two_factor_authenticator.reload
               two_factor_authenticator.should be_active
             end
 
             it 'does delete the other authenticator' do
-              processor.process(cookies, user_agent, id, otp)
+              processor.process(params, cookies, user_agent)
               lambda do
                 other_two_factor_authenticator.reload
               end.should raise_error(ActiveRecord::RecordNotFound)
@@ -97,11 +98,11 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
 
           it 'calls the `#invalid_one_time_password` method an the listener' do
             listener.should_receive(:invalid_one_time_password).with(no_args)
-            processor.process(cookies, user_agent, id, otp)
+            processor.process(params, cookies, user_agent)
           end
 
           it 'does not activate the authenticator' do
-            processor.process(cookies, user_agent, id, otp)
+            processor.process(params, cookies, user_agent)
             two_factor_authenticator.reload
             two_factor_authenticator.should_not be_active
           end
@@ -114,7 +115,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
       let(:user_agent) { 'TestBrowser 1.0' }
       it 'calls the #user_not_logged_in method on the listener' do
         listener.should_receive(:user_not_logged_in).with(no_args)
-        processor.process(cookies, user_agent)
+        processor.process(nil, cookies, user_agent)
       end
     end
   end
