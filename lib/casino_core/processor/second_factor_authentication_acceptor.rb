@@ -18,11 +18,10 @@ class CASinoCore::Processor::SecondFactorAuthenticationAcceptor < CASinoCore::Pr
   # * `#invalid_one_time_password`: The user should be asked for a new OTP.
   #
   # @param [Hash] params parameters supplied by user. The processor will look for keys :otp and :service.
-  # @param [Hash] cookies cookies supplied by user
   # @param [String] user_agent user-agent delivered by the client
-  def process(params = nil, cookies = nil, user_agent = nil)
+  def process(params = nil, user_agent = nil)
     cookies ||= {}
-    tgt = find_valid_ticket_granting_ticket(cookies[:tgt], user_agent, true)
+    tgt = find_valid_ticket_granting_ticket(params[:tgt], user_agent, true)
     if tgt.nil?
       @listener.user_not_logged_in
     else
