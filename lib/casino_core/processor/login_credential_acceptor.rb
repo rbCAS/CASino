@@ -42,14 +42,18 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   end
 
   def user_logged_in(authentication_result)
-    begin
-      ticket_granting_ticket = acquire_ticket_granting_ticket(authentication_result, @user_agent)
-      url = unless @params[:service].nil?
-        acquire_service_ticket(ticket_granting_ticket, @params[:service], true).service_with_ticket_url
+    ticket_granting_ticket = acquire_ticket_granting_ticket(authentication_result, @user_agent)
+    if ticket_granting_ticket.awaiting_two_factor_authentication?
+      @listener.two_factor_authentication_pending(ticket_granting_ticket.ticket)
+    else
+      begin
+        url = unless @params[:service].nil?
+          acquire_service_ticket(ticket_granting_ticket, @params[:service], true).service_with_ticket_url
+        end
+        @listener.user_logged_in(url, ticket_granting_ticket.ticket)
+      rescue ServiceNotAllowedError => e
+        @listener.service_not_allowed(clean_service_url @params[:service])
       end
-      @listener.user_logged_in(url, ticket_granting_ticket.ticket)
-    rescue ServiceNotAllowedError => e
-      @listener.service_not_allowed(clean_service_url @params[:service])
     end
   end
 end
