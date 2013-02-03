@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASinoCore::Processor::TwoFactorAuthenticatorProvider do
+describe CASinoCore::Processor::TwoFactorAuthenticatorRegistrator do
   describe '#process' do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }
@@ -8,7 +8,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorProvider do
 
     before(:each) do
       listener.stub(:user_not_logged_in)
-      listener.stub(:two_factor_authenticator_created)
+      listener.stub(:two_factor_authenticator_registered)
     end
 
     context 'with an existing ticket-granting ticket' do
@@ -24,7 +24,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorProvider do
       end
 
       it 'calls #two_factor_authenticator_created on the listener' do
-        listener.should_receive(:two_factor_authenticator_created) do |authenticator|
+        listener.should_receive(:two_factor_authenticator_registered) do |authenticator|
           authenticator.should == CASinoCore::Model::TwoFactorAuthenticator.last
         end
         processor.process(cookies, user_agent)
