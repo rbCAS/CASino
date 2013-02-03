@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe CASinoCore::Settings do
+  describe 'initializer' do
+    it 'loads default settings' do
+      described_class.service_ticket[:lifetime_consumed].should == 86400
+    end
+    it 'overwrites specific settings' do
+      described_class.service_ticket[:lifetime_unconsumed].should == 299
+    end
+  end
+
   describe '#authenticators=' do
     context 'with an authenticator name' do
       let(:authenticator_name) { 'testing' }
