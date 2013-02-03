@@ -5,8 +5,8 @@ module CASinoCore
     module TwoFactorAuthenticators
       class ValidationResult < CASinoCore::Model::ValidationResult; end
 
-      def validate_one_time_password(user, otp, authenticator = nil)
-        if authenticator.nil? || authenticator.expired? || authenticator.user_id != user.id
+      def validate_one_time_password(otp, authenticator)
+        if authenticator.nil? || authenticator.expired?
           ValidationResult.new 'INVALID_AUTHENTICATOR', 'Authenticator does not exist or expired', :warn
         else
           totp = ROTP::TOTP.new(authenticator.secret)

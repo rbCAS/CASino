@@ -18,6 +18,7 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   # * `#invalid_login_ticket` and `#invalid_login_credentials`: The first argument is a LoginTicket.
   #   See {CASinoCore::Processor::LoginCredentialRequestor} for details.
   # * `#service_not_allowed`: The user tried to access a service that this CAS server is not allowed to serve.
+  # * `#two_factor_authentication_pending`: The user should be asked to enter his OTP. The first argument (String) is the ticket-granting ticket. It should be stored in a cookie named "tgt". The ticket-granting ticket is not active yet. Use SecondFactorAuthenticatonAcceptor to activate it.
   #
   # @param [Hash] params parameters supplied by user
   # @param [String] user_agent user-agent delivered by the client

@@ -22,7 +22,7 @@ class CASinoCore::Processor::TwoFactorAuthenticatorActivator < CASinoCore::Proce
       @listener.user_not_logged_in
     else
       authenticator = tgt.user.two_factor_authenticators.where(id: id).first
-      validation_result = validate_one_time_password(tgt.user, otp, authenticator)
+      validation_result = validate_one_time_password(otp, authenticator)
       if validation_result.success?
         tgt.user.two_factor_authenticators.where(active: true).delete_all
         authenticator.active = true
