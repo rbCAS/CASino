@@ -4,7 +4,7 @@ require 'rotp'
 FactoryGirl.define do
   factory :two_factor_authenticator, class: CASinoCore::Model::TwoFactorAuthenticator do
     user
-    secret do |a|
+    secret do
       ROTP::Base32.random_base32
     end
     active true
