@@ -2,7 +2,7 @@ require 'casino_core/processor'
 require 'casino_core/helper'
 require 'casino_core/model'
 
-# The TwoFactorOverview processor lists registered two factor devices for the currently signed in user.
+# The TwoFactorAuthenticatorOverview processor lists registered two factor devices for the currently signed in user.
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
@@ -18,6 +18,7 @@ class CASinoCore::Processor::TwoFactorAuthenticatorOverview < CASinoCore::Proces
     if tgt.nil?
       @listener.user_not_logged_in
     else
+      @listener.two_factor_authenticators_found(tgt.user.two_factor_authenticators)
     end
   end
 end

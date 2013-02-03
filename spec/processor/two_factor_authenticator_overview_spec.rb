@@ -13,18 +13,20 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorOverview do
 
     context 'with an existing ticket-granting ticket' do
       let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:user) { ticket_granting_ticket.user }
       let(:tgt) { ticket_granting_ticket.ticket }
       let(:user_agent) { ticket_granting_ticket.user_agent }
 
       context 'without a two-factor authenticator registered' do
-        
+        it 'calls the #two_factor_authenticators_found method on the listener' do
+          listener.should_receive(:two_factor_authenticators_found).with([])
+          processor.process(cookies, user_agent)
+        end
       end
 
       context 'with a two-factor authenticator registered' do
-        let(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator }
-        before(:each) do
-          two_factor_authenticator
-        end
+        let(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
+        let!(:other_two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator }
 
         it 'calls the #two_factor_authenticators_found method on the listener' do
           listener.should_receive(:two_factor_authenticators_found).with([two_factor_authenticator])
