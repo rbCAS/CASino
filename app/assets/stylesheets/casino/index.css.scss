@@ -118,3 +118,28 @@ table {
     }
   }
 }
+
+@media only screen and (max-width: 600px)  {
+  body {
+    font-size: 100%;
+  }
+
+  .container {
+    padding-top: 20%;
+
+    .login {
+      width: 100%;
+
+      .logo {
+        float: none;
+        width: 100%;
+        padding: 0px 15px;
+      }
+
+      .form {
+        border-left: none;
+        width: 100%;
+      }
+    }
+  }
+}
