@@ -106,13 +106,13 @@ table {
 }
 
 .container {
-  padding-top: 100px;
   width: 100%;
 
   .box {
     background: #fff;
     border: 1px solid #e6e6e6;
     margin: auto;
+    margin-top: 10%;
     overflow: auto;
     padding: 20px;
     width: 560px;
@@ -176,7 +176,7 @@ footer {
 
 @media only screen and (max-width: 600px)  {
   .container {
-    padding-top: 20%;
+    padding-top: 0;
 
     .login, .sessions {
       width: 100%;
@@ -206,10 +206,9 @@ footer {
 
 @media only screen and (max-width: 800px)  {
   .container {
-    padding-top: 100px;
-
     .sessions {
       width: 100%;
+      margin-top: 10px;
     }
 
     table, thead, tbody, th, td, tr {
