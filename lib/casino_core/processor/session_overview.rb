@@ -18,7 +18,7 @@ class CASinoCore::Processor::SessionOverview < CASinoCore::Processor
     if tgt.nil?
       @listener.user_not_logged_in
     else
-      ticket_granting_tickets = tgt.user.ticket_granting_tickets
+      ticket_granting_tickets = tgt.user.ticket_granting_tickets.order('updated_at DESC')
       @listener.ticket_granting_tickets_found(ticket_granting_tickets)
     end
   end
