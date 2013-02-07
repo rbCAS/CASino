@@ -79,6 +79,30 @@ a.button, input[type=submit] {
   }
 }
 
+table {
+  border-collapse: collapse;
+  font-size: 90%;
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+
+    &:first-child {
+      padding-left: 0px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-top: 1px solid #e6e6e6;
+
+      &:last-child {
+        border-bottom: 1px solid #e6e6e6;
+      }
+    }
+  }
+}
+
 .container {
   padding-top: 100px;
   width: 100%;
@@ -136,30 +160,6 @@ a.button, input[type=submit] {
 
     table.tickets {
       margin-bottom: 10px;
-    }
-  }
-}
-
-table {
-  border-collapse: collapse;
-  font-size: 90%;
-
-  th, td {
-    text-align: left;
-    padding: 8px;
-
-    &:first-child {
-      padding-left: 0px;
-    }
-  }
-
-  tbody {
-    tr {
-      border-top: 1px solid #e6e6e6;
-
-      &:last-child {
-        border-bottom: 1px solid #e6e6e6;
-      }
     }
   }
 }
