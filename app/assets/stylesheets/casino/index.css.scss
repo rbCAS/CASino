@@ -83,13 +83,19 @@ a.button, input[type=submit] {
   padding-top: 100px;
   width: 100%;
 
-  .login, .sessions {
+  .box {
     background: #fff;
     border: 1px solid #e6e6e6;
     margin: auto;
     overflow: auto;
     padding: 20px;
     width: 560px;
+
+    .info {
+      width: 100%;
+      height: auto;
+      background: image-url("rails.png") no-repeat right top;
+    }
   }
 
 
@@ -119,11 +125,6 @@ a.button, input[type=submit] {
 
   .sessions {
     width: 800px;
-    .info {
-      width: 100%;
-      height: auto;
-      background: image-url("rails.png") no-repeat right top;
-    }
 
     a.button {
       margin-top: 0;
