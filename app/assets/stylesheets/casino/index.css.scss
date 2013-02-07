@@ -42,7 +42,7 @@ input[type=password] {
   }
 }
 
-input[type=submit] {
+a.button, input[type=submit] {
   background: #3299BB;
   border: 1px solid #126D91;
   -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
@@ -123,6 +123,10 @@ input[type=submit] {
       width: 100%;
       height: auto;
       background: image-url("rails.png") no-repeat right top;
+    }
+
+    a.button {
+      margin-top: 0;
     }
 
     h3 {
