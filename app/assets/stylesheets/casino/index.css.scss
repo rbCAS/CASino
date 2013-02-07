@@ -43,11 +43,9 @@ input[type=password] {
 }
 
 a.button, input[type=submit] {
-  background: #3299BB;
-  border: 1px solid #126D91;
-  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
-  -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+  background: #0074ad;
+  border: none;
+  border: 1px solid #006394;
   color: #fff;
   cursor: pointer;
   display: inline-block;
@@ -75,7 +73,11 @@ a.button, input[type=submit] {
 
   &:hover {
     color: white;
-    background-color: #2284a1;
+    background-color: #005F8F;
+  }
+
+  &:active {
+    top: 2px;
   }
 }
 
