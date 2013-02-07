@@ -2,7 +2,7 @@
   <div class="logout box">
 
     <div class="info">
-      <h1>Bye.</h1>
+      <h1><%= t('logout.title') %></h1>
       <p>
         <% if @url.nil? %>
           <%= t('logout.logged_out_without_url') %>

@@ -2,42 +2,42 @@
   <div class="sessions box">
 
     <div class="info">
-      <h1>Hello!</h1>
+      <h1><%= t('sessions.title') %></h1>
       <p>
-        You are currently logged in as <strong><%= @ticket_granting_tickets[0].user.username %></strong>.
+        <%= raw t('sessions.currently_logged_in_as', :username => @ticket_granting_tickets[0].user.username) %>
       </p>
 
-      <%= link_to 'Logout', logout_path, :class => 'button' %>
+      <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
 
-      <h3>Your Active Sessions</h3>
+      <h3><%= t('sessions.your_active_sessions') %></h3>
       <table width="100%" class="tickets">
         <thead>
           <tr>
-            <th>Browser</th>
-            <th>Services</th>
-            <th>Most recent activity</th>
+            <th><%= t('sessions.table.column_browser') %></th>
+            <th><%= t('sessions.table.column_services') %></th>
+            <th><%= t('sessions.table.column_activity') %></th>
             <th width="180">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           <% @ticket_granting_tickets.each do |ticket_granting_ticket| %>
             <tr class="<%= 'highlighted' if current_ticket_granting_ticket?(ticket_granting_ticket) %>">
-              <td data-label="Browser">
+              <td data-label="<%= t('sessions.table.column_browser') %>">
                 <span title="<%= ticket_granting_ticket.user_agent %>">
                   <%= ticket_granting_ticket.browser_info %>
                 </span>
               </td>
-              <td data-label="Services">
+              <td data-label="<%= t('sessions.table.column_services') %>">
                 <%= ticket_granting_ticket.service_tickets.size %>
               </td>
-              <td data-label="Most recent activity">
+              <td data-label="<%= t('sessions.table.column_activity') %>">
                 <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
               </td>
               <td>
                 <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
-                  <strong>Current session</strong>
+                  <strong><%= t('sessions.current_session') %></strong>
                 <% else %>
-                  <%= link_to 'End session', session_path(ticket_granting_ticket.id), method: :delete %>
+                  <%= link_to t('sessions.end_session'), session_path(ticket_granting_ticket.id), method: :delete %>
                 <% end %>
               </td>
             </tr>
