@@ -54,7 +54,7 @@ input[type=submit] {
   font-size: 100%;
   font-weight: 600;
   line-height: 1;
-  margin: 20px 0 20px 0;
+  margin: 20px 0 10px 0;
   outline: none;
   padding: 10px 20px 11px;
   position: relative;
@@ -65,13 +65,29 @@ input[type=submit] {
   -webkit-transition: background-color 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out;
   width: auto;
+
+  &:active {
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+  }
+
+  &:hover {
+    color: white;
+    background-color: #2284a1;
+  }
 }
 
 .container {
   padding-top: 100px;
   width: 100%;
 
-  .login {
+  .login, .sessions {
+
+    > div {
+      height: 241px;
+    }
+
     background: #fff;
     border: 1px solid #e6e6e6;
     margin: auto;
@@ -80,11 +96,14 @@ input[type=submit] {
     width: 560px;
 
     .logo {
+      background: image-url("rails.png") no-repeat 15px 50%;
       float: left;
-      padding: 90px 15px;
+      padding: 0 15px;
       width: 45%;
-      font-weight: bold;
-      font-size: 300%;
+
+      img {
+        visibility: hidden;
+      }
     }
 
     .form {
@@ -92,6 +111,13 @@ input[type=submit] {
       float: left;
       padding: 15px;
       width: 55%;
+    }
+  }
+
+  .sessions {
+    .info {
+      width: 100%;
+      background: image-url("rails.png") no-repeat right top;
     }
   }
 }
@@ -130,15 +156,21 @@ table {
     .login {
       width: 100%;
 
+      > div {
+        height: auto;
+      }
+
       .logo {
         float: none;
         width: 100%;
         padding: 0px 15px;
+        background-position: 15px 0;
       }
 
       .form {
         border-left: none;
         width: 100%;
+        padding-bottom: 0;
       }
     }
   }
