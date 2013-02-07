@@ -1,43 +1,45 @@
-<h1>Welcome</h1>
-<p>
-  You are currently logged in as <strong><%= @ticket_granting_tickets[0].user.username %></strong>.
-  <%= link_to 'Logout', logout_path %>
-</p>
-<h2>Sessions</h2>
-<p>
-  These are the web browsers currently logged in:
-</p>
-<table width="100%" class="tickets">
-  <thead>
-    <tr>
-      <th>Browser</th>
-      <th>Services</th>
-      <th>Most recent activity</th>
-      <th width="180">&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @ticket_granting_tickets.each do |ticket_granting_ticket| %>
-      <tr class="<%= 'highlighted' if current_ticket_granting_ticket?(ticket_granting_ticket) %>">
-        <td>
-          <span title="<%= ticket_granting_ticket.user_agent %>">
-            <%= ticket_granting_ticket.browser_info %>
-          </span>
-        </td>
-        <td>
-          <%= ticket_granting_ticket.service_tickets.size %>
-        </td>
-        <td>
-          <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
-        </td>
-        <td>
-          <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
-            <strong>Current session</strong>
-          <% else %>
-            <%= link_to 'End session', session_path(ticket_granting_ticket.id), method: :delete %>
+<div class="container">
+  <div class="sessions">
+
+    <div class="info">
+      <h1>Hello!</h1>
+      You are currently logged in as <strong><%= @ticket_granting_tickets[0].user.username %></strong>.
+
+
+      <table width="100%" class="tickets">
+        <thead>
+          <tr>
+            <th>Browser</th>
+            <th>Services</th>
+            <th>Most recent activity</th>
+            <th width="180">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @ticket_granting_tickets.each do |ticket_granting_ticket| %>
+            <tr class="<%= 'highlighted' if current_ticket_granting_ticket?(ticket_granting_ticket) %>">
+              <td>
+                <span title="<%= ticket_granting_ticket.user_agent %>">
+                  <%= ticket_granting_ticket.browser_info %>
+                </span>
+              </td>
+              <td>
+                <%= ticket_granting_ticket.service_tickets.size %>
+              </td>
+              <td>
+                <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
+              </td>
+              <td>
+                <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
+                  <strong>Current session</strong>
+                <% else %>
+                  <%= link_to 'End session', session_path(ticket_granting_ticket.id), method: :delete %>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
