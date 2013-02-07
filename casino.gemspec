@@ -5,8 +5,8 @@ require 'casino/version'
 Gem::Specification.new do |s|
   s.name        = 'casino'
   s.version     = CASino::VERSION
-  s.authors     = ['Nils Caspar']
-  s.email       = ['ncaspar@me.com']
+  s.authors     = ['Nils Caspar', 'Raffael Schmid', 'Samuel Sieg']
+  s.email       = ['ncaspar@me.com', 'raffael@yux.ch', 'samuel.sieg@me.com']
   s.homepage    = 'http://rbcas.org/'
   s.license     = 'MIT'
   s.summary     = 'A simple CAS server written in Ruby using the Rails framework.'
