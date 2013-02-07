@@ -84,17 +84,19 @@ input[type=submit] {
   width: 100%;
 
   .login, .sessions {
-
-    > div {
-      height: 241px;
-    }
-
     background: #fff;
     border: 1px solid #e6e6e6;
     margin: auto;
     overflow: auto;
     padding: 20px;
     width: 560px;
+  }
+
+
+  .login {
+    > div {
+      height: 241px;
+    }
 
     .logo {
       background: image-url("rails.png") no-repeat 15px 50%;
@@ -116,47 +118,57 @@ input[type=submit] {
   }
 
   .sessions {
+    width: 800px;
     .info {
       width: 100%;
+      height: auto;
       background: image-url("rails.png") no-repeat right top;
+    }
+
+    h3 {
+      margin: 40px 0 5px;
+    }
+
+    table.tickets {
+      margin-bottom: 10px;
     }
   }
 }
 
 table {
   border-collapse: collapse;
-
-  thead {
-    border-bottom: 1px dotted #aaa;
-  }
+  font-size: 90%;
 
   th, td {
     text-align: left;
     padding: 8px;
+
+    &:first-child {
+      padding-left: 0px;
+    }
   }
 
   tbody {
-    tr:nth-child(even) {
-     background-color: #f4faff;
-    }
+    tr {
+      border-top: 1px solid #e6e6e6;
 
-    tr.highlighted {
-      background-color: #fef4ca;
+      &:last-child {
+        border-bottom: 1px solid #e6e6e6;
+      }
     }
   }
 }
 
-@media only screen and (max-width: 600px)  {
-  body {
-    font-size: 100%;
-  }
 
+@media only screen and (max-width: 600px)  {
   .container {
     padding-top: 20%;
 
-    .login {
+    .login, .sessions {
       width: 100%;
+    }
 
+    .login {
       > div {
         height: auto;
       }
@@ -173,6 +185,65 @@ table {
         width: 100%;
         padding-bottom: 0;
       }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 800px)  {
+  .container {
+    padding-top: 100px;
+
+    .sessions {
+      width: 100%;
+    }
+
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    thead tr {
+      display: none;
+    }
+
+    tr {
+      border: none;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #e2e2e2;
+
+      &:last-child {
+        border-bottom: none;
+
+        td:last-child {
+          padding-bottom: 0;
+        }
+      }
+
+    }
+
+    td {
+      border: none;
+      position: relative;
+      padding-left: 50%;
+
+      &:first-child {
+        padding-left: 50%;
+      }
+
+      &:last-child {
+        padding-bottom: 19px;
+      }
+    }
+
+    td:before {
+      position: absolute;
+      top: 6px;
+      left: 0;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      content: attr(data-label);
     }
   }
 }

@@ -5,7 +5,7 @@
       <h1>Hello!</h1>
       You are currently logged in as <strong><%= @ticket_granting_tickets[0].user.username %></strong>.
 
-
+      <h3>Your Active Sessions</h3>
       <table width="100%" class="tickets">
         <thead>
           <tr>
@@ -18,15 +18,15 @@
         <tbody>
           <% @ticket_granting_tickets.each do |ticket_granting_ticket| %>
             <tr class="<%= 'highlighted' if current_ticket_granting_ticket?(ticket_granting_ticket) %>">
-              <td>
+              <td data-label="Browser">
                 <span title="<%= ticket_granting_ticket.user_agent %>">
                   <%= ticket_granting_ticket.browser_info %>
                 </span>
               </td>
-              <td>
+              <td data-label="Services">
                 <%= ticket_granting_ticket.service_tickets.size %>
               </td>
-              <td>
+              <td data-label="Most recent activity">
                 <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
               </td>
               <td>
