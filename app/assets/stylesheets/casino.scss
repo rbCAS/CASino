@@ -1,0 +1,361 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,600);
+@import "casino/normalize";
+
+/// DEFAULT SETTINGS ///
+$buttonColor: #0074ad !default;
+$buttonSecondaryColor: #c2c2c2 !default;
+
+$logo: "logo.png" !default;
+$logoRetina: "logo@2x.png" !default;
+$logoWidth: 146px !default;
+$logoHeight: 34px !default;
+
+
+
+/// GLOBAL STUFF ///
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f6f6f5;
+  color: #222222;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+label {
+  color: #4d4d4d;
+  display: block;
+  font-size: 100%;
+  margin: 10px 0 5px 0;
+}
+
+input[type=text],
+input[type=password] {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  display: block;
+  font-size: 120%;
+  height: 36px;
+  padding: 6px;
+  width: 100%;
+
+  &:focus {
+    background: #F5F5F4;
+    border-color: #b3b3b3;
+    outline: none !important;
+  }
+}
+
+a.button, input[type=submit] {
+  background: $buttonColor;
+  border: none;
+  border: 1px solid darken($buttonColor, 3%);
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 100%;
+  font-weight: 600;
+  line-height: 1;
+  margin: 20px 0 10px 0;
+  outline: none;
+  padding: 10px 20px 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  -moz-transition: background-color 0.15s ease-in-out;
+  -o-transition: background-color 0.15s ease-in-out;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+  width: auto;
+
+  &:active {
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+  }
+
+  &:hover {
+    background-color: darken($buttonColor, 5%);
+    color: white;
+  }
+
+  &:active {
+    top: 2px;
+  }
+
+  &.secondary {
+    background: $buttonSecondaryColor;
+    border: 1px solid darken($buttonSecondaryColor, 3%);
+    color: #222;
+
+    &:hover {
+      background-color: darken($buttonSecondaryColor, 5%);
+    }
+  }
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 90%;
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+
+    &:first-child {
+      padding-left: 0px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-top: 1px solid #e6e6e6;
+
+      &:last-child {
+        border-bottom: 1px solid #e6e6e6;
+      }
+    }
+  }
+}
+
+
+/// LAYOUT ///
+.container {
+  width: 100%;
+}
+
+.box {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  margin: auto;
+  margin-top: 10%;
+  overflow: auto;
+  padding: 20px;
+  width: 560px;
+}
+
+.logo {
+  background-image: image-url($logo);
+  background-repeat: no-repeat;
+
+  img {
+    visibility: hidden;
+  }
+
+  @media (min--moz-device-pixel-ratio: 1.3),
+         (-o-min-device-pixel-ratio: 2.6/2),
+         (-webkit-min-device-pixel-ratio: 1.3),
+         (min-device-pixel-ratio: 1.3),
+         (min-resolution: 1.3dppx) {
+    background-image: image-url($logoRetina);
+    background-size: $logoWidth $logoHeight;
+  }
+}
+
+footer {
+  color: #949494;
+  font-size: 80%;
+  font-weight: 200;
+  padding-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+#flash_notice,
+#flash_error {
+  background-color: #FBECC6;
+  border: 1px solid #F8DFA0;
+  font-weight: 600;
+  height: 28px;
+  line-height: 28px;
+  margin-top: -10px;
+  padding: 0 5px;
+  width: 100%;
+}
+
+#flash_error {
+  background-color: #ffebeb;
+  border: 1px solid #FFD6D6;
+}
+
+/// LOGIN ///
+.login {
+  > div {
+    height: 241px;
+  }
+
+  .logo {
+    background-position: 15px 50%;
+    display: inline-block;
+    float: left;
+    padding: 0 15px;
+    width: 45%;
+
+    img {
+      visibility: hidden;
+    }
+  }
+
+  .form {
+    border-left: 1px solid #eee;
+    float: left;
+    padding: 15px;
+    width: 55%;
+  }
+}
+
+
+/// SESSIONS ///
+.sessions, .logout {
+  width: 800px;
+
+  > div {
+    height: 190px;
+  }
+
+  .info {
+    float: left;
+    width: 60%;
+  }
+
+  .logo {
+    background-position: right 1.8em;
+    float: left;
+    width: 40%;
+  }
+
+
+  a.button {
+    margin-top: 0;
+  }
+
+  h3 {
+    margin: 40px 0 5px;
+  }
+
+  table.tickets {
+    margin-bottom: 10px;
+  }
+}
+
+/// LOGOUT ///
+.logout {
+  width: 560px;
+}
+
+/// TWO-FACTOR ///
+.twofactor {
+  margin-top: 5%;
+
+  #qr-code {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+/// RESPONSIVE ///
+@media only screen and (max-width: 600px)  {
+  .container {
+    padding-top: 0;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .sessions, .logout {
+    .info {
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    .logo {
+      background-position: 0 0;
+      float: none;
+      height: 200px;
+      padding: 0;
+      width: 100%;
+    }
+  }
+
+  .login, .logout {
+    > div {
+      height: auto;
+    }
+  }
+
+  .login {
+    .form {
+      border-left: none;
+      padding-bottom: 0;
+      width: 100%;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 800px)  {
+  .container {
+    .sessions {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    thead tr {
+      display: none;
+    }
+
+    tr {
+      border: none;
+      border-bottom: 1px solid #e2e2e2;
+      margin-bottom: 10px;
+
+      &:last-child {
+        border-bottom: none;
+
+        td:last-child {
+          padding-bottom: 0;
+        }
+      }
+
+    }
+
+    td {
+      border: none;
+      padding-left: 50%;
+      position: relative;
+
+      &:first-child {
+        padding-left: 50%;
+      }
+
+      &:last-child {
+        padding-bottom: 19px;
+      }
+    }
+
+    td:before {
+      content: attr(data-label);
+      font-weight: bold;
+      left: 0;
+      padding-right: 10px;
+      position: absolute;
+      top: 6px;
+      white-space: nowrap;
+      width: 45%;
+    }
+  }
+}
