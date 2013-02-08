@@ -23,8 +23,8 @@ body {
   background: #f6f6f5;
   color: #222222;
   font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 300;
   font-size: 15px;
+  font-weight: 300;
 }
 
 label {
@@ -56,10 +56,8 @@ input[type=password] {
 }
 
 a.button, input[type=submit] {
-  //background: #0074ad;
   background: $buttonColor;
   border: none;
-  //border: 1px solid #006394;
   border: 1px solid darken($buttonColor, 3%);
   color: #fff;
   cursor: pointer;
@@ -87,9 +85,8 @@ a.button, input[type=submit] {
   }
 
   &:hover {
-    color: white;
-    //background-color: #005F8F;
     background-color: darken($buttonColor, 5%);
+    color: white;
   }
 
   &:active {
@@ -102,8 +99,8 @@ table {
   font-size: 90%;
 
   th, td {
-    text-align: left;
     padding: 8px;
+    text-align: left;
 
     &:first-child {
       padding-left: 0px;
@@ -157,10 +154,10 @@ table {
 
 footer {
   color: #949494;
-  text-align: center;
-  padding-top: 10px;
   font-size: 80%;
   font-weight: 200;
+  padding-top: 10px;
+  text-align: center;
 }
 
 /// LOGIN ///
@@ -170,22 +167,22 @@ footer {
   }
 
   #flash_error {
-    margin-top: -10px;
     background-color: #ffebeb;
     border: 1px solid #FFD6D6;
-    padding: 0 5px;
-    width: 100%;
+    font-weight: 400;
     height: 28px;
     line-height: 28px;
-    font-weight: 400;
+    margin-top: -10px;
+    padding: 0 5px;
+    width: 100%;
   }
 
   .logo {
+    background-position: 15px 50%;
+    display: inline-block;
     float: left;
     padding: 0 15px;
     width: 45%;
-    display: inline-block;
-    background-position: 15px 50%;
 
     img {
       visibility: hidden;
@@ -210,14 +207,14 @@ footer {
   }
 
   .info {
-    width: 60%;
     float: left;
+    width: 60%;
   }
 
   .logo {
-    width: 40%;
-    float: left;
     background-position: right 1.8em;
+    float: left;
+    width: 40%;
   }
 
 
@@ -257,11 +254,11 @@ footer {
     }
 
     .logo {
-      float: none;
-      width: 100%;
-      padding: 0;
       background-position: 0 0;
+      float: none;
       height: 200px;
+      padding: 0;
+      width: 100%;
     }
   }
 
@@ -274,8 +271,8 @@ footer {
   .login {
     .form {
       border-left: none;
-      width: 100%;
       padding-bottom: 0;
+      width: 100%;
     }
   }
 }
@@ -284,8 +281,8 @@ footer {
 @media only screen and (max-width: 800px)  {
   .container {
     .sessions {
-      width: 100%;
       margin-top: 10px;
+      width: 100%;
     }
 
     table, thead, tbody, th, td, tr {
@@ -298,8 +295,8 @@ footer {
 
     tr {
       border: none;
-      margin-bottom: 10px;
       border-bottom: 1px solid #e2e2e2;
+      margin-bottom: 10px;
 
       &:last-child {
         border-bottom: none;
@@ -313,8 +310,8 @@ footer {
 
     td {
       border: none;
-      position: relative;
       padding-left: 50%;
+      position: relative;
 
       &:first-child {
         padding-left: 50%;
@@ -326,14 +323,14 @@ footer {
     }
 
     td:before {
+      content: attr(data-label);
+      font-weight: bold;
+      left: 0;
+      padding-right: 10px;
       position: absolute;
       top: 6px;
-      left: 0;
-      width: 45%;
-      padding-right: 10px;
       white-space: nowrap;
-      font-weight: bold;
-      content: attr(data-label);
+      width: 45%;
     }
   }
 }
