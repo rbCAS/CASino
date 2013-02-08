@@ -6,7 +6,7 @@ Here is a list of backward-incompatible changes that were introduced.
 
 This release adds support for two-factor authentication using a [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) (time-based one-time password) which can be generated with applications like [Google Authenticator](http://support.google.com/a/bin/answer.py?hl=en&answer=1037451) (iPhone, Android, BlackBerry) or gadgets such as the [YubiKey](http://www.yubico.com/products/yubikey-hardware/yubikey/).
 
-If you would like to support two-factor authentication in your web application, please have a look at the corresponding processors: `SecondFactorAuthenticationAcceptor`, `TwoFactorAuthenticatorActivator`, `TwoFactorAuthenticatorOverview`, `TwoFactorAuthenticatorRegistrator`
+If you would like to support two-factor authentication in your web application, please have a look at the corresponding processors: `SecondFactorAuthenticationAcceptor`, `TwoFactorAuthenticatorActivator`, `TwoFactorAuthenticatorDestroyer`, `TwoFactorAuthenticatorOverview`, `TwoFactorAuthenticatorRegistrator`
 
 New callbacks:
 
