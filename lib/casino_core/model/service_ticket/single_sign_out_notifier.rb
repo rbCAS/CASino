@@ -1,7 +1,6 @@
 require 'builder'
-require 'net/https'
+require 'faraday'
 require 'casino_core/model/service_ticket'
-require 'addressable/uri'
 
 class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
   include CASinoCore::Helper::Logger
@@ -11,10 +10,7 @@ class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
   end
 
   def notify
-    xml = build_xml
-    uri = Addressable::URI.parse(@service_ticket.service)
-    request = build_request(uri, xml)
-    send_notification(uri, request)
+    send_notification @service_ticket.service, build_xml
   end
 
   private
@@ -32,31 +28,18 @@ class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
     xml.target!
   end
 
-  def build_request(uri, xml)
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request.set_form_data(logoutRequest: xml)
-    return request
-  end
-
-  def send_notification(uri, request)
+  def send_notification(url, xml)
     logger.info "Sending Single Sign Out notification for ticket '#{@service_ticket.ticket}'"
-    begin
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true if uri.scheme =='https'
-
-      http.start do |conn|
-        response = conn.request(request)
-        if response.kind_of? Net::HTTPSuccess
-          logger.info "Logout notification successfully posted to #{uri}."
-          return true
-        else
-          logger.warn "Service #{uri} responed to logout notification with code '#{response.code}'!"
-          return false
-        end
-      end
-    rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
-      logger.warn "Failed to send logout notification to service #{uri} due to #{e}"
-      return false
+    result = Faraday.post(url, logoutRequest: xml)
+    if result.status == 200
+      logger.info "Logout notification successfully posted to #{url}."
+      true
+    else
+      logger.warn "Service #{url} responed to logout notification with code '#{result.status}'!"
+      false
     end
+  rescue Faraday::Error::ClientError => error
+    logger.warn "Failed to send logout notification to service #{url} due to #{error}"
+    false
   end
 end
