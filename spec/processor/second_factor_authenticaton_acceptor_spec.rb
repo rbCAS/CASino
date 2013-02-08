@@ -38,6 +38,18 @@ describe CASinoCore::Processor::SecondFactorAuthenticationAcceptor do
             ticket_granting_ticket.reload
             ticket_granting_ticket.should_not be_awaiting_two_factor_authentication
           end
+
+          context 'with a not allowed service' do
+            before(:each) do
+              FactoryGirl.create :service_rule, :regex, url: '^https://.*'
+            end
+            let(:service) { 'http://www.example.org/' }
+
+            it 'calls the #service_not_allowed method on the listener' do
+              listener.should_receive(:service_not_allowed).with(service)
+              processor.process(params.merge(service: service), user_agent)
+            end
+          end
         end
 
         context 'with an invalid OTP' do

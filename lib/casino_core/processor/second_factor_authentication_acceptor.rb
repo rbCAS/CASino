@@ -29,10 +29,14 @@ class CASinoCore::Processor::SecondFactorAuthenticationAcceptor < CASinoCore::Pr
       if validation_result.success?
         tgt.awaiting_two_factor_authentication = false
         tgt.save!
-        url = unless params[:service].nil?
-          acquire_service_ticket(tgt, params[:service], true).service_with_ticket_url
+        begin
+          url = unless params[:service].blank?
+            acquire_service_ticket(tgt, params[:service], true).service_with_ticket_url
+          end
+          @listener.user_logged_in(url, tgt.ticket)
+        rescue ServiceNotAllowedError => e
+          @listener.service_not_allowed(clean_service_url params[:service])
         end
-        @listener.user_logged_in(url, tgt.ticket)
       else
         @listener.invalid_one_time_password
       end
