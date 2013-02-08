@@ -2,11 +2,7 @@ module CASinoCore
   module Helper
     module ProxyTickets
 
-      class ValidationResult < Struct.new(:error_code, :error_message, :error_severity)
-        def success?
-          self.error_code.nil?
-        end
-      end
+      class ValidationResult < CASinoCore::Model::ValidationResult; end
 
       include CASinoCore::Helper::Logger
       include CASinoCore::Helper::Tickets

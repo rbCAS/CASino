@@ -7,5 +7,9 @@ FactoryGirl.define do
       "TGC-ticket#{n}"
     end
     user_agent 'TestBrowser 1.0'
+
+    trait :awaiting_two_factor_authentication do
+      awaiting_two_factor_authentication true
+    end
   end
 end

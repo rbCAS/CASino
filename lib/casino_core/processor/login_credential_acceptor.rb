@@ -18,6 +18,7 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   # * `#invalid_login_ticket` and `#invalid_login_credentials`: The first argument is a LoginTicket.
   #   See {CASinoCore::Processor::LoginCredentialRequestor} for details.
   # * `#service_not_allowed`: The user tried to access a service that this CAS server is not allowed to serve.
+  # * `#two_factor_authentication_pending`: The user should be asked to enter his OTP. The first argument (String) is the ticket-granting ticket. The ticket-granting ticket is not active yet. Use SecondFactorAuthenticatonAcceptor to activate it.
   #
   # @param [Hash] params parameters supplied by user
   # @param [String] user_agent user-agent delivered by the client
@@ -42,14 +43,18 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   end
 
   def user_logged_in(authentication_result)
-    begin
-      ticket_granting_ticket = acquire_ticket_granting_ticket(authentication_result, @user_agent)
-      url = unless @params[:service].nil?
-        acquire_service_ticket(ticket_granting_ticket, @params[:service], true).service_with_ticket_url
+    ticket_granting_ticket = acquire_ticket_granting_ticket(authentication_result, @user_agent)
+    if ticket_granting_ticket.awaiting_two_factor_authentication?
+      @listener.two_factor_authentication_pending(ticket_granting_ticket.ticket)
+    else
+      begin
+        url = unless @params[:service].blank?
+          acquire_service_ticket(ticket_granting_ticket, @params[:service], true).service_with_ticket_url
+        end
+        @listener.user_logged_in(url, ticket_granting_ticket.ticket)
+      rescue ServiceNotAllowedError => e
+        @listener.service_not_allowed(clean_service_url @params[:service])
       end
-      @listener.user_logged_in(url, ticket_granting_ticket.ticket)
-    rescue ServiceNotAllowedError => e
-      @listener.service_not_allowed(clean_service_url @params[:service])
     end
   end
 end

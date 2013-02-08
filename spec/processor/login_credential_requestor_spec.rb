@@ -55,6 +55,15 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
         listener.stub(:user_logged_in)
       end
 
+      context 'when two-factor authentication is pending' do
+        let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, :awaiting_two_factor_authentication }
+
+        it 'calls the #user_not_logged_in method on the listener' do
+          listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
+          processor.process(nil, cookies, user_agent)
+        end
+      end
+
       context 'with a service' do
         let(:service) { 'http://example.com/' }
         let(:params) { { service: service } }

@@ -3,9 +3,27 @@ require 'casino_core/authenticator'
 module CASinoCore
   class Settings
     class << self
-      attr_accessor :login_ticket, :service_ticket, :proxy_ticket, :authenticators, :logger
+      attr_accessor :login_ticket, :service_ticket, :proxy_ticket, :two_factor_authenticator, :authenticators, :logger
+      DEFAULT_SETTINGS = {
+        login_ticket: {
+          lifetime: 600
+        },
+        service_ticket: {
+          lifetime_unconsumed: 300,
+          lifetime_consumed: 86400
+        },
+        proxy_ticket: {
+          lifetime_unconsumed: 300,
+          lifetime_consumed: 86400
+        },
+        two_factor_authenticator: {
+          lifetime_inactive: 300,
+          drift: 30
+        }
+      }
+
       def init(config = {})
-        config.each do |key,value|
+        DEFAULT_SETTINGS.deep_merge(config).each do |key,value|
           if respond_to?("#{key}=")
             send("#{key}=", value)
           end

@@ -2,6 +2,18 @@
 
 Here is a list of backward-incompatible changes that were introduced.
 
+## 1.x.y
+
+This release adds support for two-factor authentication using a [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) (time-based one-time password) which can be generated with applications like [Google Authenticator](http://support.google.com/a/bin/answer.py?hl=en&answer=1037451) (iPhone, Android, BlackBerry) or gadgets such as the [YubiKey](http://www.yubico.com/products/yubikey-hardware/yubikey/).
+
+If you would like to support two-factor authentication in your web application, please have a look at the corresponding processors: `SecondFactorAuthenticationAcceptor`, `TwoFactorAuthenticatorActivator`, `TwoFactorAuthenticatorDestroyer`, `TwoFactorAuthenticatorOverview`, `TwoFactorAuthenticatorRegistrator`
+
+New callbacks:
+
+* `LoginCredentialAcceptor`: calls `#two_factor_authentication_pending` on the listener, when two-factor authentication is enabled for this user.
+
+If you don't want to support two-factor authentication, nothing has to be changed.
+
 ## 1.2.0
 
 API changes:
@@ -12,9 +24,9 @@ API changes:
 
 API changes:
 
-* `login_credential_acceptor`: The parameters of `#process` changed from `params, cookies, user_agent` to just `params, user_agent`
+* `LoginCredentialAcceptor`: The parameters of `#process` changed from `params, cookies, user_agent` to just `params, user_agent`
 
 New callbacks:
 
-* `login_credential_requestor` and `login_credential_acceptor` call `#service_not_allowed` on the listener, when a service is not in the service whitelist.
-* `api/service_ticket_provider` calls `#service_not_allowed_via_api` on the listener, when a service is not in the service whitelist.
+* `LoginCredentialRequestor` and `LoginCredentialAcceptor` call `#service_not_allowed` on the listener, when a service is not in the service whitelist.
+* `API::ServiceTicketProvider` calls `#service_not_allowed_via_api` on the listener, when a service is not in the service whitelist.

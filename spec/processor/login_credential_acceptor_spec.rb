@@ -41,6 +41,16 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           listener.stub(:user_logged_in)
         end
 
+        context 'with two-factor authentication enabled' do
+          let(:user) { CASinoCore::Model::User.create! username: username, authenticator: authenticator }
+          let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
+
+          it 'calls the `#two_factor_authentication_pending` method on the listener' do
+            listener.should_receive(:two_factor_authentication_pending).with(/^TGC\-/)
+            processor.process(login_data)
+          end
+        end
+
         context 'with a not allowed service' do
           before(:each) do
             FactoryGirl.create :service_rule, :regex, url: '^https://.*'
