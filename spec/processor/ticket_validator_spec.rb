@@ -92,6 +92,21 @@ require 'spec_helper'
             stub_request(:get, /#{pgt_url}\/\?pgtId=[^&]+&pgtIou=[^&]+/)
           end
 
+          context 'not using https' do
+            let(:pgt_url) { 'http://www.example.org' }
+
+            it 'calls the #validation_succeeded method on the listener' do
+              listener.should_receive(:validation_succeeded).with(regex_success)
+              processor.process(parameters_with_pgt_url)
+            end
+
+            it 'does not create a proxy-granting ticket' do
+              lambda do
+                processor.process(parameters_with_pgt_url)
+              end.should_not change(service_ticket.proxy_granting_tickets, :count)
+            end
+          end
+
           it 'calls the #validation_succeeded method on the listener' do
             listener.should_receive(:validation_succeeded).with(regex_success)
             processor.process(parameters_with_pgt_url)
