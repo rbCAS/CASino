@@ -1,5 +1,10 @@
 <div class="container">
   <div class="login box">
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+    <% end %>
     <div class="logo">
        <%= image_tag "rails.png" %>
     </div>
