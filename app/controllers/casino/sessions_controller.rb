@@ -2,6 +2,7 @@ class CASino::SessionsController < CASino::ApplicationController
   include CASino::SessionsHelper
 
   def index
+    processor(:TwoFactorAuthenticatorOverview).process(cookies, request.user_agent)
     processor(:SessionOverview).process(cookies, request.user_agent)
   end
 
@@ -19,5 +20,9 @@ class CASino::SessionsController < CASino::ApplicationController
 
   def logout
     processor(:Logout).process(params, cookies, request.user_agent)
+  end
+
+  def validate_otp
+    processor(:SecondFactorAuthenticationAcceptor).process(params, request.user_agent)
   end
 end

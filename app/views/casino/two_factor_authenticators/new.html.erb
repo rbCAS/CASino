@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="sessions box">
+    <%= render 'messages' %>
+    <div class="info">
+      <h1><%= t('two_factor_authenticators.setup') %></h1>
+      <p>
+        <%= t('two_factor_authenticators.description').html_safe %>
+      </p>
+
+      <p>
+        <%= t('two_factor_authenticators.instructions') %>
+        <br />
+        <img src="http://chart.apis.google.com/chart?cht=qr&chs=250x250&chl=<%= u "otpauth://totp/CASino?secret=#{@two_factor_authenticator.secret}" %>" height="250" width="250"><br />
+        <%= t('two_factor_authenticators.secret') %>: <%= @two_factor_authenticator.secret %>
+    </div>
+
+    <div class="form">
+      <%= form_tag(two_factor_authenticators_path, method: :post, id: 'two_factor_authenticators-form') do %>
+        <%= hidden_field_tag :id, @two_factor_authenticator.id %>
+        <%= label_tag :code, t('two_factor_authenticators.code') %>
+        <%= text_field_tag :otp, nil, maxlength: 6 %>
+        <%= link_to t('two_factor_authenticators.cancel'), sessions_path, :class => 'button' %>
+        <%= submit_tag t('two_factor_authenticators.submit') %>
+      <% end %>
+    </div>
+  </div>
+  <%= render 'footer' %>
+</div>
