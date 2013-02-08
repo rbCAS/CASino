@@ -1,6 +1,6 @@
 <div class="container">
   <div class="sessions box">
-
+    <%= render 'messages' %>
     <div class="info">
       <h1><%= t('sessions.title') %></h1>
       <p>
@@ -8,6 +8,13 @@
       </p>
 
       <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
+
+      <h3><%= t('two_factor_authenticators.title') %></h3>
+      <% if @two_factor_authenticators.blank? %>
+        <%= t('two_factor_authenticators.disabled') %> - <%= link_to t('two_factor_authenticators.enable'), new_two_factor_authenticator_path %>
+      <% else %>
+        <%= t('two_factor_authenticators.enabled') %> - <%= link_to t('two_factor_authenticators.disable'), two_factor_authenticator_path(@two_factor_authenticators[0].id), method: :delete %>
+      <% end %>
 
       <h3><%= t('sessions.your_active_sessions') %></h3>
       <table width="100%" class="tickets">
