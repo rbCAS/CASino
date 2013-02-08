@@ -8,6 +8,11 @@
       </p>
 
       <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
+    </div>
+
+    <div class="logo">
+      <%= image_tag "logo.png" %>
+    </div>
 
       <h3><%= t('two_factor_authenticators.title') %></h3>
       <% if @two_factor_authenticators.blank? %>
@@ -51,7 +56,6 @@
           <% end %>
         </tbody>
       </table>
-    </div>
   </div>
   <%= render 'footer' %>
 </div>

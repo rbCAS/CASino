@@ -4,6 +4,8 @@
 
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,600);
 
+
+/// GLOBAL STUFF ///
 * {
   box-sizing: border-box;
 }
@@ -107,75 +109,37 @@ table {
   }
 }
 
+
+/// LAYOUT ///
 .container {
   width: 100%;
+}
 
-  .box {
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    margin: auto;
-    margin-top: 10%;
-    overflow: auto;
-    padding: 20px;
-    width: 560px;
+.box {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  margin: auto;
+  margin-top: 10%;
+  overflow: auto;
+  padding: 20px;
+  width: 560px;
+}
 
-    .info {
-      width: 100%;
-      height: auto;
-      background: image-url("logo.png") no-repeat right top;
-    }
+.logo {
+  background-image: image-url("logo.png");
+  background-repeat: no-repeat;
+
+  img {
+    visibility: hidden;
   }
 
-
-  .login {
-    > div {
-      height: 241px;
-    }
-
-    #flash_error {
-      margin-top: -10px;
-      background-color: #ffebeb;
-      border: 1px solid #FFD6D6;
-      padding: 0 5px;
-      width: 100%;
-      height: 28px;
-      line-height: 28px;
-      font-weight: 400;
-    }
-
-    .logo {
-      background: image-url("logo.png") no-repeat 15px 50%;
-      float: left;
-      padding: 0 15px;
-      width: 45%;
-
-      img {
-        visibility: hidden;
-      }
-    }
-
-    .form {
-      border-left: 1px solid #eee;
-      float: left;
-      padding: 15px;
-      width: 55%;
-    }
-  }
-
-  .sessions {
-    width: 800px;
-
-    a.button {
-      margin-top: 0;
-    }
-
-    h3 {
-      margin: 40px 0 5px;
-    }
-
-    table.tickets {
-      margin-bottom: 10px;
-    }
+  @media (min--moz-device-pixel-ratio: 1.3),
+         (-o-min-device-pixel-ratio: 2.6/2),
+         (-webkit-min-device-pixel-ratio: 1.3),
+         (min-device-pixel-ratio: 1.3),
+         (min-resolution: 1.3dppx) {
+    background-image: image-url("logo@2x.png");
+    background-size: 146px 34px;
   }
 }
 
@@ -187,41 +151,119 @@ footer {
   font-weight: 200;
 }
 
-@media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6/2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
-  .container {
-    .box .info,
-    .login .logo {
-      background-image: image-url("logo@2x.png");
-      background-size: 146px 34px;
+/// LOGIN ///
+.login {
+  > div {
+    height: 241px;
+  }
+
+  #flash_error {
+    margin-top: -10px;
+    background-color: #ffebeb;
+    border: 1px solid #FFD6D6;
+    padding: 0 5px;
+    width: 100%;
+    height: 28px;
+    line-height: 28px;
+    font-weight: 400;
+  }
+
+  .logo {
+    float: left;
+    padding: 0 15px;
+    width: 45%;
+    display: inline-block;
+    background-position: 15px 50%;
+
+    img {
+      visibility: hidden;
     }
+  }
+
+  .form {
+    border-left: 1px solid #eee;
+    float: left;
+    padding: 15px;
+    width: 55%;
   }
 }
 
+
+/// SESSIONS ///
+.sessions, .logout {
+  width: 800px;
+
+  > div {
+    height: 190px;
+  }
+
+  .info {
+    width: 60%;
+    float: left;
+  }
+
+  .logo {
+    width: 40%;
+    float: left;
+    background-position: right 1.8em;
+  }
+
+
+  a.button {
+    margin-top: 0;
+  }
+
+  h3 {
+    margin: 40px 0 5px;
+  }
+
+  table.tickets {
+    margin-bottom: 10px;
+  }
+}
+
+/// LOGOUT ///
+.logout {
+  width: 560px;
+}
+
+
+/// RESPONSIVE ///
 @media only screen and (max-width: 600px)  {
   .container {
     padding-top: 0;
+  }
 
-    .box {
+  .box {
+    width: 100%;
+  }
+
+  .sessions, .logout {
+    .info {
+      margin-top: 40px;
       width: 100%;
     }
 
-    .login {
-      > div {
-        height: auto;
-      }
+    .logo {
+      float: none;
+      width: 100%;
+      padding: 0;
+      background-position: 0 0;
+      height: 200px;
+    }
+  }
 
-      .logo {
-        float: none;
-        width: 100%;
-        padding: 0px 15px;
-        background-position: 15px 0;
-      }
+  .login, .logout {
+    > div {
+      height: auto;
+    }
+  }
 
-      .form {
-        border-left: none;
-        width: 100%;
-        padding-bottom: 0;
-      }
+  .login {
+    .form {
+      border-left: none;
+      width: 100%;
+      padding-bottom: 0;
     }
   }
 }
