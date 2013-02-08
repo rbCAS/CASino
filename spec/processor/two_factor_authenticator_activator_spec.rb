@@ -97,7 +97,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorActivator do
           end
 
           it 'calls the `#invalid_one_time_password` method an the listener' do
-            listener.should_receive(:invalid_one_time_password).with(no_args)
+            listener.should_receive(:invalid_one_time_password).with(two_factor_authenticator)
             processor.process(params, cookies, user_agent)
           end
 

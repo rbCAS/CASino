@@ -1,3 +1,4 @@
+require 'rotp'
 require 'casino_core/processor'
 require 'casino_core/helper'
 require 'casino_core/model'
@@ -35,7 +36,7 @@ class CASinoCore::Processor::TwoFactorAuthenticatorActivator < CASinoCore::Proce
         @listener.two_factor_authenticator_activated
       else
         if validation_result.error_code == 'INVALID_OTP'
-          @listener.invalid_one_time_password
+          @listener.invalid_one_time_password(authenticator)
         else
           @listener.invalid_two_factor_authenticator
         end
