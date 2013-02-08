@@ -1,12 +1,25 @@
-<h1>Login</h1>
-<%= form_tag(login_path, method: :post, id: 'login-form') do %>
-  <%= hidden_field_tag :lt, @login_ticket.ticket %>
-  <%= hidden_field_tag :service, params[:service] unless params[:service].nil? %>
-  <dl>
-    <dt><%= label_tag :username %></dt>
-    <dd><%= text_field_tag :username, params[:username] %></dd>
-    <dt><%= label_tag :password %></dt>
-    <dd><%= password_field_tag :password %></dd>
-  </dl>
-  <%= submit_tag "Login" %>
-<% end %>
+<div class="container">
+  <div class="login box">
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+    <% end %>
+    <div class="logo">
+       <%= image_tag "logo.png" %>
+    </div>
+
+    <div class="form">
+      <%= form_tag(login_path, method: :post, id: 'login-form') do %>
+        <%= hidden_field_tag :lt, @login_ticket.ticket %>
+        <%= hidden_field_tag :service, params[:service] unless params[:service].nil? %>
+        <%= label_tag :username, t('login.label_username') %>
+        <%= text_field_tag :username, params[:username] %>
+        <%= label_tag :password, t('login.label_password') %>
+        <%= password_field_tag :password %>
+        <%= submit_tag t('login.label_button') %>
+      <% end %>
+    </div>
+  </div>
+  <%= render 'footer' %>
+</div>

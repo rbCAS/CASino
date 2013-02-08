@@ -1,8 +1,16 @@
-<h1>Logged out</h1>
-<p>
-  <% if @url.nil? %>
-    <%= t('logout.logged_out_without_url') %>
-  <% else %>
-    <%= t('logout.logged_out_with_url') %> <a href="<%= @url %>"><%= @url %></a>
-  <% end %>
-</p>
+<div class="container">
+  <div class="logout box">
+
+    <div class="info">
+      <h1><%= t('logout.title') %></h1>
+      <p>
+        <% if @url.nil? %>
+          <%= t('logout.logged_out_without_url') %>
+        <% else %>
+          <%= t('logout.logged_out_with_url') %> <a href="<%= @url %>"><%= @url %></a>
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <%= render 'footer' %>
+</div>
