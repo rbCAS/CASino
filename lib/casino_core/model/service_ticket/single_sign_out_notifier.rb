@@ -31,7 +31,7 @@ class CASinoCore::Model::ServiceTicket::SingleSignOutNotifier
   def send_notification(url, xml)
     logger.info "Sending Single Sign Out notification for ticket '#{@service_ticket.ticket}'"
     result = Faraday.post(url, logoutRequest: xml)
-    if result.status == 200
+    if result.success?
       logger.info "Logout notification successfully posted to #{url}."
       true
     else
