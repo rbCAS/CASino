@@ -168,21 +168,27 @@ footer {
   text-align: center;
 }
 
+#flash_notice,
+#flash_error {
+  background-color: #FBECC6;
+  border: 1px solid #F8DFA0;
+  font-weight: 600;
+  height: 28px;
+  line-height: 28px;
+  margin-top: -10px;
+  padding: 0 5px;
+  width: 100%;
+}
+
+#flash_error {
+  background-color: #ffebeb;
+  border: 1px solid #FFD6D6;
+}
+
 /// LOGIN ///
 .login {
   > div {
     height: 241px;
-  }
-
-  #flash_error {
-    background-color: #ffebeb;
-    border: 1px solid #FFD6D6;
-    font-weight: 400;
-    height: 28px;
-    line-height: 28px;
-    margin-top: -10px;
-    padding: 0 5px;
-    width: 100%;
   }
 
   .logo {
