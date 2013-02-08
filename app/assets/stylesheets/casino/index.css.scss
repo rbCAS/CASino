@@ -1,6 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,600);
-@import "normalize.css";
+/*
+ *= require_tree .
+ */
 
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,600);
 
 * {
   box-sizing: border-box;
