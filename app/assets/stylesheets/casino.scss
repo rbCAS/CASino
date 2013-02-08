@@ -3,6 +3,7 @@
 
 /// DEFAULT SETTINGS ///
 $buttonColor: #0074ad !default;
+$buttonSecondaryColor: #c2c2c2 !default;
 
 $logo: "logo.png" !default;
 $logoRetina: "logo@2x.png" !default;
@@ -88,6 +89,16 @@ a.button, input[type=submit] {
 
   &:active {
     top: 2px;
+  }
+
+  &.secondary {
+    background: $buttonSecondaryColor;
+    border: 1px solid darken($buttonSecondaryColor, 3%);
+    color: #222;
+
+    &:hover {
+      background-color: darken($buttonSecondaryColor, 5%);
+    }
   }
 }
 
