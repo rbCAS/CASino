@@ -251,6 +251,16 @@ footer {
   width: 560px;
 }
 
+/// TWO-FACTOR ///
+.twofactor {
+  margin-top: 5%;
+
+  #qr-code {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 
 /// RESPONSIVE ///
 @media only screen and (max-width: 600px)  {
