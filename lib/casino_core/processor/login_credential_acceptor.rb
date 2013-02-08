@@ -48,7 +48,7 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
       @listener.two_factor_authentication_pending(ticket_granting_ticket.ticket)
     else
       begin
-        url = unless @params[:service].nil?
+        url = unless @params[:service].blank?
           acquire_service_ticket(ticket_granting_ticket, @params[:service], true).service_with_ticket_url
         end
         @listener.user_logged_in(url, ticket_granting_ticket.ticket)
