@@ -64,6 +64,18 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
         end
       end
 
+      context 'when ticket-granting ticket expired' do
+        before(:each) do
+          ticket_granting_ticket.created_at = 25.hours.ago
+          ticket_granting_ticket.save!
+        end
+
+        it 'calls the #user_not_logged_in method on the listener' do
+          listener.should_receive(:user_not_logged_in).with(kind_of(CASinoCore::Model::LoginTicket))
+          processor.process(nil, cookies, user_agent)
+        end
+      end
+
       context 'with a service' do
         let(:service) { 'http://example.com/' }
         let(:params) { { service: service } }

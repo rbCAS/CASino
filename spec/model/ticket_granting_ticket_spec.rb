@@ -80,6 +80,26 @@ describe CASinoCore::Model::TicketGrantingTicket do
       end
     end
   end
+
+  describe '#expired?' do
+    context 'with an expired ticket' do
+      before(:each) do
+        ticket_granting_ticket.created_at = 25.hours.ago
+        ticket_granting_ticket.save!
+      end
+
+      it 'returns true' do
+        ticket_granting_ticket.expired?.should == true
+      end
+    end
+
+    context 'with an unexpired ticket' do
+      it 'returns false' do
+        ticket_granting_ticket.expired?.should == false
+      end
+    end
+  end
+
   describe '.cleanup' do
     let!(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
 

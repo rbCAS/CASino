@@ -33,6 +33,11 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
     end
   end
 
+  def expired?
+    lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime]
+    (Time.now - (self.created_at || Time.now)) > lifetime
+  end
+
   private
   def destroy_service_tickets
     self.service_tickets.each do |service_ticket|

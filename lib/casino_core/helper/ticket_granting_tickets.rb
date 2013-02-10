@@ -9,8 +9,15 @@ module CASinoCore
 
       def find_valid_ticket_granting_ticket(tgt, user_agent, ignore_two_factor = false)
         ticket_granting_ticket = CASinoCore::Model::TicketGrantingTicket.where(ticket: tgt).first
-        unless ticket_granting_ticket.nil? || (!ignore_two_factor && ticket_granting_ticket.awaiting_two_factor_authentication?)
-          if same_browser?(ticket_granting_ticket.user_agent, user_agent)
+        unless ticket_granting_ticket.nil?
+          if ticket_granting_ticket.expired?
+            logger.info "Ticket-granting ticket expired (Created: #{ticket_granting_ticket.created_at})"
+            ticket_granting_ticket.destroy
+            nil
+          elsif !ignore_two_factor && ticket_granting_ticket.awaiting_two_factor_authentication?
+            logger.info 'Ticket-granting ticket is valid, but two-factor authentication is pending'
+            nil
+          elsif same_browser?(ticket_granting_ticket.user_agent, user_agent)
             ticket_granting_ticket.user_agent = user_agent
             ticket_granting_ticket.touch
             ticket_granting_ticket.save!
