@@ -80,4 +80,16 @@ describe CASinoCore::Model::TicketGrantingTicket do
       end
     end
   end
+  describe '.cleanup' do
+    let!(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+
+    it 'deletes expired ticket-granting tickets' do
+      ticket_granting_ticket.created_at = 25.hours.ago
+      ticket_granting_ticket.save!
+      lambda do
+        described_class.cleanup
+      end.should change(described_class, :count).by(-1)
+      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_false
+    end
+  end
 end

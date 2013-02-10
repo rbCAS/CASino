@@ -35,8 +35,14 @@ namespace :casino_core do
       puts "Deleted #{rows_affected} inactive two-factor authenticators."
     end
 
+    desc 'Remove expired ticket-granting tickets.'
+    task ticket_granting_tickets: 'casino_core:db:configure_connection' do
+      rows_affected = CASinoCore::Model::TicketGrantingTicket.cleanup.length
+      puts "Deleted #{rows_affected} ticket-granting tickets."
+    end
+
     desc 'Perform all cleanup tasks.'
-    task all: [:service_tickets, :proxy_tickets, :login_tickets, :two_factor_authenticators] do
+    task all: [:ticket_granting_tickets, :service_tickets, :proxy_tickets, :login_tickets, :two_factor_authenticators] do
     end
   end
 end

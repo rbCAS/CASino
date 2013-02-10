@@ -10,6 +10,10 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   before_destroy :destroy_service_tickets
   after_destroy :destroy_proxy_granting_tickets
 
+  def self.cleanup
+    self.destroy_all(['created_at < ?', CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago])
+  end
+
   def browser_info
     unless self.user_agent.blank?
       user_agent = UserAgent.parse(self.user_agent)

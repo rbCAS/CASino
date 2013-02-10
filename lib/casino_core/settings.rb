@@ -3,10 +3,13 @@ require 'casino_core/authenticator'
 module CASinoCore
   class Settings
     class << self
-      attr_accessor :login_ticket, :service_ticket, :proxy_ticket, :two_factor_authenticator, :authenticators, :logger
+      attr_accessor :login_ticket, :ticket_granting_ticket, :service_ticket, :proxy_ticket, :two_factor_authenticator, :authenticators, :logger
       DEFAULT_SETTINGS = {
         login_ticket: {
           lifetime: 600
+        },
+        ticket_granting_ticket: {
+          lifetime: 86400
         },
         service_ticket: {
           lifetime_unconsumed: 300,
