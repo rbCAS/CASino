@@ -15,6 +15,7 @@ $logoHeight: 34px !default;
 /// GLOBAL STUFF ///
 * {
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 body {
@@ -294,6 +295,10 @@ footer {
   }
 
   .login {
+    .logo {
+      width: 100%;
+    }
+
     .form {
       border-left: none;
       padding-bottom: 0;
