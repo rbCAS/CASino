@@ -20,7 +20,6 @@ class CASino::ApplicationController < ::ApplicationController
   end
 
   def set_locale
-    logger.info "#{I18n.available_locales.inspect}"
     I18n.locale = extract_locale_from_accept_language_header || I18n.default_locale
   end
 
