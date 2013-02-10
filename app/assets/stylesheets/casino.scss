@@ -54,7 +54,7 @@ input[type=password] {
   }
 }
 
-a.button, input[type=submit] {
+.button {
   background: $buttonColor;
   border: none;
   border: 1px solid darken($buttonColor, 3%);

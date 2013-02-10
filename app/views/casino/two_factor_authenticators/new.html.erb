@@ -24,7 +24,7 @@
         <%= label_tag :code, t('two_factor_authenticators.code') %>
         <%= text_field_tag :otp, nil, maxlength: 6 %>
         <%= link_to t('two_factor_authenticators.cancel'), sessions_path, :class => 'secondary button' %>
-        <%= submit_tag t('two_factor_authenticators.submit') %>
+        <%= button_tag t('two_factor_authenticators.submit'), :class => 'button' %>
       <% end %>
     </div>
   </div>

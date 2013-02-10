@@ -9,7 +9,7 @@
         <%= hidden_field_tag :service, params[:service] %>
         <%= label_tag :code, t('validate_otp.code') %>
         <%= text_field_tag :otp, nil, maxlength: 6 %>
-        <%= submit_tag t('validate_otp.submit') %>
+        <%= button_tag t('validate_otp.submit'), :class => 'button' %>
       <% end %>
     </div>
   </div>

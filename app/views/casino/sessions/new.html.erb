@@ -13,7 +13,7 @@
         <%= text_field_tag :username, params[:username] %>
         <%= label_tag :password, t('login.label_password') %>
         <%= password_field_tag :password %>
-        <%= submit_tag t('login.label_button') %>
+        <%= button_tag t('login.label_button'), :class => 'button' %>
       <% end %>
     </div>
   </div>
