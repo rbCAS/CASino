@@ -1,6 +1,3 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 de:
   login_credential_acceptor:
     invalid_login_ticket: "Ihre Anfrage enthielt kein gültiges Login-Ticket."
@@ -16,7 +13,7 @@ de:
     submit: "Fortfahren"
     invalid_otp: "Das eingegebene Einmalkennwort ist ungültigt."
   logout:
-    title: "Auf wiedersehen."
+    title: "Auf Wiedersehen."
     logged_out_without_url: "Sie haben sich erfolgreich ausgeloggt."
     logged_out_with_url: "Die Applikation, aus welcher Sie sich soeben ausgeloggt haben, möchte dass Sie dem folgenden Link folgen:"
   sessions:
