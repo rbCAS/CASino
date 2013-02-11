@@ -43,7 +43,7 @@
                 <%= ticket_granting_ticket.service_tickets.size %>
               </td>
               <td data-label="<%= t('sessions.table.column_activity') %>">
-                <%= distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %> ago
+                <%= t 'datetime.ago', datetime: distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %>
               </td>
               <td>
                 <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>

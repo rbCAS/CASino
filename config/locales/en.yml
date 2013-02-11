@@ -1,6 +1,3 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
   login_credential_acceptor:
     invalid_login_ticket: "Your login request did not include a valid login ticket."
@@ -47,3 +44,5 @@ en:
     invalid_two_factor_authenticator: "The two-factor authenticator expired. Please follow the instructions below."
     successfully_activated: "The two-factor authenticator is now linked to this account."
     successfully_deleted: "The two-factor authenticator was successfully deleted."
+  datetime:
+    ago: "%{datetime} ago"

@@ -1,0 +1,83 @@
+de:
+  login_credential_acceptor:
+    invalid_login_ticket: "Ihre Anfrage enthielt kein gültiges Login-Ticket."
+    invalid_login_credentials: "Benutzername oder Passwort falsch."
+  login:
+    label_username: "Benutzername"
+    label_password: "Passwort"
+    label_button: "Login"
+  validate_otp:
+    title: "Zwei-Faktor-Authentifizierung"
+    description: "Bitte geben Sie ein gültiges Einmalkennwort an."
+    code: "Code"
+    submit: "Fortfahren"
+    invalid_otp: "Das eingegebene Einmalkennwort ist ungültigt."
+  logout:
+    title: "Auf Wiedersehen."
+    logged_out_without_url: "Sie haben sich erfolgreich ausgeloggt."
+    logged_out_with_url: "Die Applikation, aus welcher Sie sich soeben ausgeloggt haben, möchte dass Sie dem folgenden Link folgen:"
+  sessions:
+    title: "Hallo!"
+    currently_logged_in_as: "Sie sind eingeloggt als <strong>%{username}</strong>."
+    label_logout_button: "Logout"
+    your_active_sessions: "Ihre aktiven Sessions"
+    table:
+      column_browser: "Browser"
+      column_services: "Services"
+      column_activity: "Letzte Aktivität"
+    current_session: "Aktive Session"
+    end_session: "Session beenden"
+  two_factor_authenticators:
+    title: "Zwei-Faktor-Authentifizierung"
+    setup: "Zwei-Faktor-Authentifizierung einrichten"
+    description: "Zwei-Faktor-Authentifizierung fordert Sie beim Login zur Eingabe eines Einmalkennworts auf. Ein Einmalkennwort kann mit Applikationen wie dem <a href='http://support.google.com/accounts/bin/answer.py?hl=de&answer=1066447'>Google Authenticator</a> auf Ihrem Smartphone erstellt werden."
+    instructions: "Falls Sie den Google Authenticator einsetzen, scannen Sie den untenstehenden QR-Code mit der Applikation. Geben Sie das generierte Kennwort danach im untenstehenden Textfeld ein."
+    disabled: "Derzeit deaktiviert"
+    enable: "Aktivieren"
+    enabled: "Derzeit aktiviert"
+    disable: "Deaktivieren"
+    cancel: "Abbrechen"
+    secret: "Secret"
+    code: "Bestätigungs-Code"
+    submit: "Verifizieren und aktivieren"
+    invalid_one_time_password: "Das eingegebene Einmalkennwort ist ungültig."
+    invalid_two_factor_authenticator: "Der Zwei-Faktor-Authentifizierer ist abgelaufen. Bitte folgen Sie den untenstehenden Schritten."
+    successfully_activated: "Der Zwei-Faktor-Authentifizierer ist jetzt mit Ihrem Account verknüpft."
+    successfully_deleted: "Der Zwei-Faktor-Authentifizierer wurde erfolgreich gelöscht."
+  datetime:
+    ago: "%{datetime} her"
+    distance_in_words:
+      about_x_hours:
+        one: etwa eine Stunde
+        other: etwa %{count} Stunden
+      about_x_months:
+        one: etwa ein Monat
+        other: etwa %{count} Monate
+      about_x_years:
+        one: etwa ein Jahr
+        other: etwa %{count} Jahre
+      almost_x_years:
+        one: fast ein Jahr
+        other: fast %{count} Jahre
+      half_a_minute: eine halbe Minute
+      less_than_x_minutes:
+        one: weniger als eine Minute
+        other: weniger als %{count} Minuten
+      less_than_x_seconds:
+        one: weniger als eine Sekunde
+        other: weniger als %{count} Sekunden
+      over_x_years:
+        one: mehr als ein Jahr
+        other: mehr als %{count} Jahre
+      x_days:
+        one: ein Tag
+        other: ! '%{count} Tage'
+      x_minutes:
+        one: eine Minute
+        other: ! '%{count} Minuten'
+      x_months:
+        one: ein Monat
+        other: ! '%{count} Monate'
+      x_seconds:
+        one: eine Sekunde
+        other: ! '%{count} Sekunden'
