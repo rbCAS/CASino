@@ -355,7 +355,7 @@ table {
 
     td:before {
       content: attr(data-label);
-      font-weight: bold;
+      font-weight: 600;
       left: 0;
       padding-right: 10px;
       position: absolute;
