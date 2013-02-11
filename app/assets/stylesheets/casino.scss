@@ -5,6 +5,8 @@
 $buttonColor: #0074ad !default;
 $buttonSecondaryColor: #c2c2c2 !default;
 
+$linkColor: #0074ad !default;
+
 $logo: "logo.png" !default;
 $logoRetina: "logo@2x.png" !default;
 $logoWidth: 146px !default;
@@ -24,6 +26,21 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 15px;
   font-weight: 300;
+}
+
+a {
+  color: $linkColor;
+  font-weight: 600;
+  text-decoration: none;
+  -moz-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    text-decoration: underline;
+    color: darken($buttonColor, 8%);
+  }
 }
 
 label {
