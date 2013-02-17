@@ -7,6 +7,9 @@ defaults: &defaults
   proxy_ticket:
     lifetime_unconsumed: 300
     lifetime_consumed: 86400
+  frontend:
+    sso_name: "CASino"
+    footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
 
 development:
   <<: *defaults
