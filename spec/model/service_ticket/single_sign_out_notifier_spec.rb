@@ -21,6 +21,13 @@ describe CASinoCore::Model::ServiceTicket::SingleSignOutNotifier do
       }
     end
 
+    it 'sets the timeout values' do
+      [:read_timeout=, :open_timeout=].each do |timeout|
+        Net::HTTP.any_instance.should_receive(timeout).with(10)
+      end
+      notifier.notify
+    end
+
     context 'when it is a success' do
       it 'returns true' do
         notifier.notify.should == true
