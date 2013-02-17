@@ -10,6 +10,14 @@ describe CASinoCore::Settings do
     end
   end
 
+  describe '.add_defaults' do
+    it 'allows to set a overwritable default' do
+      CASinoCore::Settings.add_defaults :frontend, { foo: 'bar', example: 'test' }
+      CASinoCore::Settings.init frontend: { foo: 'test', test: 'example' }
+      CASinoCore::Settings.frontend.should == { foo: 'test', example: 'test', test: 'example' }
+    end
+  end
+
   describe '#authenticators=' do
     context 'with an authenticator name' do
       let(:authenticator_name) { 'testing' }
