@@ -57,6 +57,7 @@ describe CASinoCore::Settings do
           CASinoCore::Settings.stub(:require) do
             raise LoadError, 'cannot load such file'
           end
+          CASinoCore::Settings.stub(:puts)
         end
 
         it 'raises an error' do
