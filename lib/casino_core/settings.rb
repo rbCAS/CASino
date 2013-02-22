@@ -65,8 +65,11 @@ module CASinoCore
         begin
           require gemname
           CASinoCore::Authenticator.const_get(classname).new(options)
-        rescue LoadError
-          raise LoadError, "Authenticator '#{name}' not found. Please include \"gem '#{gemname}'\" in your Gemfile and try again."
+        rescue LoadError => error
+          puts "Failed to load authenticator '#{name}'. Maybe you have to include \"gem '#{gemname}'\" in your Gemfile?"
+          puts "  Error: #{error.message}"
+          puts ''
+          raise error
         end
       end
     end
