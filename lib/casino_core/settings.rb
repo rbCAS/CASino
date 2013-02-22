@@ -61,7 +61,7 @@ module CASinoCore
       private
       def load_and_instantiate_authenticator(name, options)
         gemname = "casino_core-authenticator-#{name.underscore}"
-        classname = name.classify
+        classname = name.camelize
         begin
           require gemname
           CASinoCore::Authenticator.const_get(classname).new(options)
