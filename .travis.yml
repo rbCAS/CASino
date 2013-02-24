@@ -1,7 +1,6 @@
 language: ruby
 before_script:
   - DATABASE_ENV=test rake casino_core:db:schema:load
-  - "mkdir -p /home/travis/.gem && touch /home/travis/.gem/casino-private_key.pem"
 rvm:
   - 1.9.3
-  - 2.0.0
+  - 2.0.0-p0
