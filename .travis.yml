@@ -3,4 +3,4 @@ before_script:
   - DATABASE_ENV=test rake casino_core:db:schema:load
 rvm:
   - 1.9.3
-  - 2.0.0-p0
+  - 2.0.0

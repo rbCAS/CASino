@@ -17,8 +17,11 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.signing_key   = File.expand_path '~/.gem/casino-private_key.pem'
-  s.cert_chain    = ['casino-public_cert.pem']
+  sign_file = File.expand_path '~/.gem/casino-private_key.pem'
+  if File.exist?(sign_file)
+    s.signing_key = sign_file
+    s.cert_chain  = ['casino-public_cert.pem']
+  end
 
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'rspec', '~> 2.12'
