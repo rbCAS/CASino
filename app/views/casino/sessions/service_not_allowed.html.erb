@@ -1,4 +1,14 @@
-<h1>Service not allowed</h1>
-<p>
-  This SSO server is not configured to allow logins to "<%= @service %>". If you think this is an error, please contact your administrator.
-</p>
+<div class="container">
+  <div class="logout box">
+
+    <div class="info">
+      <h1><%= t 'service_not_allowed.title' %></h1>
+      <p>
+        <%= t 'service_not_allowed.message', :service => @service %>
+      </p>
+    </div>
+    <div class="logo">
+      <%= image_tag "logo.png" %>
+    </div>
+  </div>
+</div>

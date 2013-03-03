@@ -6,6 +6,9 @@ en:
     label_username: "Username"
     label_password: "Password"
     label_button: "Login"
+  service_not_allowed:
+    title: "Service not allowed"
+    message: "This SSO server is not configured to allow logins to \"%{service}\". If you think this is an error, please contact your administrator."
   validate_otp:
     title: "Two-factor authentication"
     description: "Please enter a valid one-time password."
