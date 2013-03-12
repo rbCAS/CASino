@@ -76,7 +76,7 @@ PLATFORMS
 
 DEPENDENCIES
   casino_core!
-  coveralls (> 0)
+  coveralls
   database_cleaner (~> 0.9)
   factory_girl (~> 4.1)
   nokogiri (~> 1.5)
