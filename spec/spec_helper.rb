@@ -1,6 +1,8 @@
 require 'active_support/core_ext'
 require 'simplecov'
+require 'coveralls'
 
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 SimpleCov.start do
   add_filter '/spec'
   base_path = "#{File.dirname(__FILE__)}/../"
