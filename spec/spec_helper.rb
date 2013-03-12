@@ -11,6 +11,9 @@ SimpleCov.start do
   end
 end
 
+require 'coveralls'
+Coveralls.wear!
+
 require 'database_cleaner'
 require 'logger'
 require 'webmock/rspec'
