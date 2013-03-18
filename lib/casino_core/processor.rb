@@ -6,6 +6,7 @@ module CASinoCore
     autoload :LoginCredentialAcceptor, 'casino_core/processor/login_credential_acceptor.rb'
     autoload :LoginCredentialRequestor, 'casino_core/processor/login_credential_requestor.rb'
     autoload :Logout, 'casino_core/processor/logout.rb'
+    autoload :OtherSessionsDestroyer, 'casino_core/processor/other_sessions_destroyer.rb'
     autoload :ProxyTicketProvider, 'casino_core/processor/proxy_ticket_provider.rb'
     autoload :ProxyTicketValidator, 'casino_core/processor/proxy_ticket_validator.rb'
     autoload :SecondFactorAuthenticationAcceptor, 'casino_core/processor/second_factor_authentication_acceptor.rb'
