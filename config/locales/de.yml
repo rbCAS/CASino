@@ -14,7 +14,7 @@ de:
     description: "Bitte geben Sie ein gültiges Einmalkennwort an."
     code: "Code"
     submit: "Fortfahren"
-    invalid_otp: "Das eingegebene Einmalkennwort ist ungültigt."
+    invalid_otp: "Das eingegebene Einmalkennwort ist ungültig."
   logout:
     title: "Auf Wiedersehen."
     logged_out_without_url: "Sie haben sich erfolgreich ausgeloggt."
