@@ -6,7 +6,7 @@ describe CASinoCore::Processor::OtherSessionsDestroyer do
     let(:processor) { described_class.new(listener) }
     let(:cookies) { { tgt: tgt } }
     let(:url) { nil }
-    let(:params) { { :url => url } unless url.nil? }
+    let(:params) { { :service => url } unless url.nil? }
 
     before(:each) do
       listener.stub(:other_sessions_destroyed)

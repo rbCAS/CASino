@@ -25,6 +25,6 @@ class CASinoCore::Processor::OtherSessionsDestroyer < CASinoCore::Processor
       other_ticket_granting_tickets = tgt.user.ticket_granting_tickets.where('id != ?', tgt.id)
       other_ticket_granting_tickets.destroy_all
     end
-    @listener.other_sessions_destroyed(params[:url])
+    @listener.other_sessions_destroyed(params[:service])
   end
 end
