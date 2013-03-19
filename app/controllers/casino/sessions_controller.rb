@@ -18,6 +18,10 @@ class CASino::SessionsController < CASino::ApplicationController
     processor(:SessionDestroyer).process(params, cookies, request.user_agent)
   end
 
+  def destroy_others
+    processor(:OtherSessionsDestroyer).process(params, cookies, request.user_agent)
+  end
+
   def logout
     processor(:Logout).process(params, cookies, request.user_agent)
   end

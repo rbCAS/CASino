@@ -59,4 +59,13 @@ describe CASino::SessionsController do
       delete :destroy, id: id
     end
   end
+
+  describe 'GET "destroy_others"' do
+    it 'calls the process method of the OtherSessionsDestroyer' do
+      CASinoCore::Processor::OtherSessionsDestroyer.any_instance.should_receive(:process) do
+        @controller.render nothing: true
+      end
+      get :destroy_others
+    end
+  end
 end

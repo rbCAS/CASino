@@ -7,6 +7,8 @@ CASino::Engine.routes.draw do
   get 'logout' => 'sessions#logout'
   post 'validate_otp' => 'sessions#validate_otp'
 
+  get 'destroy-other-sessions' => 'sessions#destroy_others'
+
   get 'validate' => 'service_tickets#validate'
   get 'serviceValidate' => 'service_tickets#service_validate'
 

@@ -8,6 +8,7 @@ module CASino
     autoload :LoginCredentialAcceptor, 'casino/listener/login_credential_acceptor.rb'
     autoload :LoginCredentialRequestor, 'casino/listener/login_credential_requestor.rb'
     autoload :Logout, 'casino/listener/logout.rb'
+    autoload :OtherSessionsDestroyer, 'casino/listener/other_sessions_destroyer.rb'
     autoload :ProxyTicketProvider, 'casino/listener/proxy_ticket_provider.rb'
     autoload :SecondFactorAuthenticationAcceptor, 'casino/listener/second_factor_authentication_acceptor.rb'
     autoload :SessionDestroyer, 'casino/listener/session_destroyer.rb'
