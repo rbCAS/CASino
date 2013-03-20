@@ -23,7 +23,7 @@ describe CASinoCore::Model::ServiceTicket::SingleSignOutNotifier do
 
     it 'sets the timeout values' do
       [:read_timeout=, :open_timeout=].each do |timeout|
-        Net::HTTP.any_instance.should_receive(timeout).with(10)
+        Net::HTTP.any_instance.should_receive(timeout).with(CASinoCore::Settings.service_ticket[:single_sign_out_notification][:timeout])
       end
       notifier.notify
     end
