@@ -29,6 +29,21 @@ require 'spec_helper'
       end
 
       context 'with an unconsumed service ticket' do
+        context 'issued from a long_term ticket-granting ticket' do
+          before(:each) do
+            tgt = service_ticket.ticket_granting_ticket
+            tgt.long_term = true
+            tgt.save!
+          end
+
+          it 'calls the #validation_succeeded method on the listener' do
+            listener.should_receive(:validation_succeeded).with(
+              /<cas\:longTermAuthenticationRequestTokenUsed>true<\/cas\:longTermAuthenticationRequestTokenUsed>/
+            )
+            processor.process(parameters)
+          end
+        end
+
         context 'without renew flag' do
           it 'consumes the service ticket' do
             processor.process(parameters)
