@@ -83,6 +83,32 @@ describe CASinoCore::Model::TicketGrantingTicket do
   end
 
   describe '#expired?' do
+    context 'with a long-term ticket' do
+      context 'when almost expired' do
+        before(:each) do
+          ticket_granting_ticket.created_at = 9.days.ago
+          ticket_granting_ticket.long_term = true
+          ticket_granting_ticket.save!
+        end
+
+        it 'returns false' do
+          ticket_granting_ticket.expired?.should == false
+        end
+      end
+
+      context 'when expired' do
+        before(:each) do
+          ticket_granting_ticket.created_at = 30.days.ago
+          ticket_granting_ticket.long_term = true
+          ticket_granting_ticket.save!
+        end
+
+        it 'returns true' do
+          ticket_granting_ticket.expired?.should == true
+        end
+      end
+    end
+
     context 'with an expired ticket' do
       before(:each) do
         ticket_granting_ticket.created_at = 25.hours.ago
@@ -106,6 +132,25 @@ describe CASinoCore::Model::TicketGrantingTicket do
 
     it 'deletes expired ticket-granting tickets' do
       ticket_granting_ticket.created_at = 25.hours.ago
+      ticket_granting_ticket.save!
+      lambda do
+        described_class.cleanup
+      end.should change(described_class, :count).by(-1)
+      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_false
+    end
+
+    it 'does not delete almost expired long-term ticket-granting tickets' do
+      ticket_granting_ticket.created_at = 9.days.ago
+      ticket_granting_ticket.long_term = true
+      ticket_granting_ticket.save!
+      lambda do
+        described_class.cleanup
+      end.should_not change(described_class, :count)
+    end
+
+    it 'does delete expired long-term ticket-granting tickets' do
+      ticket_granting_ticket.created_at = 30.days.ago
+      ticket_granting_ticket.long_term = true
       ticket_granting_ticket.save!
       lambda do
         described_class.cleanup

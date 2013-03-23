@@ -8,7 +8,12 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   has_many :service_tickets, dependent: :destroy
 
   def self.cleanup
-    self.destroy_all(['created_at < ?', CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago])
+    self.destroy_all([
+      '(created_at < ? AND long_term = ?) OR created_at < ?',
+      CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago,
+      false,
+      CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term].seconds.ago
+    ])
   end
 
   def browser_info
@@ -31,7 +36,11 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   end
 
   def expired?
-    lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime]
+    if long_term?
+      lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term]
+    else
+      lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime]
+    end
     (Time.now - (self.created_at || Time.now)) > lifetime
   end
 end
