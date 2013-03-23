@@ -106,11 +106,11 @@ describe CASinoCore::Model::ServiceTicket do
         described_class::SingleSignOutNotifier.any_instance.stub(:notify).and_return(false)
       end
 
-      it 'does not delete the service ticket' do
+      it 'does delete the service ticket anyway' do
         consumed_ticket
         lambda {
           consumed_ticket.destroy
-        }.should_not change(CASinoCore::Model::ServiceTicket, :count)
+        }.should change(CASinoCore::Model::ServiceTicket, :count).by(-1)
       end
     end
   end

@@ -4,9 +4,10 @@ require 'useragent'
 describe CASinoCore::Model::TicketGrantingTicket do
   let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
   let(:service_ticket) { FactoryGirl.create :service_ticket, ticket_granting_ticket: ticket_granting_ticket }
-  let(:consumed_service_ticket) { FactoryGirl.create :service_ticket, :consumed, ticket_granting_ticket: ticket_granting_ticket }
 
   describe '#destroy' do
+    let!(:consumed_service_ticket) { FactoryGirl.create :service_ticket, :consumed, ticket_granting_ticket: ticket_granting_ticket }
+
     context 'when notification for a service ticket fails' do
       before(:each) do
         CASinoCore::Model::ServiceTicket::SingleSignOutNotifier.any_instance.stub(:notify).and_return(false)
@@ -19,10 +20,10 @@ describe CASinoCore::Model::TicketGrantingTicket do
         }.should change(CASinoCore::Model::ProxyGrantingTicket, :count).by(-1)
       end
 
-      it 'nullifies depending service tickets' do
+      it 'deletes depending service tickets' do
         lambda {
           ticket_granting_ticket.destroy
-        }.should change { consumed_service_ticket.reload.ticket_granting_ticket_id }.from(ticket_granting_ticket.id).to(nil)
+        }.should change(CASinoCore::Model::ServiceTicket, :count).by(-1)
       end
     end
   end
