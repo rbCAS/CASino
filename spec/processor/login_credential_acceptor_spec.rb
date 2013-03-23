@@ -41,6 +41,21 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           listener.stub(:user_logged_in)
         end
 
+        context 'with rememberMe set' do
+          let(:login_data_with_remember_me) { login_data.merge(rememberMe: true) }
+
+          it 'calls the #user_logged_in method on the listener with an expiration date set' do
+            listener.should_receive(:user_logged_in).with(/^#{service}\/\?ticket=ST\-/, /^TGC\-/, kind_of(Time))
+            processor.process(login_data_with_remember_me)
+          end
+
+          it 'creates a long-term ticket-granting ticket' do
+            processor.process(login_data_with_remember_me)
+            tgt = CASinoCore::Model::TicketGrantingTicket.last
+            tgt.long_term.should == true
+          end
+        end
+
         context 'with two-factor authentication enabled' do
           let(:user) { CASinoCore::Model::User.create! username: username, authenticator: authenticator }
           let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }

@@ -1,7 +1,7 @@
 require 'casino_core/model'
 
 class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
-  attr_accessible :ticket, :user_agent, :awaiting_two_factor_authentication
+  attr_accessible :ticket, :user_agent, :awaiting_two_factor_authentication, :long_term
   validates :ticket, uniqueness: true
 
   belongs_to :user

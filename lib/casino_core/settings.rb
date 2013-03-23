@@ -9,7 +9,8 @@ module CASinoCore
           lifetime: 600
         },
         ticket_granting_ticket: {
-          lifetime: 86400
+          lifetime: 86400,
+          lifetime_long_term: 864000
         },
         service_ticket: {
           lifetime_unconsumed: 300,
