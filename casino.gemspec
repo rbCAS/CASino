@@ -32,5 +32,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rails', '~> 3.2.9'
   s.add_runtime_dependency 'jquery-rails', '~> 2.1'
   s.add_runtime_dependency 'http_accept_language', '~> 2.0.0.pre'
-  s.add_runtime_dependency 'casino_core', '~> 1.3.2'
+  s.add_runtime_dependency 'casino_core', '~> 1.4.0'
 end
