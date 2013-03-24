@@ -2,7 +2,16 @@
 
 Here is a list of backward-incompatible changes that were introduced.
 
-## 1.x.y
+## 1.4.0
+
+This release changed some database structure. Be sure to advise users to migrate the database using `bundle exec rake casino_core:db:migrate`.
+
+API changes:
+
+* `LoginCredentialAcceptor`: `user_logged_in` may receive a third argument (`Time`, optional, default = `nil`) which represents the expiry date of the cookie. If it is `nil`, the cookie should be a session cookie.
+* `Logout`: `user_logged_out` may receive a second argument (`boolean`, optional, default = `false`). When it is `true`, the user should be redirected immediately.
+
+## 1.3.0
 
 This release adds support for two-factor authentication using a [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) (time-based one-time password) which can be generated with applications like [Google Authenticator](http://support.google.com/a/bin/answer.py?hl=en&answer=1037451) (iPhone, Android, BlackBerry) or gadgets such as the [YubiKey](http://www.yubico.com/products/yubikey-hardware/yubikey/).
 
