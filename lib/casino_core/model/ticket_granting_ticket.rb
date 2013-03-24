@@ -36,7 +36,9 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   end
 
   def expired?
-    if long_term?
+    if awaiting_two_factor_authentication?
+      lifetime = CASinoCore::Settings.two_factor_authenticator[:timeout]
+    elsif long_term?
       lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term]
     else
       lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime]

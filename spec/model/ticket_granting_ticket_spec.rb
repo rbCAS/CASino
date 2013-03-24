@@ -125,6 +125,30 @@ describe CASinoCore::Model::TicketGrantingTicket do
         ticket_granting_ticket.expired?.should == false
       end
     end
+
+    context 'with pending two-factor authentication' do
+      before(:each) do
+        ticket_granting_ticket.awaiting_two_factor_authentication = true
+        ticket_granting_ticket.save!
+      end
+
+      context 'with an expired ticket' do
+        before(:each) do
+          ticket_granting_ticket.created_at = 10.minutes.ago
+          ticket_granting_ticket.save!
+        end
+
+        it 'returns true' do
+          ticket_granting_ticket.expired?.should == true
+        end
+      end
+
+      context 'with an unexpired ticket' do
+        it 'returns false' do
+          ticket_granting_ticket.expired?.should == false
+        end
+      end
+    end
   end
 
   describe '.cleanup' do

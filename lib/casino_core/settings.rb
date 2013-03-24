@@ -24,6 +24,7 @@ module CASinoCore
           lifetime_consumed: 86400
         },
         two_factor_authenticator: {
+          timeout: 180,
           lifetime_inactive: 300,
           drift: 30
         }
