@@ -13,6 +13,9 @@
         <%= text_field_tag :username, params[:username] %>
         <%= label_tag :password, t('login.label_password') %>
         <%= password_field_tag :password %>
+        <%= label_tag :rememberMe do %>
+          <%= check_box_tag :rememberMe, 1, params[:rememberMe] %> <%= t('login.label_remember_me') %>
+        <% end %>
         <%= button_tag t('login.label_button'), :class => 'button' %>
       <% end %>
     </div>
