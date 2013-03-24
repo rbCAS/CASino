@@ -9,13 +9,14 @@ module CASinoCore
           lifetime: 600
         },
         ticket_granting_ticket: {
-          lifetime: 86400
+          lifetime: 86400,
+          lifetime_long_term: 864000
         },
         service_ticket: {
           lifetime_unconsumed: 300,
           lifetime_consumed: 86400,
           single_sign_out_notification: {
-            timeout: 10
+            timeout: 5
           }
         },
         proxy_ticket: {

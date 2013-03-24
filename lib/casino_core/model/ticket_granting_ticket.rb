@@ -1,17 +1,19 @@
 require 'casino_core/model'
 
 class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
-  attr_accessible :ticket, :user_agent, :awaiting_two_factor_authentication
+  attr_accessible :ticket, :user_agent, :awaiting_two_factor_authentication, :long_term
   validates :ticket, uniqueness: true
 
   belongs_to :user
-  has_many :service_tickets
-
-  before_destroy :destroy_service_tickets
-  after_destroy :destroy_proxy_granting_tickets
+  has_many :service_tickets, dependent: :destroy
 
   def self.cleanup
-    self.destroy_all(['created_at < ?', CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago])
+    self.destroy_all([
+      '(created_at < ? AND long_term = ?) OR created_at < ?',
+      CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago,
+      false,
+      CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term].seconds.ago
+    ])
   end
 
   def browser_info
@@ -34,25 +36,11 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   end
 
   def expired?
-    lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime]
+    if long_term?
+      lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term]
+    else
+      lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime]
+    end
     (Time.now - (self.created_at || Time.now)) > lifetime
-  end
-
-  private
-  def destroy_service_tickets
-    self.service_tickets.each do |service_ticket|
-      unless service_ticket.destroy
-        service_ticket.ticket_granting_ticket_id = nil
-        service_ticket.save
-      end
-    end
-  end
-
-  # Deletes proxy-granting tickets of service tickets that
-  # could not be deleted (see #destroy_service_tickets)
-  def destroy_proxy_granting_tickets
-    self.service_tickets.each do |service_ticket|
-      service_ticket.proxy_granting_tickets.destroy_all
-    end
   end
 end

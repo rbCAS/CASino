@@ -14,18 +14,19 @@ class CASinoCore::Builder::TicketValidationResponse < CASinoCore::Builder
         ticket = @options[:ticket]
         if ticket.is_a?(CASinoCore::Model::ProxyTicket)
           proxies = []
-          _ticket = ticket
-          while _ticket.is_a?(CASinoCore::Model::ProxyTicket)
+          service_ticket = ticket
+          while service_ticket.is_a?(CASinoCore::Model::ProxyTicket)
             proxy_granting_ticket = ticket.proxy_granting_ticket
             proxies << proxy_granting_ticket.pgt_url
-            _ticket = proxy_granting_ticket.granter
+            service_ticket = proxy_granting_ticket.granter
           end
-          ticket_granting_ticket = _ticket.ticket_granting_ticket
+          ticket_granting_ticket = service_ticket.ticket_granting_ticket
         else
+          service_ticket = ticket
           ticket_granting_ticket = ticket.ticket_granting_ticket
         end
 
-        build_success_xml(service_response, ticket, ticket_granting_ticket, proxies)
+        build_success_xml(service_response, ticket, service_ticket, ticket_granting_ticket, proxies)
       else
         build_failure_xml(service_response)
       end
@@ -44,12 +45,21 @@ class CASinoCore::Builder::TicketValidationResponse < CASinoCore::Builder
     end
   end
 
-  def build_success_xml(service_response, ticket, ticket_granting_ticket, proxies)
+  def build_success_xml(service_response, ticket, service_ticket, ticket_granting_ticket, proxies)
     user = ticket_granting_ticket.user
     service_response.cas :authenticationSuccess do |authentication_success|
       authentication_success.cas :user, user.username
       unless user.extra_attributes.blank?
         authentication_success.cas :attributes do |attributes|
+          attributes.cas :authenticationDate, ticket_granting_ticket.created_at.iso8601
+          attributes.cas :longTermAuthenticationRequestTokenUsed, ticket_granting_ticket.long_term?
+          attributes.cas :isFromNewLogin, service_ticket.issued_from_credentials?
+          # This would probably be the correct way, but current clients do not support this:
+          # attributes.cas :userAttributes do |user_attributes|
+          #   user.extra_attributes.each do |key, value|
+          #     serialize_extra_attribute(user_attributes, key, value)
+          #   end
+          # end
           user.extra_attributes.each do |key, value|
             serialize_extra_attribute(attributes, key, value)
           end

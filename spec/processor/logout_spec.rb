@@ -35,6 +35,29 @@ describe CASinoCore::Processor::Logout do
           processor.process(params, cookies, user_agent)
         end
       end
+
+      context 'with a service' do
+        let(:params) { { :service => url } }
+        let(:url) { 'http://www.example.org' }
+
+        context '(whitelisted)' do
+          it 'calls the #user_logged_out method on the listener and passes the URL and the redirect_immediate flag' do
+            listener.should_receive(:user_logged_out).with(url, true)
+            processor.process(params, cookies, user_agent)
+          end
+        end
+
+        context '(not whitelisted)' do
+          before(:each) do
+            FactoryGirl.create :service_rule, :regex, url: '^https://.*'
+          end
+
+          it 'calls the #user_logged_out method on the listener and passes no URL' do
+            listener.should_receive(:user_logged_out).with(nil)
+            processor.process(params, cookies, user_agent)
+          end
+        end
+      end
     end
 
     context 'with an invlaid ticket-granting ticket' do
