@@ -28,7 +28,17 @@ describe CASino::Listener::LoginCredentialAcceptor do
 
       it 'creates the tgt cookie' do
         listener.user_logged_in(url, ticket_granting_ticket)
-        controller.cookies[:tgt].should == ticket_granting_ticket
+        controller.cookies[:tgt][:value].should == ticket_granting_ticket
+      end
+    end
+
+    context 'with cookie expiry time' do
+      let(:url) { Object.new }
+      let(:expiry_time) { Time.now }
+      it 'set the tgt cookie expiry time' do
+        listener.user_logged_in(url, ticket_granting_ticket, expiry_time)
+        controller.cookies[:tgt][:value].should == ticket_granting_ticket
+        controller.cookies[:tgt][:expires].should == expiry_time
       end
     end
   end

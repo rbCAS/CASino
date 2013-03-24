@@ -6,6 +6,7 @@ de:
     label_username: "Benutzername"
     label_password: "Passwort"
     label_button: "Login"
+    label_remember_me: "Eingeloggt bleiben"
   service_not_allowed:
     title: "Service nicht erlaubt"
     message: "Dieser SSO-Server ist nicht konfiguriert, um Logins für \"%{service}\" zu erlauben. Wenn Sie denken, es handle sich hierbei um einen Fehler, kontaktieren Sie bitte Ihren Administrator."
