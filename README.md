@@ -1,4 +1,4 @@
-# CASinoCore [![Build Status](https://secure.travis-ci.org/rbCAS/CASinoCore.png?branch=master)](https://travis-ci.org/rbCAS/CASinoCore)
+# CASinoCore [![Build Status](https://secure.travis-ci.org/rbCAS/CASinoCore.png?branch=master)](https://travis-ci.org/rbCAS/CASinoCore) [![Coverage Status](https://coveralls.io/repos/rbCAS/CASinoCore/badge.png?branch=master)](https://coveralls.io/r/rbCAS/CASinoCore)
 
 A CAS server core library.
 
