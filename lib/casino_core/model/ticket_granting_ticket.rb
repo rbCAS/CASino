@@ -7,13 +7,18 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
   belongs_to :user
   has_many :service_tickets, dependent: :destroy
 
-  def self.cleanup
-    self.destroy_all([
+  def self.cleanup(user = nil)
+    if user.nil?
+      base = self
+    else
+      base = user.ticket_granting_tickets
+    end
+    base.where([
       '(created_at < ? AND long_term = ?) OR created_at < ?',
       CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago,
       false,
       CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term].seconds.ago
-    ])
+    ]).destroy_all
   end
 
   def browser_info

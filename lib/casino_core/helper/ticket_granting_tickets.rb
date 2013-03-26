@@ -58,9 +58,7 @@ module CASinoCore
       end
 
       def cleanup_expired_ticket_granting_tickets(user)
-        user.ticket_granting_tickets.where(['created_at < ?', CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago]).destroy_all.tap do |destroyed|
-          logger.info "Destroyed #{destroyed.length} expired ticket-granting tickets"
-        end
+        CASinoCore::Model::TicketGrantingTicket.cleanup(user)
       end
 
     end
