@@ -9,6 +9,8 @@ module CASinoCore
 
       class ServiceNotAllowedError < StandardError; end
 
+      RESERVED_CAS_PARAMETER_KEYS = ['service', 'ticket', 'gateway', 'renew']
+
       def acquire_service_ticket(ticket_granting_ticket, service, credentials_supplied = nil)
         service_url = clean_service_url(service)
         unless CASinoCore::Model::ServiceRule.allowed?(service_url)
@@ -27,7 +29,7 @@ module CASinoCore
         return dirty_service if dirty_service.blank?
         service_uri = Addressable::URI.parse dirty_service
         unless service_uri.query_values.nil?
-          service_uri.query_values = service_uri.query_values.except('service', 'ticket', 'gateway', 'renew')
+          service_uri.query_values = service_uri.query_values(Array).select { |k,v| !RESERVED_CAS_PARAMETER_KEYS.include?(k) }
         end
         if service_uri.query_values.blank?
           service_uri.query_values = nil

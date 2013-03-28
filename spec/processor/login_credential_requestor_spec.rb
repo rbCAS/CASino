@@ -99,6 +99,16 @@ describe CASinoCore::Processor::LoginCredentialRequestor do
         end
       end
 
+      context 'with a service with nested attributes' do
+        let(:service) { 'http://example.com/?a%5B%5D=test&a%5B%5D=example' }
+        let(:params) { { service: service } }
+
+        it 'does not remove the attributes' do
+          listener.should_receive(:user_logged_in).with(/\?a%5B%5D=test&a%5B%5D=example&ticket=ST\-[^&]+$/)
+          processor.process(params, cookies, user_agent)
+        end
+      end
+
       context 'without a service' do
         it 'calls the #user_logged_in method on the listener' do
           listener.should_receive(:user_logged_in).with(nil)

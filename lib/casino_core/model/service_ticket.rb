@@ -25,7 +25,7 @@ class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
 
   def service_with_ticket_url
     service_uri = Addressable::URI.parse(self.service)
-    service_uri.query_values = (service_uri.query_values || {}).merge(ticket: self.ticket)
+    service_uri.query_values = (service_uri.query_values(Array) || []) << ['ticket', self.ticket]
     service_uri.to_s
   end
 
