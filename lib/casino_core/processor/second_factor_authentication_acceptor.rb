@@ -34,7 +34,11 @@ class CASinoCore::Processor::SecondFactorAuthenticationAcceptor < CASinoCore::Pr
           url = unless params[:service].blank?
             acquire_service_ticket(tgt, params[:service], true).service_with_ticket_url
           end
-          @listener.user_logged_in(url, tgt.ticket)
+          if tgt.long_term?
+            @listener.user_logged_in(url, tgt.ticket, CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term].seconds.from_now)
+          else
+            @listener.user_logged_in(url, tgt.ticket)
+          end
         rescue ServiceNotAllowedError => e
           @listener.service_not_allowed(clean_service_url params[:service])
         end
