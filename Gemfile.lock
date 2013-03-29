@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    casino_core (1.4.1)
+    casino_core (1.4.2)
       activerecord (~> 3.2.9)
       addressable (~> 2.3)
       faraday (~> 0.8)
