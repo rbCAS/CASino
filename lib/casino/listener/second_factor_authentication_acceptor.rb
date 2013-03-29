@@ -6,8 +6,8 @@ class CASino::Listener::SecondFactorAuthenticationAcceptor < CASino::Listener
     @controller.redirect_to login_path
   end
 
-  def user_logged_in(url, ticket_granting_ticket)
-    @controller.cookies[:tgt] = ticket_granting_ticket
+  def user_logged_in(url, ticket_granting_ticket, cookie_expiry_time = nil)
+    @controller.cookies[:tgt] = { value: ticket_granting_ticket, expires: cookie_expiry_time }
     if url.nil?
       @controller.redirect_to sessions_path, status: :see_other
     else
