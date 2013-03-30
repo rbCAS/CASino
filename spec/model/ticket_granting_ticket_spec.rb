@@ -181,5 +181,24 @@ describe CASinoCore::Model::TicketGrantingTicket do
       end.should change(described_class, :count).by(-1)
       described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_false
     end
+
+    it 'does not delete almost expired ticket-granting tickets with pending two-factor authentication' do
+      ticket_granting_ticket.created_at = 2.minutes.ago
+      ticket_granting_ticket.awaiting_two_factor_authentication = true
+      ticket_granting_ticket.save!
+      lambda do
+        described_class.cleanup
+      end.should_not change(described_class, :count)
+    end
+
+    it 'does delete expired ticket-granting tickets with pending two-factor authentication' do
+      ticket_granting_ticket.created_at = 20.minutes.ago
+      ticket_granting_ticket.awaiting_two_factor_authentication = true
+      ticket_granting_ticket.save!
+      lambda do
+        described_class.cleanup
+      end.should change(described_class, :count).by(-1)
+      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_false
+    end
   end
 end

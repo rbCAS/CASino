@@ -14,7 +14,9 @@ class CASinoCore::Model::TicketGrantingTicket < ActiveRecord::Base
       base = user.ticket_granting_tickets
     end
     base.where([
-      '(created_at < ? AND long_term = ?) OR created_at < ?',
+      '(created_at < ? AND awaiting_two_factor_authentication = ?) OR (created_at < ? AND long_term = ?) OR created_at < ?',
+      CASinoCore::Settings.two_factor_authenticator[:timeout].seconds.ago,
+      true,
       CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago,
       false,
       CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term].seconds.ago
