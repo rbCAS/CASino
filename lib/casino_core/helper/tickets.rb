@@ -10,7 +10,7 @@ module CASinoCore
         random_string = SecureRandom.random_bytes(length).each_char.map do |char|
           ALLOWED_TICKET_STRING_CHARACTERS[(char.ord % ALLOWED_TICKET_STRING_CHARACTERS.length)]
         end.join
-        "#{prefix}-#{Time.now.to_i}-#{random_string}"
+        "#{prefix}-#{'%d' % (Time.now.to_f * 10000)}-#{random_string}"
       end
     end
   end
