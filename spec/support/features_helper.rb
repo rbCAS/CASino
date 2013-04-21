@@ -12,6 +12,14 @@ module FeatureHelpers
     fill_in 'password', with: options[:password] || 'foobar123'
     click_button 'Login'
   end
+
+  def enable_two_factor_authentication
+    visit new_two_factor_authenticator_path
+    secret = find('p#secret').text.gsub(/^Secret:\s*/, '')
+    totp = ROTP::TOTP.new(secret)
+    fill_in 'otp', with: "#{totp.now}"
+    click_button 'Verify and enable'
+  end
 end
 
 RSpec.configure do |config|
