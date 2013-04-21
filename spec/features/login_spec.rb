@@ -5,11 +5,51 @@ describe 'Login' do
 
   subject { page }
 
-  context 'with valid username and password' do
-    before { sign_in }
+  context 'with two-factor authentication enabled' do
+    before do
+      in_browser(:other) do
+        sign_in
+        @totp = enable_two_factor_authentication
+      end
+    end
 
-    it { should_not have_button('Login') }
-    its(:current_path) { should == sessions_path }
+    context 'with valid username and password' do
+      before { sign_in }
+
+      it { should_not have_button('Login') }
+      it { should have_button('Continue') }
+      its(:current_path) { should == login_path }
+
+      context 'when filling in the correct otp' do
+        before do
+          fill_in :otp, with: @totp.now
+          click_button 'Continue'
+        end
+
+        it { should_not have_button('Login') }
+        it { should_not have_button('Continue') }
+        its(:current_path) { should == sessions_path }
+      end
+
+      context 'when filling in an incorrect otp' do
+        before do
+          fill_in :otp, with: 'aaaaa'
+          click_button 'Continue'
+        end
+
+        it { should have_text('The one-time password you entered is not correct') }
+        it { should have_button('Continue') }
+      end
+    end
+  end
+
+  context 'with two-factor authentication disabled' do
+    context 'with valid username and password' do
+      before { sign_in }
+
+      it { should_not have_button('Login') }
+      its(:current_path) { should == sessions_path }
+    end
   end
 
   context 'with invalid username' do
