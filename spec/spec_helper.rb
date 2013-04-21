@@ -17,13 +17,7 @@ ENGINE_RAILS_ROOT = File.join(File.dirname(__FILE__), '../')
 Dir[File.join(ENGINE_RAILS_ROOT, 'spec/support/**/*.rb')].each {|f| require f }
 
 RSpec.configure do |config|
-  # ## Mock Framework
-  #
-  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
+  config.use_transactional_fixtures = true
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -37,8 +31,4 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.before(:each, type: :controller) { @routes = CASino::Engine.routes }
-
-  config.before(:each, type: :feature) do
-    srand # for some reason required to make SecureRandom work
-  end
 end
