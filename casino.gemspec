@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     s.cert_chain  = ['casino-public_cert.pem']
   end
 
+  s.add_development_dependency 'capybara', '~> 2.1'
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'rspec', '~> 2.12'
   s.add_development_dependency 'rspec-rails', '~> 2.0'

@@ -8,6 +8,8 @@ require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 
+require 'capybara/rails'
+
 ENGINE_RAILS_ROOT = File.join(File.dirname(__FILE__), '../')
 
 # Requires supporting ruby files with custom matchers and macros, etc,
