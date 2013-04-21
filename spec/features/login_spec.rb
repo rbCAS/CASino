@@ -1,23 +1,25 @@
 require 'spec_helper'
 
-feature 'Login' do
+describe 'Login' do
   include CASino::Engine.routes.url_helpers
 
-  scenario 'with valid username and password' do
-    integration_sign_in
+  subject { page }
 
-    expect(page).to have_content('Logout')
+  context 'with valid username and password' do
+    before { integration_sign_in }
+
+    it { should have_link('Logout') }
   end
 
-  scenario 'with invalid username' do
-    integration_sign_in username: 'lalala', password: 'foobar123'
+  context 'with invalid username' do
+    before { integration_sign_in username: 'lalala', password: 'foobar123' }
 
-    expect(page).to have_content('Login')
+    it { should have_button('Login') }
   end
 
-  scenario 'with blank password' do
-    integration_sign_in password: ''
+  context 'with blank password' do
+    before { integration_sign_in password: '' }
 
-    expect(page).to have_content('Login')
+    it { should have_button('Login') }
   end
 end

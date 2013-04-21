@@ -1,12 +1,16 @@
 require 'spec_helper'
 
-feature 'Logout' do
+describe 'Logout' do
   include CASino::Engine.routes.url_helpers
 
-  scenario 'when logged in' do
-    integration_sign_in
-    click_link 'Logout'
+  subject { page }
 
-    expect(page).to have_content('logged out')
+  context 'when logged in' do
+    before do
+      integration_sign_in
+      click_link 'Logout'
+    end
+
+    it { should have_content('logged out') }
   end
 end

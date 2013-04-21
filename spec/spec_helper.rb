@@ -37,4 +37,8 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.before(:each, type: :controller) { @routes = CASino::Engine.routes }
+
+  config.before(:each, type: :feature) do
+    srand # for some reason required to make SecureRandom work
+  end
 end
