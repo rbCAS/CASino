@@ -7,7 +7,7 @@ describe 'Session overview' do
 
   context 'when logged in' do
     before do
-      integration_sign_in
+      sign_in
       visit sessions_path
     end
 
@@ -22,11 +22,25 @@ describe 'Session overview' do
     context 'when other sessions exist' do
       before do
         in_browser(:other) do
-          integration_sign_in
+          sign_in
         end
         visit sessions_path
       end
       it { should have_link('End session') }
+    end
+
+    context 'with two-factor authentication disabled' do
+      before do
+        in_browser(:other) do
+          sign_in
+        end
+        visit sessions_path
+      end
+      it { should have_link('Enable', href: new_two_factor_authenticator_path) }
+    end
+
+    context 'with two-factor authentication enabled' do
+      it { should have_link('Enable', href: new_two_factor_authenticator_path) }
     end
   end
 

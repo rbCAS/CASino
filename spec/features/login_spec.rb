@@ -6,19 +6,19 @@ describe 'Login' do
   subject { page }
 
   context 'with valid username and password' do
-    before { integration_sign_in }
+    before { sign_in }
 
     it { should have_link('Logout') }
   end
 
   context 'with invalid username' do
-    before { integration_sign_in username: 'lalala', password: 'foobar123' }
+    before { sign_in username: 'lalala', password: 'foobar123' }
 
     it { should have_button('Login') }
   end
 
   context 'with blank password' do
-    before { integration_sign_in password: '' }
+    before { sign_in password: '' }
 
     it { should have_button('Login') }
   end

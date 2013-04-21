@@ -7,7 +7,7 @@ describe 'Logout' do
 
   context 'when logged in' do
     before do
-      integration_sign_in
+      sign_in
       click_link 'Logout'
     end
 
