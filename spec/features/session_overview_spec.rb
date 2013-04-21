@@ -11,7 +11,7 @@ describe 'Session overview' do
       visit sessions_path
     end
 
-    it { should have_link('Logout') }
+    it { should have_link('Logout', href: logout_path) }
     it { should have_text('Your Active Sessions') }
     it { should have_text('Active Session') }
 
@@ -48,5 +48,6 @@ describe 'Session overview' do
     before { visit sessions_path }
 
     it { should have_button('Login') }
+    its(:current_path) { should == login_path }
   end
 end
