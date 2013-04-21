@@ -5,7 +5,7 @@ require 'addressable/uri'
 class CASinoCore::Model::ServiceTicket < ActiveRecord::Base
   autoload :SingleSignOutNotifier, 'casino_core/model/service_ticket/single_sign_out_notifier.rb'
 
-  attr_accessible :ticket, :service
+  attr_accessible :ticket, :service, :issued_from_credentials
   validates :ticket, uniqueness: true
   belongs_to :ticket_granting_ticket
   before_destroy :send_single_sing_out_notification, if: :consumed?
