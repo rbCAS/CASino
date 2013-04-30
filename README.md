@@ -13,60 +13,8 @@ This simplifies the creation of a CAS server implementation for other developers
 
 ## Setup
 
-### 1. Create a Ruby on Rails application
+Please check our [documentation](http://casino.rbcas.com/) for setup and configuration instructions.
 
-Make sure you installed Ruby on Rails 3.2.x!
+## License
 
-    rails new my-casino --skip-active-record --skip-test-unit --skip-bundle
-    cd my-casino
-
-### 2. Include and install CASino engine gem
-
-Edit your application's Gemfile and add these lines if missing:
-
-    gem 'sqlite3', '~> 1.3', :group => :development
-    gem 'casino'
-
-Run `bundle install` afterwards.
-
-### 3. Generate the initial configuration
-
-    bundle exec rails g casino:install
-
-### 4. Edit the configuration
-
-    vim config/cas.yml
-    vim config/database.yml
-
-Information about configuration can be found in our Wiki: [Configuration](https://github.com/rbCAS/CASino/wiki/Configuration)
-
-### 5. Load the database
-
-Load the default DB schema with `rake casino_core:db:schema:load`. After an update, run `rake casino_core:db:migrate` instead.
-
-### 6. Configure a cronjob
-
-Configure a cronjob to do a `rake casino_core:cleanup:all > /dev/null` every 5 minutes. This is not essential in a development environment.
-
-### 7. Customize it!
-
-Learn how to customize your CASino installation: [Customization](https://github.com/rbCAS/CASino/wiki/Customization)
-
-### 8. Ship it!
-
-To start the server in a development environment, run:
-
-    bundle exec rails s
-
-## Contributing to CASino
-
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-
-## Copyright
-
-Copyright (c) 2012 Nils Caspar. See LICENSE.txt for further details.
+CASino is released under the [MIT License](http://www.opensource.org/licenses/MIT). See LICENSE.txt for further details.
