@@ -1,3 +1,9 @@
+<% login_notice = t('login.notice', default: '') %>
+<% unless login_notice.blank? %>
+<div class="notice">
+  <%= login_notice %>
+</div>
+<% end %>
 <div class="container">
   <div class="login box">
     <%= render 'messages' %>
