@@ -1,0 +1,36 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>
+Created by FontForge 20110222 at Tue May  7 15:36:48 2013
+ By root
+Copyright (C) 2012 by original authors @ fontello.com
+</metadata>
+<defs>
+<font id="casino-icons" horiz-adv-x="887" >
+  <font-face 
+    font-family="casino-icons"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1000"
+    panose-1="2 0 6 9 0 0 0 0 0 0"
+    ascent="850"
+    descent="-150"
+    bbox="15 -79 872 779"
+    underline-thickness="50"
+    underline-position="-100"
+    unicode-range="U+E705-E705"
+  />
+<missing-glyph 
+d="M33 0v666h265v-666h-265zM66 33h199v600h-199v-600z" />
+    <glyph glyph-name=".notdef" 
+d="M33 0v666h265v-666h-265zM66 33h199v600h-199v-600z" />
+    <glyph glyph-name=".null" horiz-adv-x="0" 
+ />
+    <glyph glyph-name="nonmarkingreturn" 
+ />
+    <glyph glyph-name="uniE705" unicode="&#xe705;" 
+d="M15 350q0 123 60 219.5t153 151.5q101 58 216 58q123 0 219.5 -60t151.5 -154q57 -99 57 -215q0 -123 -60 -219.5t-153 -151.5q-101 -58 -215 -58q-123 0 -220 60t-152 154q-57 99 -57 215zM301 82q0 -8 5.5 -13t12.5 -5h250q17 0 17 18v36q0 18 -17 18h-54v268
+q0 17 -18 17h-178q-18 0 -18 -17v-36q0 -8 5.5 -13t12.5 -5h53v-214h-53q-7 0 -12.5 -5t-5.5 -13v-36zM372 511q0 -7 5 -12.5t13 -5.5h107q7 0 12.5 5.5t5.5 12.5v107q0 8 -5.5 13t-12.5 5h-107q-8 0 -13 -5t-5 -13v-107z" />
+  </font>
+</defs></svg>
