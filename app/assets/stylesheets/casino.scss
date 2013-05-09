@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,600);
 @import "casino/normalize";
+@import "casino/icons";
 
 /// DEFAULT SETTINGS ///
 $buttonColor: #0074ad !default;
@@ -231,6 +232,20 @@ table {
   }
 }
 
+/// LOGIN NOTICE ///
+.notice {
+  height: auto;
+  background: #f6f6f5;
+  border: none;
+  margin-bottom: -10%;
+  margin-top: 10%;
+  padding: 5px;
+  font-size: 90%;
+
+  .icon-info {
+    font-size: 100%;
+  }
+}
 
 /// SESSIONS ///
 .sessions, .logout {
