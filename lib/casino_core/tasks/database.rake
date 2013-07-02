@@ -1,3 +1,4 @@
+require 'erb'
 require 'yaml'
 require 'logger'
 require 'active_record'
@@ -16,7 +17,7 @@ namespace :casino_core do
     end
 
     task :configuration => :environment do
-      @config = YAML.load_file('config/database.yml')[DATABASE_ENV]
+      @config = YAML::load(ERB.new(IO.read('config/database.yml')).result)[DATABASE_ENV]
       CASinoCore.setup DATABASE_ENV
     end
 

@@ -16,7 +16,7 @@ module CASinoCore
       root_path = options[:application_root] || '.'
       require 'active_record'
       require 'yaml'
-      ActiveRecord::Base.establish_connection YAML.load_file(File.join(root_path, 'config/database.yml'))[@environment]
+      ActiveRecord::Base.establish_connection YAML::load(ERB.new(IO.read(File.join(root_path, 'config/database.yml'))).result)[@environment]
 
       config = YAML.load_file(File.join(root_path, 'config/cas.yml'))[@environment].symbolize_keys
       recursive_symbolize_keys!(config)
