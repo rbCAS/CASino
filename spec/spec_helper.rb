@@ -1,3 +1,5 @@
+ENV['RAILS_ENV'] ||= ENV['DATABASE_ENV'] || 'test'
+
 require 'active_support/core_ext'
 require 'simplecov'
 require 'coveralls'
@@ -47,7 +49,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    CASinoCore.setup 'test'
+    CASinoCore.setup ENV['RAILS_ENV']
     CASinoCore::Settings.logger.level = ::Logger::Severity::UNKNOWN
     DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.start
