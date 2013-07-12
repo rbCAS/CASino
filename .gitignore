@@ -11,6 +11,8 @@ doc
 
 # bundler
 .bundle
+vendor
+Gemfile.lock
 
 # jeweler generated
 pkg
