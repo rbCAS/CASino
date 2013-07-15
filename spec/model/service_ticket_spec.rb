@@ -114,4 +114,11 @@ describe CASinoCore::Model::ServiceTicket do
       end
     end
   end
+
+  describe '#service_with_ticket_url' do
+    it 'does not escape the url from the database' do
+      unconsumed_ticket.service = 'https://host.example.org/test.php?t=other&other=testing'
+      unconsumed_ticket.service_with_ticket_url.should eq('https://host.example.org/test.php?t=other&other=testing&ticket=ST-12345')
+    end
+  end
 end
