@@ -15,6 +15,7 @@ module CASinoCore
       @environment = environment || 'development'
       root_path = options[:application_root] || '.'
 
+      require 'active_record'
       establish_connection(@environment, root_path) unless active_record_connected?
 
       config = YAML.load_file(File.join(root_path, 'config/cas.yml'))[@environment].symbolize_keys
@@ -38,7 +39,6 @@ module CASinoCore
     end
 
     def establish_connection(env, root_path)
-      require 'active_record'
       require 'yaml'
 
       db_cfg = YAML::load(ERB.new(IO.read(File.join(root_path, 'config/database.yml'))).result)[env]
