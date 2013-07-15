@@ -1,4 +1,5 @@
 require 'active_support/inflector'
+require 'active_record'
 
 module CASinoCore
   autoload :Authenticator, 'casino_core/authenticator.rb'
@@ -15,7 +16,6 @@ module CASinoCore
       @environment = environment || 'development'
       root_path = options[:application_root] || '.'
 
-      require 'active_record'
       establish_connection(@environment, root_path) unless active_record_connected?
 
       config = YAML.load_file(File.join(root_path, 'config/cas.yml'))[@environment].symbolize_keys
