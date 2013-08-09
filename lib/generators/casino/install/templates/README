@@ -11,9 +11,9 @@ The CASino Engine has been correctly installed in your Rails application.
 
     - app/views/layouts/application.html.erb
 
-  3. Load the database schema
+  3. Run the generated CASino migrations
 
-    > bundle exec rake casino_core:db:schema:load
+    > bundle exec rake db:migrate SCOPE=casino
 
   4. Launch the server
 
