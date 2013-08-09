@@ -1,4 +1,5 @@
 require 'casino'
+require 'casino/inflections'
 
 module CASino
   class Engine < Rails::Engine
