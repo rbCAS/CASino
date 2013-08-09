@@ -1,0 +1,15 @@
+CASino version migrator
+
+Description:
+    The 'casino:migrate' command will migrate your old CASino installation
+    to work with the newer API.
+
+    This is only intended for users of CASino prior to version 1.3.2
+
+Example:
+    rails g casino:migrate
+
+    This generates a coulple of database migrations that are required to match
+    the newer CASino API.
+
+    See http://casino.rbcas.com for more information.

@@ -12,6 +12,26 @@ module CASino
         type: :boolean,
         default: true
 
+    class_option :check_old_install,
+        desc:'Check for pre-existing installation of CASino v1.3 or lower',
+        type: :boolean,
+        default: true
+
+    def check_for_old_installation
+      return unless options['check_old_install']
+
+      if old_casino_install?
+        say "It looks like you already have an older version of CASino installed.\n", :yellow
+        if yes?('Would you like to migrate your installation now?')
+          generate 'casino:migrate', options['force'] ? '--force' : nil
+        else
+          say "OK, then. But the current version is not compatible with the " \
+              "older version, so you'll have to handle the upgrade manually."
+        end
+        exit
+      end
+    end
+
     def install_migrations
       return unless options['migration']
 
@@ -35,6 +55,11 @@ module CASino
 
     def show_readme
       readme 'README'
+    end
+
+    private
+    def old_casino_install?
+      ActiveRecord::Base.connection.table_exists? 'login_tickets'
     end
   end
 end
