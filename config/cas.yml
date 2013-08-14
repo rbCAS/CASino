@@ -1,0 +1,24 @@
+defaults: &defaults
+  service_ticket:
+    lifetime_unconsumed: 299
+  authenticators:
+    static_1:
+      class: "CASinoCore::Authenticator::Static"
+      options:
+        users:
+          testuser:
+            password: "foobar123"
+            name: "Test User"
+    static_2:
+      class: "CASinoCore::Authenticator::Static"
+      options:
+        users:
+          example:
+            password: "dito123"
+            name: "Test User"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults

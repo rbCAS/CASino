@@ -19,6 +19,9 @@
 
 /pkg
 
+# http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/
+/Gemfile.lock
+
 # Dummy application crap
 /spec/dummy/log/*.log
 /spec/dummy/tmp
