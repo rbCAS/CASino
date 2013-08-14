@@ -20,7 +20,6 @@ module CASino
 
     def copy_config_files
       copy_file 'cas.yml', 'config/cas.yml'
-      copy_file 'database.yml', 'config/database.yml'
       copy_file 'casino_and_overrides.scss', 'app/assets/stylesheets/casino_and_overrides.scss'
     end
 

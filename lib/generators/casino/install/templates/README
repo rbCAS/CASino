@@ -2,10 +2,9 @@
 
 The CASino Engine has been correctly installed in your Rails application.
 
-  1. Edit the configuration files:
+  1. Edit the configuration file:
 
     - config/cas.yml
-    - config/database.yml
 
   2. Edit or delete (to use the integrated) layout file:
 
