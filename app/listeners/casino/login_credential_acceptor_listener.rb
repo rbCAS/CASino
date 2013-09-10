@@ -1,6 +1,4 @@
-require 'casino/listener'
-
-class CASino::Listener::LoginCredentialAcceptor < CASino::Listener
+class CASino::LoginCredentialAcceptorListener < CASino::Listener
   def user_logged_in(url, ticket_granting_ticket, cookie_expiry_time = nil)
     @controller.cookies[:tgt] = { value: ticket_granting_ticket, expires: cookie_expiry_time }
     if url.nil?

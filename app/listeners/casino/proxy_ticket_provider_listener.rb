@@ -1,6 +1,4 @@
-require 'casino/listener'
-
-class CASino::Listener::ProxyTicketProvider < CASino::Listener
+class CASino::ProxyTicketProviderListener < CASino::Listener
   def request_failed(xml)
     @controller.render xml: xml
   end

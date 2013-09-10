@@ -15,7 +15,7 @@ class CASino::ApplicationController < ::ApplicationController
   protected
   def processor(processor_name, listener_name = nil)
     listener_name ||= processor_name
-    listener = CASino::Listener.const_get(listener_name).new(self)
+    listener = CASino.const_get(:"#{listener_name}Listener").new(self)
     @processor = CASino.const_get(:"#{processor_name}Processor").new(listener)
   end
 

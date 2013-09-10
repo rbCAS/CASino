@@ -1,6 +1,4 @@
-require 'casino/listener'
-
-class CASino::Listener::LoginCredentialRequestor < CASino::Listener
+class CASino::LoginCredentialRequestorListener < CASino::Listener
   def user_not_logged_in(login_ticket)
     assign(:login_ticket, login_ticket)
     @controller.cookies.delete :tgt

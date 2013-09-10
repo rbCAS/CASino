@@ -1,6 +1,4 @@
-require 'casino/listener'
-
-class CASino::Listener::Logout < CASino::Listener
+class CASino::LogoutListener < CASino::Listener
   def user_logged_out(url, redirect_immediately = false)
     if redirect_immediately
       @controller.redirect_to url, status: :see_other

@@ -1,6 +1,4 @@
-require 'casino/listener'
-
-class CASino::Listener::TwoFactorAuthenticatorOverview < CASino::Listener
+class CASino::TwoFactorAuthenticatorOverviewListener < CASino::Listener
   def user_not_logged_in
     # nothing to do here
   end

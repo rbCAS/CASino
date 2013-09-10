@@ -1,6 +1,4 @@
-require 'casino/listener'
-
-class CASino::Listener::LegacyValidator < CASino::Listener
+class CASino::LegacyValidatorListener < CASino::Listener
   def validation_failed(text)
     @controller.render text: text, content_type: 'text/plain'
   end
