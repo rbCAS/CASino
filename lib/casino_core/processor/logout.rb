@@ -1,6 +1,5 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 
 # The Logout processor should be used to process GET requests to /logout.
 class CASinoCore::Processor::Logout < CASinoCore::Processor
@@ -18,7 +17,7 @@ class CASinoCore::Processor::Logout < CASinoCore::Processor
     params ||= {}
     cookies ||= {}
     remove_ticket_granting_ticket(cookies[:tgt], user_agent)
-    if params[:service] && CASinoCore::Model::ServiceRule.allowed?(params[:service])
+    if params[:service] && CASino::ServiceRule.allowed?(params[:service])
       @listener.user_logged_out(params[:service], true)
     else
       @listener.user_logged_out(params[:url])

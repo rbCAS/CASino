@@ -20,19 +20,19 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorRegistrator do
       it 'creates exactly one authenticator' do
         lambda do
           processor.process(cookies, user_agent)
-        end.should change(CASinoCore::Model::TwoFactorAuthenticator, :count).by(1)
+        end.should change(CASino::TwoFactorAuthenticator, :count).by(1)
       end
 
       it 'calls #two_factor_authenticator_created on the listener' do
         listener.should_receive(:two_factor_authenticator_registered) do |authenticator|
-          authenticator.should == CASinoCore::Model::TwoFactorAuthenticator.last
+          authenticator.should == CASino::TwoFactorAuthenticator.last
         end
         processor.process(cookies, user_agent)
       end
 
       it 'creates an inactive two-factor authenticator' do
         processor.process(cookies, user_agent)
-        CASinoCore::Model::TwoFactorAuthenticator.last.should_not be_active
+        CASino::TwoFactorAuthenticator.last.should_not be_active
       end
     end
 

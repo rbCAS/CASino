@@ -1,7 +1,7 @@
 require 'factory_girl'
 
 FactoryGirl.define do
-  factory :proxy_granting_ticket, class: CASinoCore::Model::ProxyGrantingTicket do
+  factory :proxy_granting_ticket, class: CASino::ProxyGrantingTicket do
     association :granter, factory: :service_ticket
     sequence :ticket do |n|
       "PGT-ticket#{n}"

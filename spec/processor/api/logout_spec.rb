@@ -12,7 +12,7 @@ describe CASinoCore::Processor::API::Logout do
       it 'deletes the ticket-granting ticket' do
         listener.should_receive(:user_logged_out_via_api)
         processor.process(ticket_granting_ticket.ticket, user_agent)
-        CASinoCore::Model::TicketGrantingTicket.where(id: ticket_granting_ticket.id).first.should == nil
+        CASino::TicketGrantingTicket.where(id: ticket_granting_ticket.id).first.should == nil
       end
 
       it 'calls the #user_logged_out_via_api method on the listener' do

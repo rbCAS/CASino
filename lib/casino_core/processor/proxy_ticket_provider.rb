@@ -1,7 +1,6 @@
 require 'builder'
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 
 # The ProxyTicketProvider processor should be used to handle GET requests to /proxy
 class CASinoCore::Processor::ProxyTicketProvider < CASinoCore::Processor
@@ -17,7 +16,7 @@ class CASinoCore::Processor::ProxyTicketProvider < CASinoCore::Processor
     if params[:pgt].nil? || params[:targetService].nil?
       @listener.request_failed build_xml false, error_code: 'INVALID_REQUEST', error_message: '"pgt" and "targetService" parameters are both required'
     else
-      proxy_granting_ticket = CASinoCore::Model::ProxyGrantingTicket.where(ticket: params[:pgt]).first
+      proxy_granting_ticket = CASino::ProxyGrantingTicket.where(ticket: params[:pgt]).first
       if proxy_granting_ticket.nil?
         @listener.request_failed build_xml false, error_code: 'BAD_PGT', error_message: 'PGT not found'
       else

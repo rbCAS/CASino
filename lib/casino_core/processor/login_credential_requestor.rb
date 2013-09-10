@@ -56,7 +56,7 @@ class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
 
   def check_service_allowed
     service_url = clean_service_url(@params[:service]) unless @params[:service].nil?
-    if service_url.nil? || CASinoCore::Model::ServiceRule.allowed?(service_url)
+    if service_url.nil? || CASino::ServiceRule.allowed?(service_url)
       true
     else
       @listener.service_not_allowed(service_url)

@@ -1,7 +1,7 @@
 require 'factory_girl'
 
 FactoryGirl.define do
-  factory :service_ticket, class: CASinoCore::Model::ServiceTicket do
+  factory :service_ticket, class: CASino::ServiceTicket do
     ticket_granting_ticket
     sequence :ticket do |n|
       "ST-ticket#{n}"

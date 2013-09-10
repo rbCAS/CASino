@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASinoCore::Model::ServiceTicket do
+describe CASino::ServiceTicket do
   let(:unconsumed_ticket) {
     ticket = described_class.new ticket: 'ST-12345', service: 'https://example.com/cas-service'
     ticket.ticket_granting_ticket_id = 1
@@ -110,7 +110,7 @@ describe CASinoCore::Model::ServiceTicket do
         consumed_ticket
         lambda {
           consumed_ticket.destroy
-        }.should change(CASinoCore::Model::ServiceTicket, :count).by(-1)
+        }.should change(CASino::ServiceTicket, :count).by(-1)
       end
     end
   end

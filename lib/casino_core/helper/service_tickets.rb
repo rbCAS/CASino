@@ -13,7 +13,7 @@ module CASinoCore
 
       def acquire_service_ticket(ticket_granting_ticket, service, credentials_supplied = nil)
         service_url = clean_service_url(service)
-        unless CASinoCore::Model::ServiceRule.allowed?(service_url)
+        unless CASino::ServiceRule.allowed?(service_url)
           message = "#{service_url} is not in the list of allowed URLs"
           logger.error message
           raise ServiceNotAllowedError, message

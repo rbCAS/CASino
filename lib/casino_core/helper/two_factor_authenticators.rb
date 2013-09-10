@@ -3,7 +3,7 @@ require 'addressable/uri'
 module CASinoCore
   module Helper
     module TwoFactorAuthenticators
-      class ValidationResult < CASinoCore::Model::ValidationResult; end
+      class ValidationResult < CASino::ValidationResult; end
 
       def validate_one_time_password(otp, authenticator)
         if authenticator.nil? || authenticator.expired?

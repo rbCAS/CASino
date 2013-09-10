@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASinoCore::Model::ProxyTicket do
+describe CASino::ProxyTicket do
   let(:unconsumed_ticket) {
     ticket = described_class.new ticket: 'PT-12345', service: 'any_string_is_valid'
     ticket.proxy_granting_ticket_id = 1

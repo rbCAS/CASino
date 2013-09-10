@@ -1,7 +1,7 @@
 require 'factory_girl'
 
 FactoryGirl.define do
-  factory :user, class: CASinoCore::Model::User do
+  factory :user, class: CASino::User do
     authenticator 'test'
     sequence(:username) do |n|
       "test#{n}"

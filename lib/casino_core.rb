@@ -16,8 +16,6 @@ module CASinoCore
       @environment = environment || 'development'
       root_path = options[:application_root] || '.'
 
-      establish_connection(@environment, root_path) unless active_record_connected?
-
       config = YAML.load_file(File.join(root_path, 'config/cas.yml'))[@environment].symbolize_keys
       recursive_symbolize_keys!(config)
       CASinoCore::Settings.init config
@@ -30,19 +28,6 @@ module CASinoCore
       hash.symbolize_keys!
       hash.values.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}
       hash.values.select{|v| v.is_a? Array}.each{|a| a.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}}
-    end
-
-    def active_record_connected?
-      ActiveRecord::Base.connection
-    rescue ActiveRecord::ConnectionNotEstablished
-      false
-    end
-
-    def establish_connection(env, root_path)
-      require 'yaml'
-
-      db_cfg = YAML::load(ERB.new(IO.read(File.join(root_path, 'config/database.yml'))).result)[env]
-      ActiveRecord::Base.establish_connection db_cfg
     end
   end
 end

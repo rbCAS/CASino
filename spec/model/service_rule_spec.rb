@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASinoCore::Model::ServiceRule do
+describe CASino::ServiceRule do
   describe '.allowed?' do
     context 'with an empty table' do
       ['https://www.example.org/', 'http://www.google.com/'].each do |service_url|

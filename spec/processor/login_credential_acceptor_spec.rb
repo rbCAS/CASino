@@ -7,7 +7,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
     context 'without a valid login ticket' do
       it 'calls the #invalid_login_ticket method on the listener' do
-        listener.should_receive(:invalid_login_ticket).with(kind_of(CASinoCore::Model::LoginTicket))
+        listener.should_receive(:invalid_login_ticket).with(kind_of(CASino::LoginTicket))
         processor.process
       end
     end
@@ -16,7 +16,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
       let(:expired_login_ticket) { FactoryGirl.create :login_ticket, :expired }
 
       it 'calls the #invalid_login_ticket method on the listener' do
-        listener.should_receive(:invalid_login_ticket).with(kind_of(CASinoCore::Model::LoginTicket))
+        listener.should_receive(:invalid_login_ticket).with(kind_of(CASino::LoginTicket))
         processor.process(lt: expired_login_ticket.ticket)
       end
     end
@@ -26,7 +26,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
       context 'with invalid credentials' do
         it 'calls the #invalid_login_credentials method on the listener' do
-          listener.should_receive(:invalid_login_credentials).with(kind_of(CASinoCore::Model::LoginTicket))
+          listener.should_receive(:invalid_login_credentials).with(kind_of(CASino::LoginTicket))
           processor.process(lt: login_ticket.ticket)
         end
       end
@@ -51,13 +51,13 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
           it 'creates a long-term ticket-granting ticket' do
             processor.process(login_data_with_remember_me)
-            tgt = CASinoCore::Model::TicketGrantingTicket.last
+            tgt = CASino::TicketGrantingTicket.last
             tgt.long_term.should == true
           end
         end
 
         context 'with two-factor authentication enabled' do
-          let(:user) { CASinoCore::Model::User.create! username: username, authenticator: authenticator }
+          let(:user) { CASino::User.create! username: username, authenticator: authenticator }
           let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
 
           it 'calls the `#two_factor_authentication_pending` method on the listener' do
@@ -86,7 +86,7 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           end
 
           it 'calls the #invalid_login_credentials method on the listener' do
-            listener.should_receive(:invalid_login_credentials).with(kind_of(CASinoCore::Model::LoginTicket))
+            listener.should_receive(:invalid_login_credentials).with(kind_of(CASino::LoginTicket))
             processor.process(login_data)
           end
         end
@@ -102,19 +102,19 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           it 'generates a ticket-granting ticket' do
             lambda do
               processor.process(login_data)
-            end.should change(CASinoCore::Model::TicketGrantingTicket, :count).by(1)
+            end.should change(CASino::TicketGrantingTicket, :count).by(1)
           end
 
           context 'when the user does not exist yet' do
             it 'generates exactly one user' do
               lambda do
                 processor.process(login_data)
-              end.should change(CASinoCore::Model::User, :count).by(1)
+              end.should change(CASino::User, :count).by(1)
             end
 
             it 'sets the users attributes' do
               processor.process(login_data)
-              user = CASinoCore::Model::User.last
+              user = CASino::User.last
               user.username.should == username
               user.authenticator.should == 'static_1'
             end
@@ -122,14 +122,14 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
 
           context 'when the user already exists' do
             it 'does not regenerate the user' do
-              CASinoCore::Model::User.create! username: username, authenticator: authenticator
+              CASino::User.create! username: username, authenticator: authenticator
               lambda do
                 processor.process(login_data)
-              end.should_not change(CASinoCore::Model::User, :count)
+              end.should_not change(CASino::User, :count)
             end
 
             it 'updates the extra attributes' do
-              user = CASinoCore::Model::User.create! username: username, authenticator: authenticator
+              user = CASino::User.create! username: username, authenticator: authenticator
               lambda do
                 processor.process(login_data)
                 user.reload
@@ -149,13 +149,13 @@ describe CASinoCore::Processor::LoginCredentialAcceptor do
           it 'generates a service ticket' do
             lambda do
               processor.process(login_data)
-            end.should change(CASinoCore::Model::ServiceTicket, :count).by(1)
+            end.should change(CASino::ServiceTicket, :count).by(1)
           end
 
           it 'generates a ticket-granting ticket' do
             lambda do
               processor.process(login_data)
-            end.should change(CASinoCore::Model::TicketGrantingTicket, :count).by(1)
+            end.should change(CASino::TicketGrantingTicket, :count).by(1)
           end
         end
       end

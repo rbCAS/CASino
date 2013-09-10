@@ -20,7 +20,7 @@ describe CASinoCore::Processor::ProxyTicketProvider do
       it 'does not create a proxy ticket' do
         lambda do
           processor.process(params)
-        end.should_not change(CASinoCore::Model::ProxyTicket, :count)
+        end.should_not change(CASino::ProxyTicket, :count)
       end
     end
 
@@ -35,7 +35,7 @@ describe CASinoCore::Processor::ProxyTicketProvider do
       it 'does not create a proxy ticket' do
         lambda do
           processor.process(params_with_deleted_pgt)
-        end.should_not change(CASinoCore::Model::ProxyTicket, :count)
+        end.should_not change(CASino::ProxyTicket, :count)
       end
     end
 
@@ -56,7 +56,7 @@ describe CASinoCore::Processor::ProxyTicketProvider do
 
       it 'includes the proxy ticket in the response' do
         listener.should_receive(:request_succeeded) do |response|
-          proxy_ticket = CASinoCore::Model::ProxyTicket.last
+          proxy_ticket = CASino::ProxyTicket.last
           response.should =~ /<cas:proxyTicket>#{proxy_ticket.ticket}<\/cas:proxyTicket>/
         end
         processor.process(params_with_valid_pgt)

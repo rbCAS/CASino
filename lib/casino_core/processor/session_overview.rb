@@ -1,6 +1,5 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 
 # The SessionOverview processor to list all open session for the currently signed in user.
 #

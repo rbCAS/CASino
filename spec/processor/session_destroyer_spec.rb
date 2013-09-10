@@ -25,12 +25,12 @@ describe CASinoCore::Processor::SessionDestroyer do
         owner_ticket_granting_ticket
         lambda do
           processor.process(params, cookies, user_agent)
-        end.should change(CASinoCore::Model::TicketGrantingTicket, :count).by(-1)
+        end.should change(CASino::TicketGrantingTicket, :count).by(-1)
       end
 
       it 'deletes the ticket-granting ticket' do
         processor.process(params, cookies, user_agent)
-        CASinoCore::Model::TicketGrantingTicket.where(id: params[:id]).length.should == 0
+        CASino::TicketGrantingTicket.where(id: params[:id]).length.should == 0
       end
 
       it 'calls the #ticket_deleted method on the listener' do
@@ -45,7 +45,7 @@ describe CASinoCore::Processor::SessionDestroyer do
         owner_ticket_granting_ticket
         lambda do
           processor.process(params, cookies, user_agent)
-        end.should_not change(CASinoCore::Model::TicketGrantingTicket, :count)
+        end.should_not change(CASino::TicketGrantingTicket, :count)
       end
 
       it 'calls the #ticket_not_found method on the listener' do
@@ -63,7 +63,7 @@ describe CASinoCore::Processor::SessionDestroyer do
         ticket_granting_ticket
         lambda do
           processor.process(params, cookies, user_agent)
-        end.should change(CASinoCore::Model::TicketGrantingTicket, :count).by(0)
+        end.should change(CASino::TicketGrantingTicket, :count).by(0)
       end
 
       it 'calls the #ticket_not_found method on the listener' do

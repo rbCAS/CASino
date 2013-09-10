@@ -1,6 +1,5 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 
 # The TwoFactorAuthenticatorOverview processor lists registered two factor devices for the currently signed in user.
 #

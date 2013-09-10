@@ -140,7 +140,7 @@ require 'spec_helper'
 
           it 'contacts the callback server' do
             processor.process(parameters_with_pgt_url)
-            proxy_granting_ticket = CASinoCore::Model::ProxyGrantingTicket.last
+            proxy_granting_ticket = CASino::ProxyGrantingTicket.last
             WebMock.should have_requested(:get, 'https://www.example.org').with(query: {
               pgtId: proxy_granting_ticket.ticket,
               pgtIou: proxy_granting_ticket.iou

@@ -38,7 +38,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorDestroyer do
           other = FactoryGirl.create :two_factor_authenticator
           lambda do
             processor.process(params, cookies, user_agent)
-          end.should change(CASinoCore::Model::TwoFactorAuthenticator, :count).by(-1)
+          end.should change(CASino::TwoFactorAuthenticator, :count).by(-1)
         end
       end
 
@@ -53,7 +53,7 @@ describe CASinoCore::Processor::TwoFactorAuthenticatorDestroyer do
         it 'does not delete two-factor authenticators' do
           lambda do
             processor.process(params, cookies, user_agent)
-          end.should_not change(CASinoCore::Model::TwoFactorAuthenticator, :count)
+          end.should_not change(CASino::TwoFactorAuthenticator, :count)
         end
       end
     end

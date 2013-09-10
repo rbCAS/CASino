@@ -1,6 +1,5 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 
 # The OtherSessionsDestroyer processor should be used to process GET requests to /destroy-other-sessions.
 #

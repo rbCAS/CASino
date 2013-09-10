@@ -1,6 +1,5 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 
 # The SessionDestroyer processor is used to destroy a ticket-granting ticket.
 #
@@ -18,8 +17,8 @@ class CASinoCore::Processor::SessionDestroyer < CASinoCore::Processor
   def process(params = nil, cookies = nil, user_agent = nil)
     params ||= {}
     cookies ||= {}
-    ticket = CASinoCore::Model::TicketGrantingTicket.where(id: params[:id]).first
-    owner_ticket = CASinoCore::Model::TicketGrantingTicket.where(ticket: cookies[:tgt]).first
+    ticket = CASino::TicketGrantingTicket.where(id: params[:id]).first
+    owner_ticket = CASino::TicketGrantingTicket.where(ticket: cookies[:tgt]).first
     if ticket.nil? || !ticket.same_user?(owner_ticket)
       @listener.ticket_not_found
     else

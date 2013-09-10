@@ -1,6 +1,5 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 
 # The Logout processor should be used to process API DELETE requests to /cas/v1/tickets/<ticket_granting_ticket>
 class CASinoCore::Processor::API::Logout < CASinoCore::Processor

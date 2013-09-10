@@ -2,7 +2,12 @@ module CASinoCore
   module Helper
     module ProxyTickets
 
-      class ValidationResult < CASinoCore::Model::ValidationResult; end
+      class ValidationResult < Struct.new(:error_code, :error_message, :error_severity)
+        def success?
+          self.error_code.nil?
+        end
+      end
+
 
       include CASinoCore::Helper::Logger
       include CASinoCore::Helper::Tickets
@@ -37,7 +42,7 @@ module CASinoCore
 
       private
       def validate_existing_ticket_for_service(ticket, service, renew = false)
-        if ticket.is_a?(CASinoCore::Model::ServiceTicket)
+        if ticket.is_a?(CASino::ServiceTicket)
           service = clean_service_url(service)
         end
         if ticket.consumed?

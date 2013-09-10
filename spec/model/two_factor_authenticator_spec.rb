@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASinoCore::Model::TwoFactorAuthenticator do
+describe CASino::TwoFactorAuthenticator do
   describe '.cleanup' do
     it 'deletes expired inactive two-factor authenticators' do
       authenticator = FactoryGirl.create :two_factor_authenticator, :inactive

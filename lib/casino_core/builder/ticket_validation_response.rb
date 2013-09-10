@@ -12,10 +12,10 @@ class CASinoCore::Builder::TicketValidationResponse < CASinoCore::Builder
     xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do |service_response|
       if @success
         ticket = @options[:ticket]
-        if ticket.is_a?(CASinoCore::Model::ProxyTicket)
+        if ticket.is_a?(CASino::ProxyTicket)
           proxies = []
           service_ticket = ticket
-          while service_ticket.is_a?(CASinoCore::Model::ProxyTicket)
+          while service_ticket.is_a?(CASino::ProxyTicket)
             proxy_granting_ticket = ticket.proxy_granting_ticket
             proxies << proxy_granting_ticket.pgt_url
             service_ticket = proxy_granting_ticket.granter
@@ -69,7 +69,7 @@ class CASinoCore::Builder::TicketValidationResponse < CASinoCore::Builder
         proxy_granting_ticket = @options[:proxy_granting_ticket]
         authentication_success.cas :proxyGrantingTicket, proxy_granting_ticket.iou
       end
-      if ticket.is_a?(CASinoCore::Model::ProxyTicket)
+      if ticket.is_a?(CASino::ProxyTicket)
         authentication_success.cas :proxies do |proxies_container|
           proxies.each do |proxy|
             proxies_container.cas :proxy, proxy

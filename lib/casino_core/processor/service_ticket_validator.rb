@@ -1,6 +1,5 @@
 require 'casino_core/processor'
 require 'casino_core/helper'
-require 'casino_core/model'
 require 'casino_core/builder'
 
 # The ServiceTicketValidator processor should be used to handle GET requests to /serviceValidate
@@ -16,7 +15,7 @@ class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
   def process(params = nil)
     params ||= {}
     if request_valid?(params)
-      ticket = CASinoCore::Model::ServiceTicket.where(ticket: params[:ticket]).first
+      ticket = CASino::ServiceTicket.where(ticket: params[:ticket]).first
       validate_ticket!(ticket, params)
     end
   end

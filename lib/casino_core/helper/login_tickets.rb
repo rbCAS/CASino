@@ -5,13 +5,13 @@ module CASinoCore
       include CASinoCore::Helper::Tickets
 
       def acquire_login_ticket
-        ticket = CASinoCore::Model::LoginTicket.create ticket: random_ticket_string('LT')
+        ticket = CASino::LoginTicket.create ticket: random_ticket_string('LT')
         logger.debug "Created login ticket '#{ticket.ticket}'"
         ticket
       end
 
       def login_ticket_valid?(lt)
-        ticket = CASinoCore::Model::LoginTicket.find_by_ticket lt
+        ticket = CASino::LoginTicket.find_by_ticket lt
         if ticket.nil?
           logger.info "Login ticket '#{lt}' not found"
           false

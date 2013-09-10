@@ -21,7 +21,7 @@ describe CASinoCore::Processor::API::LoginCredentialAcceptor do
       it 'does not generate a ticket-granting ticket' do
         expect {
           processor.process(login_data, user_agent)
-        }.to_not change(CASinoCore::Model::TicketGrantingTicket, :count)
+        }.to_not change(CASino::TicketGrantingTicket, :count)
       end
     end
 
@@ -40,12 +40,12 @@ describe CASinoCore::Processor::API::LoginCredentialAcceptor do
       it 'generates a ticket-granting ticket' do
         expect {
           processor.process(login_data, user_agent)
-        }.to change(CASinoCore::Model::TicketGrantingTicket, :count).by(1)
+        }.to change(CASino::TicketGrantingTicket, :count).by(1)
       end
 
       it 'sets the user-agent in the ticket-granting ticket' do
         processor.process(login_data, user_agent)
-        CASinoCore::Model::TicketGrantingTicket.last.user_agent.should == user_agent
+        CASino::TicketGrantingTicket.last.user_agent.should == user_agent
       end
     end
   end

@@ -34,7 +34,7 @@ describe CASinoCore::Processor::ProxyTicketValidator do
 
       context 'with an expired proxy ticket' do
         before(:each) do
-          CASinoCore::Model::ProxyTicket.any_instance.stub(:expired?).and_return(true)
+          CASino::ProxyTicket.any_instance.stub(:expired?).and_return(true)
         end
 
         it 'calls the #validation_failed method on the listener' do

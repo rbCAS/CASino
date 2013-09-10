@@ -8,7 +8,7 @@ module CASinoCore
       include CASinoCore::Helper::Logger
 
       def find_valid_ticket_granting_ticket(tgt, user_agent, ignore_two_factor = false)
-        ticket_granting_ticket = CASinoCore::Model::TicketGrantingTicket.where(ticket: tgt).first
+        ticket_granting_ticket = CASino::TicketGrantingTicket.where(ticket: tgt).first
         unless ticket_granting_ticket.nil?
           if ticket_granting_ticket.expired?
             logger.info "Ticket-granting ticket expired (Created: #{ticket_granting_ticket.created_at})"
@@ -42,7 +42,7 @@ module CASinoCore
       end
 
       def load_or_initialize_user(authenticator, username, extra_attributes)
-        user = CASinoCore::Model::User.where(
+        user = CASino::User.where(
           authenticator: authenticator,
           username: username).first_or_initialize
         user.extra_attributes = extra_attributes
@@ -58,7 +58,7 @@ module CASinoCore
       end
 
       def cleanup_expired_ticket_granting_tickets(user)
-        CASinoCore::Model::TicketGrantingTicket.cleanup(user)
+        CASino::TicketGrantingTicket.cleanup(user)
       end
 
     end
