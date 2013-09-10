@@ -5,6 +5,8 @@ module CASino
   class Engine < Rails::Engine
     isolate_namespace CASino
 
+    rake_tasks { require 'casino/tasks' }
+
     initializer :yaml_configuration do |app|
       apply_yaml_config load_file('config/cas.yml')
     end

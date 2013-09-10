@@ -9,8 +9,6 @@ module CASinoCore
   autoload :RakeTasks, 'casino_core/rake_tasks.rb'
   autoload :Settings, 'casino_core/settings.rb'
 
-  require 'casino_core/railtie' if defined?(Rails)
-
   class << self
     def setup(environment = nil, options = {})
       @environment = environment || 'development'

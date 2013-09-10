@@ -2,10 +2,10 @@ require 'yaml'
 require 'logger'
 require 'active_record'
 
-namespace :casino_core do
+namespace :casino do
   namespace :cleanup do
     desc 'Remove expired service tickets.'
-    task service_tickets: 'casino_core:db:configure_connection' do
+    task service_tickets: :environment do
       [:consumed, :unconsumed].each do |type|
         rows_affected = CASino::ServiceTicket.send("cleanup_#{type}").length
         puts "Deleted #{rows_affected} #{type} service tickets."
@@ -15,7 +15,7 @@ namespace :casino_core do
     end
 
     desc 'Remove expired proxy tickets.'
-    task proxy_tickets: 'casino_core:db:configure_connection' do
+    task proxy_tickets: :environment do
       [:consumed, :unconsumed].each do |type|
         rows_affected = CASino::ProxyTicket.send("cleanup_#{type}").length
         puts "Deleted #{rows_affected} #{type} proxy tickets."
@@ -23,19 +23,19 @@ namespace :casino_core do
     end
 
     desc 'Remove expired login tickets.'
-    task login_tickets: 'casino_core:db:configure_connection' do
+    task login_tickets: :environment do
       rows_affected = CASino::LoginTicket.cleanup
       puts "Deleted #{rows_affected} login tickets."
     end
 
     desc 'Remove expired inactive two-factor authenticators.'
-    task two_factor_authenticators: 'casino_core:db:configure_connection' do
+    task two_factor_authenticators: :environment do
       rows_affected = CASino::TwoFactorAuthenticator.cleanup
       puts "Deleted #{rows_affected} inactive two-factor authenticators."
     end
 
     desc 'Remove expired ticket-granting tickets.'
-    task ticket_granting_tickets: 'casino_core:db:configure_connection' do
+    task ticket_granting_tickets: :environment do
       rows_affected = CASino::TicketGrantingTicket.cleanup.length
       puts "Deleted #{rows_affected} ticket-granting tickets."
     end
