@@ -1,8 +1,7 @@
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # This processor should be used for GET requests to /login
-class CASinoCore::Processor::LoginCredentialRequestor < CASinoCore::Processor
+class CASino::LoginCredentialRequestorProcessor < CASinoCore::Processor
   include CASinoCore::Helper::Browser
   include CASinoCore::Helper::Logger
   include CASinoCore::Helper::LoginTickets

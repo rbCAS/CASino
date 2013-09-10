@@ -1,8 +1,7 @@
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # The LegacyValidator processor should be used for GET requests to /validate
-class CASinoCore::Processor::LegacyValidator < CASinoCore::Processor
+class CASino::LegacyValidatorProcessor < CASinoCore::Processor
   include CASinoCore::Helper::Logger
   include CASinoCore::Helper::ServiceTickets
 

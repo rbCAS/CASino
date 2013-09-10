@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-[CASinoCore::Processor::ServiceTicketValidator, CASinoCore::Processor::ProxyTicketValidator].each do |class_under_test|
+[CASino::ServiceTicketValidatorProcessor, CASino::ProxyTicketValidatorProcessor].each do |class_under_test|
   describe class_under_test do
     describe '#process' do
       let(:listener) { Object.new }

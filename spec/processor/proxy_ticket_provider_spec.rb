@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASinoCore::Processor::ProxyTicketProvider do
+describe CASino::ProxyTicketProviderProcessor do
   describe '#process' do
     let(:listener) { Object.new }
     let(:processor) { described_class.new(listener) }

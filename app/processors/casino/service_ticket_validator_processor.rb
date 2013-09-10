@@ -1,9 +1,8 @@
-require 'casino_core/processor'
 require 'casino_core/helper'
 require 'casino_core/builder'
 
 # The ServiceTicketValidator processor should be used to handle GET requests to /serviceValidate
-class CASinoCore::Processor::ServiceTicketValidator < CASinoCore::Processor
+class CASino::ServiceTicketValidatorProcessor < CASinoCore::Processor
   include CASinoCore::Helper::ServiceTickets
   include CASinoCore::Helper::ProxyGrantingTickets
 

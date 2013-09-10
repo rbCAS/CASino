@@ -1,8 +1,7 @@
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # The Logout processor should be used to process GET requests to /logout.
-class CASinoCore::Processor::Logout < CASinoCore::Processor
+class CASino::LogoutProcessor < CASinoCore::Processor
   include CASinoCore::Helper::TicketGrantingTickets
 
   # This method will call `#user_logged_out` and may supply an URL that should be presented to the user.

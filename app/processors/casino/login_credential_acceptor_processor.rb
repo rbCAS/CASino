@@ -1,8 +1,7 @@
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # This processor should be used for POST requests to /login
-class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
+class CASino::LoginCredentialAcceptorProcessor < CASinoCore::Processor
   include CASinoCore::Helper::Logger
   include CASinoCore::Helper::LoginTickets
   include CASinoCore::Helper::ServiceTickets
@@ -18,7 +17,7 @@ class CASinoCore::Processor::LoginCredentialAcceptor < CASinoCore::Processor
   #   The third argument (Time, optional, default = nil) is for "Remember Me" functionality.
   #   This is the cookies expiration date. If it is `nil`, the cookie should be a session cookie.
   # * `#invalid_login_ticket` and `#invalid_login_credentials`: The first argument is a LoginTicket.
-  #   See {CASinoCore::Processor::LoginCredentialRequestor} for details.
+  #   See {CASino::LoginCredentialRequestorProcessor} for details.
   # * `#service_not_allowed`: The user tried to access a service that this CAS server is not allowed to serve.
   # * `#two_factor_authentication_pending`: The user should be asked to enter his OTP. The first argument (String) is the ticket-granting ticket. The ticket-granting ticket is not active yet. Use SecondFactorAuthenticatonAcceptor to activate it.
   #

@@ -1,5 +1,4 @@
 require 'rotp'
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # The TwoFactorAuthenticatorRegistrator processor can be used as the first step to register a new two-factor authenticator.
@@ -7,7 +6,7 @@ require 'casino_core/helper'
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
-class CASinoCore::Processor::TwoFactorAuthenticatorRegistrator < CASinoCore::Processor
+class CASino::TwoFactorAuthenticatorRegistratorProcessor < CASinoCore::Processor
   include CASinoCore::Helper::TicketGrantingTickets
 
   # This method will call `#user_not_logged_in` or `#two_factor_authenticator_registered(two_factor_authenticator)` on the listener.

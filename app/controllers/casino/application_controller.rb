@@ -16,7 +16,7 @@ class CASino::ApplicationController < ::ApplicationController
   def processor(processor_name, listener_name = nil)
     listener_name ||= processor_name
     listener = CASino::Listener.const_get(listener_name).new(self)
-    @processor = CASinoCore::Processor.const_get(processor_name).new(listener)
+    @processor = CASino.const_get(:"#{processor_name}Processor").new(listener)
   end
 
   def set_locale

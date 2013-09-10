@@ -1,8 +1,7 @@
-require 'casino_core/processor/api'
 require 'casino_core/helper'
 
 # This processor should be used for API calls: POST /cas/v1/tickets
-class CASinoCore::Processor::API::LoginCredentialAcceptor < CASinoCore::Processor
+class CASino::API::LoginCredentialAcceptorProcessor < CASinoCore::Processor
   include CASinoCore::Helper::Logger
   include CASinoCore::Helper::ServiceTickets
   include CASinoCore::Helper::Authentication

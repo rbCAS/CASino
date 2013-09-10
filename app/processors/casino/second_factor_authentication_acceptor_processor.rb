@@ -1,12 +1,11 @@
 require 'rotp'
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # The SecondFactorAuthenticationAcceptor processor can be used to activate a previously generated ticket-granting ticket with pending two-factor authentication.
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
-class CASinoCore::Processor::SecondFactorAuthenticationAcceptor < CASinoCore::Processor
+class CASino::SecondFactorAuthenticationAcceptorProcessor < CASinoCore::Processor
   include CASinoCore::Helper::ServiceTickets
   include CASinoCore::Helper::TicketGrantingTickets
   include CASinoCore::Helper::TwoFactorAuthenticators

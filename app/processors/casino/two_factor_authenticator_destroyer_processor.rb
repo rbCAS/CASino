@@ -1,12 +1,11 @@
 require 'rotp'
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # The TwoFactorAuthenticatorDestroyer processor can be used to deactivate a previously activated two-factor authenticator.
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
-class CASinoCore::Processor::TwoFactorAuthenticatorDestroyer < CASinoCore::Processor
+class CASino::TwoFactorAuthenticatorDestroyerProcessor < CASinoCore::Processor
   include CASinoCore::Helper::TicketGrantingTickets
   include CASinoCore::Helper::TwoFactorAuthenticators
 

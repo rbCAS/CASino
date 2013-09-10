@@ -1,12 +1,11 @@
-require 'casino_core/processor'
 require 'casino_core/helper'
 
 # The SessionDestroyer processor is used to destroy a ticket-granting ticket.
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side. It is especially useful in
-# combination with the {CASinoCore::Processor::SessionOverview} processor.
-class CASinoCore::Processor::SessionDestroyer < CASinoCore::Processor
+# combination with the {CASino::SessionOverviewProcessor} processor.
+class CASino::SessionDestroyerProcessor < CASinoCore::Processor
 
   include CASinoCore::Helper::Logger
 
