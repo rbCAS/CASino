@@ -4,7 +4,7 @@ require_relative 'concerns/proxy_granting_tickets'
 require_relative 'concerns/proxy_tickets'
 
 # The ProxyTicketProvider processor should be used to handle GET requests to /proxy
-class CASino::ProxyTicketProviderProcessor < CASinoCore::Processor
+class CASino::ProxyTicketProviderProcessor < CASino::Processor
   include CASino::ProcessorConcern::ProxyGrantingTickets
   include CASino::ProcessorConcern::ProxyTickets
 

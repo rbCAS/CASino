@@ -3,9 +3,6 @@ require 'active_record'
 
 module CASinoCore
   autoload :Authenticator, 'casino_core/authenticator.rb'
-  autoload :Model, 'casino_core/model.rb'
-  autoload :Processor, 'casino_core/processor.rb'
-  autoload :RakeTasks, 'casino_core/rake_tasks.rb'
   autoload :Settings, 'casino_core/settings.rb'
 
   class << self

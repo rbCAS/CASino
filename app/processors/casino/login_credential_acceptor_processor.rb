@@ -4,7 +4,7 @@ require_relative 'concerns/authentication'
 require_relative 'concerns/ticket_granting_tickets'
 
 # This processor should be used for POST requests to /login
-class CASino::LoginCredentialAcceptorProcessor < CASinoCore::Processor
+class CASino::LoginCredentialAcceptorProcessor < CASino::Processor
   include CASino::ProcessorConcern::LoginTickets
   include CASino::ProcessorConcern::ServiceTickets
   include CASino::ProcessorConcern::Authentication

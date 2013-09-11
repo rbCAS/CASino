@@ -1,7 +1,7 @@
 require_relative '../concerns/ticket_granting_tickets'
 
 # The Logout processor should be used to process API DELETE requests to /cas/v1/tickets/<ticket_granting_ticket>
-class CASino::API::LogoutProcessor < CASinoCore::Processor
+class CASino::API::LogoutProcessor < CASino::Processor
   include CASino::ProcessorConcern::TicketGrantingTickets
 
   # This method will call `#user_logged_out_via_api` on the listener.

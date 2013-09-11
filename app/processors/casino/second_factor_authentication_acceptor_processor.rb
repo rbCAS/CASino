@@ -6,7 +6,7 @@ require_relative 'concerns/two_factor_authenticators'
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
-class CASino::SecondFactorAuthenticationAcceptorProcessor < CASinoCore::Processor
+class CASino::SecondFactorAuthenticationAcceptorProcessor < CASino::Processor
   include CASino::ProcessorConcern::ServiceTickets
   include CASino::ProcessorConcern::TicketGrantingTickets
   include CASino::ProcessorConcern::TwoFactorAuthenticators

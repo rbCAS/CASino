@@ -4,7 +4,7 @@ require_relative 'concerns/ticket_granting_tickets'
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
-class CASino::SessionOverviewProcessor < CASinoCore::Processor
+class CASino::SessionOverviewProcessor < CASino::Processor
   include CASino::ProcessorConcern::TicketGrantingTickets
 
   # This method will call `#user_not_logged_in` or `#ticket_granting_tickets_found(Enumerable)` on the listener.

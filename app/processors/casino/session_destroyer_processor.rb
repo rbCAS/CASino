@@ -3,7 +3,7 @@
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side. It is especially useful in
 # combination with the {CASino::SessionOverviewProcessor} processor.
-class CASino::SessionDestroyerProcessor < CASinoCore::Processor
+class CASino::SessionDestroyerProcessor < CASino::Processor
 
   # This method will call `#ticket_not_found` or `#ticket_deleted` on the listener.
   # @param [Hash] params parameters supplied by user (ID of ticket-granting ticket to delete should by in params[:id])

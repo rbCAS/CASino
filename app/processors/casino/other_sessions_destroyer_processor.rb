@@ -6,7 +6,7 @@ require_relative 'concerns/ticket_granting_tickets'
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
-class CASino::OtherSessionsDestroyerProcessor < CASinoCore::Processor
+class CASino::OtherSessionsDestroyerProcessor < CASino::Processor
   include CASino::ProcessorConcern::TicketGrantingTickets
 
   # This method will call `#other_sessions_destroyed` and may supply an URL that should be presented to the user.

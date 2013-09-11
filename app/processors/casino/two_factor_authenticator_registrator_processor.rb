@@ -5,7 +5,7 @@ require_relative 'concerns/ticket_granting_tickets'
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
-class CASino::TwoFactorAuthenticatorRegistratorProcessor < CASinoCore::Processor
+class CASino::TwoFactorAuthenticatorRegistratorProcessor < CASino::Processor
   include CASino::ProcessorConcern::TicketGrantingTickets
 
   # This method will call `#user_not_logged_in` or `#two_factor_authenticator_registered(two_factor_authenticator)` on the listener.
