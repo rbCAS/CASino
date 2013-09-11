@@ -1,5 +1,5 @@
-module CASinoCore
-  module Helper
+module CASino
+  module ProcessorConcern
     module Browser
       def browser_info(user_agent)
         user_agent = UserAgent.parse(user_agent)

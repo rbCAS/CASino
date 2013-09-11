@@ -1,11 +1,13 @@
 require 'addressable/uri'
 
-module CASinoCore
-  module Helper
+require_relative 'tickets'
+require_relative 'proxy_tickets'
+
+module CASino
+  module ProcessorConcern
     module ServiceTickets
-      include CASinoCore::Helper::Logger
-      include CASinoCore::Helper::Tickets
-      include CASinoCore::Helper::ProxyTickets
+      include CASino::ProcessorConcern::Tickets
+      include CASino::ProcessorConcern::ProxyTickets
 
       class ServiceNotAllowedError < StandardError; end
 
@@ -15,7 +17,7 @@ module CASinoCore
         service_url = clean_service_url(service)
         unless CASino::ServiceRule.allowed?(service_url)
           message = "#{service_url} is not in the list of allowed URLs"
-          logger.error message
+          Rails.logger.error message
           raise ServiceNotAllowedError, message
         end
         ticket_granting_ticket.service_tickets.create!({
@@ -40,7 +42,7 @@ module CASinoCore
 
         clean_service = service_uri.to_s
 
-        logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
+        Rails.logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
 
         clean_service
       end

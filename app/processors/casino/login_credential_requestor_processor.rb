@@ -1,12 +1,14 @@
-require 'casino_core/helper'
+require_relative 'concerns/browser'
+require_relative 'concerns/login_tickets'
+require_relative 'concerns/service_tickets'
+require_relative 'concerns/ticket_granting_tickets'
 
 # This processor should be used for GET requests to /login
 class CASino::LoginCredentialRequestorProcessor < CASinoCore::Processor
-  include CASinoCore::Helper::Browser
-  include CASinoCore::Helper::Logger
-  include CASinoCore::Helper::LoginTickets
-  include CASinoCore::Helper::ServiceTickets
-  include CASinoCore::Helper::TicketGrantingTickets
+  include CASino::ProcessorConcern::Browser
+  include CASino::ProcessorConcern::LoginTickets
+  include CASino::ProcessorConcern::ServiceTickets
+  include CASino::ProcessorConcern::TicketGrantingTickets
 
   # Use this method to process the request.
   #

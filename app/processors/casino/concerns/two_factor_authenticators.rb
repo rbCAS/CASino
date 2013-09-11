@@ -1,7 +1,7 @@
 require 'addressable/uri'
 
-module CASinoCore
-  module Helper
+module CASino
+  module ProcessorConcern
     module TwoFactorAuthenticators
       class ValidationResult < CASino::ValidationResult; end
 

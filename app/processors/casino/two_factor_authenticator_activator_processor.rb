@@ -1,13 +1,13 @@
-require 'rotp'
-require 'casino_core/helper'
+require_relative 'concerns/ticket_granting_tickets'
+require_relative 'concerns/two_factor_authenticators'
 
 # The TwoFactorAuthenticatorActivator processor can be used to activate a previously generated two-factor authenticator.
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
 class CASino::TwoFactorAuthenticatorActivatorProcessor < CASinoCore::Processor
-  include CASinoCore::Helper::TicketGrantingTickets
-  include CASinoCore::Helper::TwoFactorAuthenticators
+  include CASino::ProcessorConcern::TicketGrantingTickets
+  include CASino::ProcessorConcern::TwoFactorAuthenticators
 
   # The method will call one of the following methods on the listener:
   # * `#user_not_logged_in`: The user is not logged in and should be redirected to /login.

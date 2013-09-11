@@ -1,16 +1,12 @@
-module CASinoCore
-  module Helper
+require_relative 'tickets'
+
+module CASino
+  module ProcessorConcern
     module ProxyTickets
 
-      class ValidationResult < Struct.new(:error_code, :error_message, :error_severity)
-        def success?
-          self.error_code.nil?
-        end
-      end
+      include CASino::ProcessorConcern::Tickets
 
-
-      include CASinoCore::Helper::Logger
-      include CASinoCore::Helper::Tickets
+      class ValidationResult < CASino::ValidationResult; end
 
       def acquire_proxy_ticket(proxy_granting_ticket, service)
         proxy_granting_ticket.proxy_tickets.create!({
@@ -26,12 +22,12 @@ module CASinoCore
           result = validate_existing_ticket_for_service(ticket, service, renew)
           ticket.consumed = true
           ticket.save!
-          logger.debug "Consumed ticket '#{ticket.ticket}'"
+          Rails.logger.debug "Consumed ticket '#{ticket.ticket}'"
         end
         if result.success?
-          logger.info "Ticket '#{ticket.ticket}' for service '#{service}' successfully validated"
+          Rails.logger.info "Ticket '#{ticket.ticket}' for service '#{service}' successfully validated"
         else
-          logger.send(result.error_severity, result.error_message)
+          Rails.logger.send(result.error_severity, result.error_message)
         end
         result
       end

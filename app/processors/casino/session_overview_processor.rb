@@ -1,11 +1,11 @@
-require 'casino_core/helper'
+require_relative 'concerns/ticket_granting_tickets'
 
 # The SessionOverview processor to list all open session for the currently signed in user.
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side.
 class CASino::SessionOverviewProcessor < CASinoCore::Processor
-  include CASinoCore::Helper::TicketGrantingTickets
+  include CASino::ProcessorConcern::TicketGrantingTickets
 
   # This method will call `#user_not_logged_in` or `#ticket_granting_tickets_found(Enumerable)` on the listener.
   # @param [Hash] cookies cookies delivered by the client

@@ -1,7 +1,7 @@
 require 'securerandom'
 
-module CASinoCore
-  module Helper
+module CASino
+  module ProcessorConcern
     module Tickets
 
       ALLOWED_TICKET_STRING_CHARACTERS = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a

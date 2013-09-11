@@ -1,10 +1,12 @@
-require 'casino_core/helper'
 require 'casino_core/builder'
+
+require_relative 'concerns/service_tickets'
+require_relative 'concerns/proxy_granting_tickets'
 
 # The ServiceTicketValidator processor should be used to handle GET requests to /serviceValidate
 class CASino::ServiceTicketValidatorProcessor < CASinoCore::Processor
-  include CASinoCore::Helper::ServiceTickets
-  include CASinoCore::Helper::ProxyGrantingTickets
+  include CASino::ProcessorConcern::ServiceTickets
+  include CASino::ProcessorConcern::ProxyGrantingTickets
 
   # This method will call `#validation_succeeded` or `#validation_failed`. In both cases, it supplies
   # a string as argument. The web application should present that string (and nothing else) to the

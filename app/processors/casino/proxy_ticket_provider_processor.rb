@@ -1,10 +1,12 @@
 require 'builder'
-require 'casino_core/helper'
+
+require_relative 'concerns/proxy_granting_tickets'
+require_relative 'concerns/proxy_tickets'
 
 # The ProxyTicketProvider processor should be used to handle GET requests to /proxy
 class CASino::ProxyTicketProviderProcessor < CASinoCore::Processor
-  include CASinoCore::Helper::ProxyGrantingTickets
-  include CASinoCore::Helper::ProxyTickets
+  include CASino::ProcessorConcern::ProxyGrantingTickets
+  include CASino::ProcessorConcern::ProxyTickets
 
   # This method will call `#request_succeeded` or `#request_failed`. In both cases, it supplies
   # a string as argument. The web application should present that string (and nothing else) to the

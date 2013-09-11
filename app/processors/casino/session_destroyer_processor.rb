@@ -1,13 +1,9 @@
-require 'casino_core/helper'
-
 # The SessionDestroyer processor is used to destroy a ticket-granting ticket.
 #
 # This feature is not described in the CAS specification so it's completly optional
 # to implement this on the web application side. It is especially useful in
 # combination with the {CASino::SessionOverviewProcessor} processor.
 class CASino::SessionDestroyerProcessor < CASinoCore::Processor
-
-  include CASinoCore::Helper::Logger
 
   # This method will call `#ticket_not_found` or `#ticket_deleted` on the listener.
   # @param [Hash] params parameters supplied by user (ID of ticket-granting ticket to delete should by in params[:id])
@@ -21,7 +17,7 @@ class CASino::SessionDestroyerProcessor < CASinoCore::Processor
     if ticket.nil? || !ticket.same_user?(owner_ticket)
       @listener.ticket_not_found
     else
-      logger.info "Destroying ticket-granting ticket '#{ticket.ticket}'"
+      Rails.logger.info "Destroying ticket-granting ticket '#{ticket.ticket}'"
       ticket.destroy
       @listener.ticket_deleted
     end

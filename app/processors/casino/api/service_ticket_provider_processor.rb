@@ -1,10 +1,11 @@
-require 'casino_core/helper'
 require 'casino_core/builder'
+require_relative '../concerns/service_tickets'
+require_relative '../concerns/ticket_granting_tickets'
 
 # The ServiceTicketProvider processor should be used to handle API calls: POST requests to /cas/v1/tickets/<ticket_granting_ticket>
 class CASino::API::ServiceTicketProviderProcessor < CASinoCore::Processor
-  include CASinoCore::Helper::ServiceTickets
-  include CASinoCore::Helper::TicketGrantingTickets
+  include CASino::ProcessorConcern::ServiceTickets
+  include CASino::ProcessorConcern::TicketGrantingTickets
 
   # Use this method to process the request.
   #
