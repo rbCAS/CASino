@@ -14,11 +14,11 @@ class CASino::TicketGrantingTicket < ActiveRecord::Base
     end
     base.where([
       '(created_at < ? AND awaiting_two_factor_authentication = ?) OR (created_at < ? AND long_term = ?) OR created_at < ?',
-      CASinoCore::Settings.two_factor_authenticator[:timeout].seconds.ago,
+      CASino.config.two_factor_authenticator[:timeout].seconds.ago,
       true,
-      CASinoCore::Settings.ticket_granting_ticket[:lifetime].seconds.ago,
+      CASino.config.ticket_granting_ticket[:lifetime].seconds.ago,
       false,
-      CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term].seconds.ago
+      CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.ago
     ]).destroy_all
   end
 
@@ -43,11 +43,11 @@ class CASino::TicketGrantingTicket < ActiveRecord::Base
 
   def expired?
     if awaiting_two_factor_authentication?
-      lifetime = CASinoCore::Settings.two_factor_authenticator[:timeout]
+      lifetime = CASino.config.two_factor_authenticator[:timeout]
     elsif long_term?
-      lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term]
+      lifetime = CASino.config.ticket_granting_ticket[:lifetime_long_term]
     else
-      lifetime = CASinoCore::Settings.ticket_granting_ticket[:lifetime]
+      lifetime = CASino.config.ticket_granting_ticket[:lifetime]
     end
     (Time.now - (self.created_at || Time.now)) > lifetime
   end

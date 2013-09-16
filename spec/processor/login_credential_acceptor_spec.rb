@@ -34,7 +34,7 @@ describe CASino::LoginCredentialAcceptorProcessor do
       context 'with valid credentials' do
         let(:service) { 'https://www.example.org' }
         let(:username) { 'testuser' }
-        let(:authenticator) { 'static_1' }
+        let(:authenticator) { 'static' }
         let(:login_data) { { lt: login_ticket.ticket, username: username, password: 'foobar123', service: service } }
 
         before(:each) do
@@ -57,7 +57,7 @@ describe CASino::LoginCredentialAcceptorProcessor do
         end
 
         context 'with two-factor authentication enabled' do
-          let(:user) { CASino::User.create! username: username, authenticator: authenticator }
+          let!(:user) { CASino::User.create! username: username, authenticator: authenticator }
           let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
 
           it 'calls the `#two_factor_authentication_pending` method on the listener' do
@@ -116,7 +116,7 @@ describe CASino::LoginCredentialAcceptorProcessor do
               processor.process(login_data)
               user = CASino::User.last
               user.username.should == username
-              user.authenticator.should == 'static_1'
+              user.authenticator.should == authenticator
             end
           end
 

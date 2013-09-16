@@ -1,4 +1,3 @@
-require 'casino_core/settings'
 require 'addressable/uri'
 
 class CASino::ProxyTicket < ActiveRecord::Base
@@ -8,18 +7,18 @@ class CASino::ProxyTicket < ActiveRecord::Base
   has_many :proxy_granting_tickets, as: :granter, dependent: :destroy
 
   def self.cleanup_unconsumed
-    self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.proxy_ticket[:lifetime_unconsumed].seconds.ago, false])
+    self.destroy_all(['created_at < ? AND consumed = ?', CASino.config.proxy_ticket[:lifetime_unconsumed].seconds.ago, false])
   end
 
   def self.cleanup_consumed
-    self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.proxy_ticket[:lifetime_consumed].seconds.ago, true])
+    self.destroy_all(['created_at < ? AND consumed = ?', CASino.config.proxy_ticket[:lifetime_consumed].seconds.ago, true])
   end
 
   def expired?
     lifetime = if consumed?
-      CASinoCore::Settings.proxy_ticket[:lifetime_consumed]
+      CASino.config.proxy_ticket[:lifetime_consumed]
     else
-      CASinoCore::Settings.proxy_ticket[:lifetime_unconsumed]
+      CASino.config.proxy_ticket[:lifetime_unconsumed]
     end
     (Time.now - (self.created_at || Time.now)) > lifetime
   end

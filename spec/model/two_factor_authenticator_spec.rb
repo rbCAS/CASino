@@ -13,7 +13,7 @@ describe CASino::TwoFactorAuthenticator do
 
     it 'does not delete not expired inactive two-factor authenticators' do
       authenticator = FactoryGirl.create :two_factor_authenticator, :inactive
-      authenticator.created_at = (CASinoCore::Settings.two_factor_authenticator[:lifetime_inactive].seconds - 5).ago
+      authenticator.created_at = (CASino.config.two_factor_authenticator[:lifetime_inactive].seconds - 5).ago
       lambda do
         described_class.cleanup
       end.should_not change(described_class, :count)

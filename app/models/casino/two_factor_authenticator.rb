@@ -9,7 +9,7 @@ class CASino::TwoFactorAuthenticator < ActiveRecord::Base
   end
 
   def self.lifetime
-    CASinoCore::Settings.two_factor_authenticator[:lifetime_inactive].seconds
+    CASino.config.two_factor_authenticator[:lifetime_inactive].seconds
   end
 
   def expired?

@@ -1,11 +1,9 @@
-require 'casino_core/settings'
-
 class CASino::LoginTicket < ActiveRecord::Base
   attr_accessible :ticket
   validates :ticket, uniqueness: true
 
   def self.cleanup
-    self.delete_all(['created_at < ?', CASinoCore::Settings.login_ticket[:lifetime].seconds.ago])
+    self.delete_all(['created_at < ?', CASino.config.login_ticket[:lifetime].seconds.ago])
   end
 
   def to_s

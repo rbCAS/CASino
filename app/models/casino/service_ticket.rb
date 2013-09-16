@@ -1,4 +1,3 @@
-require 'casino_core/settings'
 require 'addressable/uri'
 
 class CASino::ServiceTicket < ActiveRecord::Base
@@ -9,15 +8,15 @@ class CASino::ServiceTicket < ActiveRecord::Base
   has_many :proxy_granting_tickets, as: :granter, dependent: :destroy
 
   def self.cleanup_unconsumed
-    self.destroy_all(['created_at < ? AND consumed = ?', CASinoCore::Settings.service_ticket[:lifetime_unconsumed].seconds.ago, false])
+    self.destroy_all(['created_at < ? AND consumed = ?', CASino.config.service_ticket[:lifetime_unconsumed].seconds.ago, false])
   end
 
   def self.cleanup_consumed
-    self.destroy_all(['(ticket_granting_ticket_id IS NULL OR created_at < ?) AND consumed = ?', CASinoCore::Settings.service_ticket[:lifetime_consumed].seconds.ago, true])
+    self.destroy_all(['(ticket_granting_ticket_id IS NULL OR created_at < ?) AND consumed = ?', CASino.config.service_ticket[:lifetime_consumed].seconds.ago, true])
   end
 
   def self.cleanup_consumed_hard
-    self.delete_all(['created_at < ? AND consumed = ?', (CASinoCore::Settings.service_ticket[:lifetime_consumed].seconds * 2).ago, true])
+    self.delete_all(['created_at < ? AND consumed = ?', (CASino.config.service_ticket[:lifetime_consumed].seconds * 2).ago, true])
   end
 
   def service_with_ticket_url
@@ -28,9 +27,9 @@ class CASino::ServiceTicket < ActiveRecord::Base
 
   def expired?
     lifetime = if consumed?
-      CASinoCore::Settings.service_ticket[:lifetime_consumed]
+      CASino.config.service_ticket[:lifetime_consumed]
     else
-      CASinoCore::Settings.service_ticket[:lifetime_unconsumed]
+      CASino.config.service_ticket[:lifetime_unconsumed]
     end
     (Time.now - (self.created_at || Time.now)) > lifetime
   end

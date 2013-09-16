@@ -56,7 +56,7 @@ class CASino::LoginCredentialAcceptorProcessor < CASino::Processor
           acquire_service_ticket(ticket_granting_ticket, @params[:service], true).service_with_ticket_url
         end
         if long_term
-          @listener.user_logged_in(url, ticket_granting_ticket.ticket, CASinoCore::Settings.ticket_granting_ticket[:lifetime_long_term].seconds.from_now)
+          @listener.user_logged_in(url, ticket_granting_ticket.ticket, CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.from_now)
         else
           @listener.user_logged_in(url, ticket_granting_ticket.ticket)
         end

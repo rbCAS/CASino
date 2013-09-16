@@ -10,38 +10,20 @@ defaults: &defaults
   frontend:
     sso_name: "CASino"
     footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
+  authenticators:
+    static:
+      class: "CASinoCore::Authenticator::Static"
+      options:
+        users:
+          testuser:
+            password: "foobar123"
+            name: "Test User"
 
 development:
   <<: *defaults
-  authenticators:
-    static:
-      class: "CASinoCore::Authenticator::Static"
-      options:
-        users:
-          testuser:
-            password: "foobar123"
 
 test:
   <<: *defaults
-  authenticators:
-    static:
-      class: "CASinoCore::Authenticator::Static"
-      options:
-        users:
-          testuser:
-            password: "foobar123"
 
 production:
   <<: *defaults
-  authenticators:
-    my_company_ldap:
-      authenticator: "ldap"
-      options:
-        host: "localhost"
-        port: 12445
-        base: "dc=users,dc=example.com"
-        username_attribute: "uid"
-        encryption: "simple_tls"
-        extra_attributes:
-          email: "mail"
-          fullname: "displayname"
