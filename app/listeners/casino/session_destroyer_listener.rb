@@ -1,3 +1,5 @@
+require_relative 'listener'
+
 class CASino::SessionDestroyerListener < CASino::Listener
   def ticket_deleted
     @controller.redirect_to(sessions_path)

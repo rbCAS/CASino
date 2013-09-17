@@ -80,8 +80,8 @@ describe CASino::LoginCredentialAcceptorProcessor do
 
         context 'when all authenticators raise an error' do
           before(:each) do
-            CASinoCore::Authenticator::Static.any_instance.stub(:validate) do
-              raise CASinoCore::Authenticator::AuthenticatorError, 'error123'
+            CASino::StaticAuthenticator.any_instance.stub(:validate) do
+              raise CASino::Authenticator::AuthenticatorError, 'error123'
             end
           end
 

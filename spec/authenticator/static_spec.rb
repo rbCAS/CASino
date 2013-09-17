@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe CASinoCore::Authenticator::Static do
+describe CASino::StaticAuthenticator do
   subject {
-    CASinoCore::Authenticator::Static.new({
+    described_class.new({
       users: {
         user: {
           password: 'testing123',

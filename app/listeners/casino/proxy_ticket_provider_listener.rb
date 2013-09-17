@@ -1,3 +1,5 @@
+require_relative 'listener'
+
 class CASino::ProxyTicketProviderListener < CASino::Listener
   def request_failed(xml)
     @controller.render xml: xml

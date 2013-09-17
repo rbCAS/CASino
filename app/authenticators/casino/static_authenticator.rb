@@ -1,8 +1,8 @@
-require 'casino_core/authenticator'
+require_relative 'authenticator'
 
 # The static authenticator is just a simple example.
 # Never ever us this authenticator in a productive environment!
-class CASinoCore::Authenticator::Static < CASinoCore::Authenticator
+class CASino::StaticAuthenticator < CASino::Authenticator
 
   # @param [Hash] options
   def initialize(options)

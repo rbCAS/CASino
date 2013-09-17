@@ -12,7 +12,7 @@ defaults: &defaults
     footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
   authenticators:
     static:
-      class: "CASinoCore::Authenticator::Static"
+      class: "CASino::StaticAuthenticator"
       options:
         users:
           testuser:

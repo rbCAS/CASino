@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe CASinoCore::Authenticator do
+describe CASino::Authenticator do
   subject {
-    CASinoCore::Authenticator.new
+    CASino::Authenticator.new
   }
 
   context '#validate' do

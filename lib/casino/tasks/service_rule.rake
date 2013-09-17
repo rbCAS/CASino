@@ -1,9 +1,7 @@
 require 'terminal-table'
-require 'casino_core/helper/service_tickets'
 
 namespace :casino do
   namespace :service_rule do
-    include CASinoCore::Helper::ServiceTickets
 
     desc 'Add a service rule (prefix the url parameter with "regex:" to add a regular expression)'
     task :add, [:name, :url] => :environment do |task, args|

@@ -1,11 +1,8 @@
 require 'active_support/configurable'
-require 'casino_core'
 require 'casino/engine'
 
 module CASino
   include ActiveSupport::Configurable
-
-  autoload :Listener, 'casino/listener.rb'
 
   defaults = {
     authenticators: HashWithIndifferentAccess.new,

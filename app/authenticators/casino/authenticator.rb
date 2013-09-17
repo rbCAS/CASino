@@ -1,7 +1,5 @@
-module CASinoCore
+module CASino
   class Authenticator
-    autoload :Static, 'casino_core/authenticator/static.rb'
-
     class AuthenticatorError < StandardError; end
 
     def validate(username, password)

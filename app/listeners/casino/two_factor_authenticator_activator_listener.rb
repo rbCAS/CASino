@@ -1,3 +1,5 @@
+require_relative 'listener'
+
 class CASino::TwoFactorAuthenticatorActivatorListener < CASino::Listener
   def user_not_logged_in
     @controller.redirect_to login_path

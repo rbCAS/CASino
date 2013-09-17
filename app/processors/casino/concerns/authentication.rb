@@ -7,7 +7,7 @@ module CASino
         authenticators.each do |authenticator_name, authenticator|
           begin
             data = authenticator.validate(username, password)
-          rescue CASinoCore::Authenticator::AuthenticatorError => e
+          rescue CASino::Authenticator::AuthenticatorError => e
             Rails.logger.error "Authenticator '#{authenticator_name}' (#{authenticator.class}) raised an error: #{e}"
           end
           if data

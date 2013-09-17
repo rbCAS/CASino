@@ -1,3 +1,5 @@
+require_relative 'listener'
+
 class CASino::LogoutListener < CASino::Listener
   def user_logged_out(url, redirect_immediately = false)
     if redirect_immediately

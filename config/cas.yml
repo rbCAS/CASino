@@ -3,14 +3,14 @@ defaults: &defaults
     lifetime_unconsumed: 299
   authenticators:
     static_1:
-      class: "CASinoCore::Authenticator::Static"
+      class: "CASino::StaticAuthenticator"
       options:
         users:
           testuser:
             password: "foobar123"
             name: "Test User"
     static_2:
-      class: "CASinoCore::Authenticator::Static"
+      class: "CASino::StaticAuthenticator"
       options:
         users:
           example:

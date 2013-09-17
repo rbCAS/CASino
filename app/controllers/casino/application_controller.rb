@@ -1,5 +1,4 @@
 require 'casino'
-require 'casino_core'
 require 'http_accept_language'
 
 class CASino::ApplicationController < ::ApplicationController
