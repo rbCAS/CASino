@@ -1,5 +1,3 @@
-require 'casino_core/builder'
-
 require_relative 'concerns/service_tickets'
 require_relative 'concerns/proxy_granting_tickets'
 
@@ -23,7 +21,7 @@ class CASino::ServiceTicketValidatorProcessor < CASino::Processor
 
   protected
   def build_service_response(success, options = {})
-    builder = CASinoCore::Builder::TicketValidationResponse.new(success, options)
+    builder = CASino::TicketValidationResponseBuilder.new(success, options)
     builder.build
   end
 

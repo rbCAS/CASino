@@ -1,4 +1,3 @@
-require 'casino_core/builder'
 require_relative '../concerns/service_tickets'
 require_relative '../concerns/ticket_granting_tickets'
 
