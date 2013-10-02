@@ -6,11 +6,11 @@ describe CASino::API::V1::TicketsController do
     context "with correct credentials" do
 
       before do
-        CASinoCore::Processor::API::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+        CASino::API::LoginCredentialAcceptorProcessor.any_instance.should_receive(:process) do
           @controller.user_logged_in_via_api "TGT-long-string"
         end
 
-        post :create, params: {username: 'valid', password: 'valid'}
+        post :create, username: 'valid', password: 'valid', use_route: :casino
       end
 
       subject { response }
@@ -21,11 +21,11 @@ describe CASino::API::V1::TicketsController do
     context "with incorrect credentials" do
 
       before do
-        CASinoCore::Processor::API::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+        CASino::API::LoginCredentialAcceptorProcessor.any_instance.should_receive(:process) do
           @controller.invalid_login_credentials_via_api
         end
 
-        post :create, params: {username: 'invalid', password: 'invalid'}
+        post :create, username: 'invalid', password: 'invalid', use_route: :casino
       end
 
       subject { response }
@@ -35,11 +35,11 @@ describe CASino::API::V1::TicketsController do
     context "with a not allowed service" do
 
       before do
-        CASinoCore::Processor::API::LoginCredentialAcceptor.any_instance.should_receive(:process) do
+        CASino::API::LoginCredentialAcceptorProcessor.any_instance.should_receive(:process) do
           @controller.service_not_allowed_via_api
         end
 
-        post :create, params: {username: 'example', password: 'example'}
+        post :create, username: 'example', password: 'example', use_route: :casino
       end
 
       subject { response }
@@ -52,11 +52,11 @@ describe CASino::API::V1::TicketsController do
     context "with a valid TGT" do
 
       before do
-        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-valid', kind_of(Hash), request.user_agent) do |ticket, params|
+        CASino::API::ServiceTicketProviderProcessor.any_instance.should_receive(:process).with('TGT-valid', kind_of(Hash), request.user_agent) do |ticket, params|
           params.should == controller.params
           @controller.granted_service_ticket_via_api 'ST-1-VALIDSERVICETICKET'
         end
-        post :update, id: 'TGT-valid', service: 'http://example.org/'
+        post :update, id: 'TGT-valid', service: 'http://example.org/', use_route: :casino
       end
 
       subject { response }
@@ -68,11 +68,11 @@ describe CASino::API::V1::TicketsController do
     context "with an invalid TGT" do
 
       before do
-        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-invalid', kind_of(Hash), request.user_agent) do |ticket, params|
+        CASino::API::ServiceTicketProviderProcessor.any_instance.should_receive(:process).with('TGT-invalid', kind_of(Hash), request.user_agent) do |ticket, params|
           params.should == controller.params
           @controller.invalid_ticket_granting_ticket_via_api
         end
-        post :update, id: 'TGT-invalid', service: 'http://example.org/'
+        post :update, id: 'TGT-invalid', service: 'http://example.org/', use_route: :casino
       end
 
       subject { response }
@@ -84,11 +84,11 @@ describe CASino::API::V1::TicketsController do
     context "without a service" do
 
       before do
-        CASinoCore::Processor::API::ServiceTicketProvider.any_instance.should_receive(:process).with('TGT-valid', kind_of(Hash), request.user_agent) do |ticket, params|
+        CASino::API::ServiceTicketProviderProcessor.any_instance.should_receive(:process).with('TGT-valid', kind_of(Hash), request.user_agent) do |ticket, params|
           params.should == controller.params
           @controller.no_service_provided_via_api
         end
-        post :update, id: 'TGT-valid'
+        post :update, id:'TGT-valid', use_route: :casino
       end
 
       subject { response }
@@ -100,10 +100,10 @@ describe CASino::API::V1::TicketsController do
 
   describe "DELETE /cas/v1/tickets/TGT-fdsjfsdfjkalfewrihfdhfaie" do
      before do
-      CASinoCore::Processor::API::Logout.any_instance.should_receive(:process).with('TGT-fdsjfsdfjkalfewrihfdhfaie', request.user_agent) do
+      CASino::API::LogoutProcessor.any_instance.should_receive(:process).with('TGT-fdsjfsdfjkalfewrihfdhfaie', request.user_agent) do
         @controller.user_logged_out_via_api
       end
-      post :destroy, id: 'TGT-fdsjfsdfjkalfewrihfdhfaie'
+      post :destroy, id: 'TGT-fdsjfsdfjkalfewrihfdhfaie', use_route: :casino
     end
 
     subject { response }

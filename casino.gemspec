@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rbcas.org/'
   s.license     = 'MIT'
   s.summary     = 'A simple CAS server written in Ruby using the Rails framework.'
-  s.description = 'CASino is a simple CAS (Central Authentication Service) server using CASinoCore as its backend.'
+  s.description = 'CASino is a simple CAS (Central Authentication Service) server.'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

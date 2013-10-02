@@ -2,17 +2,17 @@ class CASino::API::V1::TicketsController < CASino::ApplicationController
 
   # POST /cas/v1/tickets
   def create
-    CASinoCore::Processor::API::LoginCredentialAcceptor.new(self).process(params, request.user_agent)
+    CASino::API::LoginCredentialAcceptorProcessor.new(self).process(params, request.user_agent)
   end
 
   # POST /cas/v1/tickets/{TGT id}
   def update
-    CASinoCore::Processor::API::ServiceTicketProvider.new(self).process(params[:id], params, request.user_agent)
+    CASino::API::ServiceTicketProviderProcessor.new(self).process(params[:id], params, request.user_agent)
   end
 
   # DELETE /cas/v1/tickets/TGT-fdsjfsdfjkalfewrihfdhfaie
   def destroy
-    CASinoCore::Processor::API::Logout.new(self).process(params[:id], request.user_agent)
+    CASino::API::LogoutProcessor.new(self).process(params[:id], request.user_agent)
   end
 
   # callbacks

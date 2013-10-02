@@ -25,7 +25,7 @@ test:
   <<: *defaults
   authenticators:
     static:
-      class: "CASinoCore::StaticAuthenticator"
+      class: "CASino::StaticAuthenticator"
       options:
         users:
           testuser:
