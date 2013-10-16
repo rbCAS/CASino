@@ -36,12 +36,26 @@ module CASino
       end
 
       private
+      def load_legacy_authenticator(name)
+        gemname, classname = parse_legacy_name(name)
+
+        begin
+          require gemname
+          CASinoCore::Authenticator.const_get("#{classname}")
+        rescue LoadError, NameError
+          false
+        end
+      end
+
       def load_authenticator(name)
+        legacy_authenticator = load_legacy_authenticator(name)
+        return legacy_authenticator if legacy_authenticator
+
         gemname, classname = parse_name(name)
 
         begin
           require gemname
-          CASino.const_get("#{classname}Authenticator")
+          CASino.const_get(classname)
         rescue LoadError => error
           raise LoadError, load_error_message(name, gemname, error)
         rescue NameError => error
@@ -50,7 +64,11 @@ module CASino
       end
 
       def parse_name(name)
-        [ "casino-#{name.underscore}_authenticator", name.camelize ]
+        [ "casino-#{name.underscore}_authenticator", "#{name.camelize}Authenticator" ]
+      end
+
+      def parse_legacy_name(name)
+        [ "casino_core-authenticator-#{name.underscore}", name.camelize ]
       end
 
       def load_error_message(name, gemname, error)
