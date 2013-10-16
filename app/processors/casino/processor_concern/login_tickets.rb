@@ -1,5 +1,3 @@
-require_relative 'tickets'
-
 module CASino
   module ProcessorConcern
     module LoginTickets

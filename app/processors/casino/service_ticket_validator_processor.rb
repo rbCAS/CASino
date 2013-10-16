@@ -1,6 +1,3 @@
-require_relative 'concerns/service_tickets'
-require_relative 'concerns/proxy_granting_tickets'
-
 # The ServiceTicketValidator processor should be used to handle GET requests to /serviceValidate
 class CASino::ServiceTicketValidatorProcessor < CASino::Processor
   include CASino::ProcessorConcern::ServiceTickets

@@ -1,7 +1,3 @@
-require_relative 'concerns/service_tickets'
-require_relative 'concerns/ticket_granting_tickets'
-require_relative 'concerns/two_factor_authenticators'
-
 # The SecondFactorAuthenticationAcceptor processor can be used to activate a previously generated ticket-granting ticket with pending two-factor authentication.
 #
 # This feature is not described in the CAS specification so it's completly optional

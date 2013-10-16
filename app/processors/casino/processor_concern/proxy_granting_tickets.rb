@@ -1,8 +1,6 @@
 require 'addressable/uri'
 require 'faraday'
 
-require_relative 'tickets'
-
 module CASino
   module ProcessorConcern
     module ProxyGrantingTickets

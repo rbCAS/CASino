@@ -1,5 +1,3 @@
-require_relative 'concerns/service_tickets'
-
 # The LegacyValidator processor should be used for GET requests to /validate
 class CASino::LegacyValidatorProcessor < CASino::Processor
   include CASino::ProcessorConcern::ServiceTickets

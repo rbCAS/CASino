@@ -1,5 +1,3 @@
-require_relative 'concerns/ticket_granting_tickets'
-
 # The Logout processor should be used to process GET requests to /logout.
 class CASino::LogoutProcessor < CASino::Processor
   include CASino::ProcessorConcern::TicketGrantingTickets

@@ -1,5 +1,3 @@
-require_relative 'concerns/ticket_granting_tickets'
-
 # The SessionOverview processor to list all open session for the currently signed in user.
 #
 # This feature is not described in the CAS specification so it's completly optional

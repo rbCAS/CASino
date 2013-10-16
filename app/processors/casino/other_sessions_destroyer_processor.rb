@@ -1,5 +1,3 @@
-require_relative 'concerns/ticket_granting_tickets'
-
 # The OtherSessionsDestroyer processor should be used to process GET requests to /destroy-other-sessions.
 #
 # It is usefule to redirect users to this action after a password change.

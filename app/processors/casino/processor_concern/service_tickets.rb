@@ -1,8 +1,5 @@
 require 'addressable/uri'
 
-require_relative 'tickets'
-require_relative 'proxy_tickets'
-
 module CASino
   module ProcessorConcern
     module ServiceTickets

@@ -1,6 +1,3 @@
-require_relative '../concerns/service_tickets'
-require_relative '../concerns/ticket_granting_tickets'
-
 # The ServiceTicketProvider processor should be used to handle API calls: POST requests to /cas/v1/tickets/<ticket_granting_ticket>
 class CASino::API::ServiceTicketProviderProcessor < CASino::Processor
   include CASino::ProcessorConcern::ServiceTickets

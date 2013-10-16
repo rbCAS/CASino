@@ -1,6 +1,3 @@
-require_relative 'concerns/ticket_granting_tickets'
-require_relative 'concerns/two_factor_authenticators'
-
 # The TwoFactorAuthenticatorActivator processor can be used to activate a previously generated two-factor authenticator.
 #
 # This feature is not described in the CAS specification so it's completly optional

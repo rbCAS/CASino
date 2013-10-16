@@ -1,7 +1,5 @@
 require 'addressable/uri'
 
-require_relative 'browser'
-
 module CASino
   module ProcessorConcern
     module TicketGrantingTickets

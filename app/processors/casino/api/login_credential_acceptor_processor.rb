@@ -1,7 +1,3 @@
-require_relative '../concerns/service_tickets'
-require_relative '../concerns/authentication'
-require_relative '../concerns/ticket_granting_tickets'
-
 # This processor should be used for API calls: POST /cas/v1/tickets
 class CASino::API::LoginCredentialAcceptorProcessor < CASino::Processor
   include CASino::ProcessorConcern::ServiceTickets
