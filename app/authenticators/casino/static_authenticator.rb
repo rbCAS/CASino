@@ -1,4 +1,4 @@
-require_relative 'authenticator'
+require 'casino/authenticator'
 
 # The static authenticator is just a simple example.
 # Never ever us this authenticator in a productive environment!
