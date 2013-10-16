@@ -19,7 +19,7 @@ module CASino
     end
 
     def install_casino
-      args = %w{--skip-check-old-install --skip-migration}
+      args = %w{--skip-check-old-install --skip-migration --skip-config-files}
       args << '--force' if options['force']
       generate 'casino:install', args.join(' ')
     end

@@ -8,12 +8,17 @@ module CASino
     namespace 'casino:install'
 
     class_option :migration,
-        desc:'Skip generating migrations',
+        desc: 'Skip generating migrations',
         type: :boolean,
         default: true
 
     class_option :check_old_install,
-        desc:'Check for pre-existing installation of CASino v1.3 or lower',
+        desc: 'Check for pre-existing installation of CASino v1.3 or lower',
+        type: :boolean,
+        default: true
+
+    class_option :config_files,
+        desc: 'Install default config files',
         type: :boolean,
         default: true
 
@@ -39,6 +44,8 @@ module CASino
     end
 
     def copy_config_files
+      return unless options['config_files']
+
       copy_file 'cas.yml', 'config/cas.yml'
       copy_file 'casino_and_overrides.scss', 'app/assets/stylesheets/casino_and_overrides.scss'
     end
