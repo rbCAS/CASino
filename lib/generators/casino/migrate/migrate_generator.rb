@@ -15,7 +15,7 @@ module CASino
     end
 
     def migrate
-      migration_template "migrate_casino_tables.rb", "db/migrate/migrate_casino_tables.rb"
+      migration_template "create_base_models.rb", "db/migrate/create_base_models.casino.rb"
     end
 
     def install_casino

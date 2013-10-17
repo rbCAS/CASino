@@ -1,4 +1,4 @@
-class MigrateCASinoTables < ActiveRecord::Migration
+class CreateBaseModels < ActiveRecord::Migration
   # Renames the old CASinoCore database tables to new names that reflect Rails'
   # default naming schema.
   #
