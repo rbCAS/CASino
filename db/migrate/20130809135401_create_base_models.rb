@@ -1,5 +1,10 @@
 class CreateBaseModels < ActiveRecord::Migration
   def change
+    if ActiveRecord::Base.connection.table_exists? 'login_tickets'
+      raise "You are trying to run the base models migration on a not-yet migrated CASino 1.x installation.\n" \
+        "Cowardly refusing to continue! See http://casino.rbcas.com/docs/upgrading/ for details on how to migrate.\n"
+    end
+
     # Login Tickets
     create_table :casino_login_tickets do |t|
       t.string :ticket, :null => false
