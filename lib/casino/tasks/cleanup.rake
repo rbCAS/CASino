@@ -7,7 +7,10 @@ namespace :casino do
     desc 'Remove expired service tickets.'
     task service_tickets: :environment do
       [:consumed, :unconsumed].each do |type|
-        rows_affected = CASino::ServiceTicket.send("cleanup_#{type}").length
+        rows_affected = CASino::ServiceTicket.send("cleanup_#{type}")
+        if rows_affected.respond_to? :length
+          rows_affected = rows_affected.length
+        end
         puts "Deleted #{rows_affected} #{type} service tickets."
       end
       rows_affected = CASino::ServiceTicket.cleanup_consumed_hard
