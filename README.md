@@ -1,4 +1,4 @@
-# CASino [![Build Status](https://secure.travis-ci.org/rbCAS/CASino.png?branch=master)](https://travis-ci.org/rbCAS/CASino)
+# CASino [![Build Status](https://secure.travis-ci.org/rbCAS/CASino.png?branch=master)](https://travis-ci.org/rbCAS/CASino) [![Coverage Status](https://coveralls.io/repos/rbCAS/CASino/badge.png?branch=master)](https://coveralls.io/r/rbCAS/CASino?branch=master)
 
 CASino Rails Engine (used in CASinoApp).
 
