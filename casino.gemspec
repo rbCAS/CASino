@@ -27,10 +27,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'rspec', '~> 2.12'
   s.add_development_dependency 'rspec-rails', '~> 2.0'
-  s.add_development_dependency 'simplecov', '~> 0.7'
   s.add_development_dependency 'sqlite3', '~> 1.3'
   s.add_development_dependency 'factory_girl', '~> 4.1'
   s.add_development_dependency 'webmock', '~> 1.9'
+  s.add_development_dependency 'coveralls', '~> 0.7'
 
   s.add_runtime_dependency 'rails', '~> 3.2.9'
   s.add_runtime_dependency 'jquery-rails', '~> 2.1'
