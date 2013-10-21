@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASino::Listener::Logout do
+describe CASino::LogoutListener do
   include Rails.application.routes.url_helpers
   let(:controller) { Struct.new(:cookies).new(cookies: {}) }
   let(:listener) { described_class.new(controller) }

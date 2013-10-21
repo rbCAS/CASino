@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASino::Listener::TicketValidator do
+describe CASino::TicketValidatorListener do
   let(:controller) { Object.new }
   let(:listener) { described_class.new(controller) }
   let(:xml) { "<foo><bar>bla</bar></foo>" }

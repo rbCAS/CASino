@@ -1,0 +1,27 @@
+===============================================================================
+
+The CASino Engine has been correctly installed in your Rails application.
+
+  1. Edit the configuration file:
+
+    - config/cas.yml
+
+  2. Edit or delete (to use the integrated) layout file:
+
+    - app/views/layouts/application.html.erb
+
+  3. Run the generated CASino migrations
+
+    > bundle exec rake db:migrate SCOPE=casino
+
+  4. Launch the server
+
+    > bundle exec rails server
+
+  5. Open your browser
+
+    > open http://localhost:3000/
+
+  6. Enjoy!
+
+===============================================================================

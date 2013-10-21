@@ -1,0 +1,47 @@
+defaults: &defaults
+  login_ticket:
+    lifetime: 600
+  service_ticket:
+    lifetime_unconsumed: 300
+    lifetime_consumed: 86400
+  proxy_ticket:
+    lifetime_unconsumed: 300
+    lifetime_consumed: 86400
+  frontend:
+    sso_name: "CASino"
+    footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
+
+development:
+  <<: *defaults
+  authenticators:
+    static:
+      class: "CASino::StaticAuthenticator"
+      options:
+        users:
+          testuser:
+            password: "foobar123"
+
+test:
+  <<: *defaults
+  authenticators:
+    static:
+      class: "CASino::StaticAuthenticator"
+      options:
+        users:
+          testuser:
+            password: "foobar123"
+
+production:
+  <<: *defaults
+  authenticators:
+    my_company_ldap:
+      authenticator: "ldap"
+      options:
+        host: "localhost"
+        port: 12445
+        base: "dc=users,dc=example.com"
+        username_attribute: "uid"
+        encryption: "simple_tls"
+        extra_attributes:
+          email: "mail"
+          fullname: "displayname"

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASino::Listener::SessionOverview do
+describe CASino::SessionOverviewListener do
   include CASino::Engine.routes.url_helpers
   let(:controller) { Object.new }
   let(:listener) { described_class.new(controller) }

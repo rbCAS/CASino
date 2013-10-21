@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASino::Listener::LegacyValidator do
+describe CASino::LegacyValidatorListener do
   let(:controller) { Object.new }
   let(:listener) { described_class.new(controller) }
   let(:response_text) { "foobar\nbla\n" }

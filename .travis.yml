@@ -1,6 +1,6 @@
 language: ruby
 before_script:
-  - "cd spec/dummy && RAILS_ENV=test rake casino_core:db:schema:load && cd ../.."
+  - "bundle exec rake"
 rvm:
   - 1.9.3
   - 2.0.0

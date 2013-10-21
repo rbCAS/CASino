@@ -4,8 +4,6 @@ require 'rake'
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 
-require 'casino_core'
-
 task :default => :spec
 
 desc 'Run all specs'
