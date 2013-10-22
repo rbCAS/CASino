@@ -43,8 +43,17 @@ namespace :casino do
       puts "Deleted #{rows_affected} ticket-granting tickets."
     end
 
+    task :acquire_lock do
+      $cleanup_lock = File.open('tmp/cleanup.lock', File::RDWR | File::CREAT, 0644)
+      lock_aquired = $cleanup_lock.flock(File::LOCK_NB | File::LOCK_EX)
+      if lock_aquired === false
+        $stderr.puts 'Could not acquire lock, other cleanup task already running?'
+        exit 1
+      end
+    end
+
     desc 'Perform all cleanup tasks.'
-    task all: [:ticket_granting_tickets, :service_tickets, :proxy_tickets, :login_tickets, :two_factor_authenticators] do
+    task all: [:acquire_lock, :ticket_granting_tickets, :service_tickets, :proxy_tickets, :login_tickets, :two_factor_authenticators] do
     end
   end
 end
