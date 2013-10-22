@@ -9,7 +9,7 @@ class CleanupIndexes < ActiveRecord::Migration
     remove_deprecated_index_if_exists :service_rules, [:url]
     remove_deprecated_index_if_exists :service_tickets, [:ticket]
     remove_deprecated_index_if_exists :service_tickets, [:ticket_granting_ticket_id]
-    remove_deprecated_index_if_exists :ticket_granting_ticket, [:ticket]
+    remove_deprecated_index_if_exists :ticket_granting_tickets, [:ticket]
     remove_deprecated_index_if_exists :two_factor_authenticators, [:user_id]
     remove_deprecated_index_if_exists :users, [:authenticator, :username]
   end
