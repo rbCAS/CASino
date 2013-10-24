@@ -1,13 +1,5 @@
-class CreateBaseModels < ActiveRecord::Migration
-  # Renames the old CASinoCore database tables to new names that reflect Rails'
-  # default naming schema.
-  #
-  # Since indices are silently dropped when tables are renamed in Rails <4, we
-  # must check to see if the database renamed the associated indices and
-  # reconstruct them if not.
-  #
-  # For more information, see: https://github.com/rails/rails/pull/8645
-  def change
+class RenameBaseModels < ActiveRecord::Migration
+  def up
     # Login Tickets
     rename_table :login_tickets, :casino_login_tickets
     unless index_exists?(:casino_login_tickets, :ticket)
@@ -68,5 +60,42 @@ class CreateBaseModels < ActiveRecord::Migration
     unless index_exists?(:casino_users, [:authenticator, :username])
       add_index :casino_users, [:authenticator, :username], :unique => true
     end
+  end
+
+  def down
+    remove_index :casino_login_tickets, :ticket
+    drop_table :casino_login_tickets
+
+    # Proxy Granting Tickets
+    remove_index :casino_proxy_granting_tickets, :ticket, :unique => true
+    remove_index :casino_proxy_granting_tickets, :iou, :unique => true
+    remove_index :casino_proxy_granting_tickets, [:granter_type, :granter_id], :name => "index_casino_proxy_granting_tickets_on_granter", :unique => true
+    drop_table :casino_proxy_granting_tickets
+
+    # Proxy Tickets
+    remove_index :casino_proxy_tickets, :ticket, :unique => true
+    remove_index :casino_proxy_tickets, :proxy_granting_ticket_id
+    drop_table :casino_proxy_tickets
+
+    # Service Rules
+    remove_index :casino_service_rules, :url, :unique => true
+    drop_table :casino_service_rules
+
+    # Service Tickets
+    remove_index :casino_service_tickets, :ticket, :unique => true
+    remove_index :casino_service_tickets, :ticket_granting_ticket_id
+    drop_table :casino_service_tickets
+
+    # Ticket Granting Tickets
+    remove_index :casino_ticket_granting_tickets, :ticket, :unique => true
+    drop_table :casino_ticket_granting_tickets
+
+    # Two-Factor Authenticators
+    remove_index :casino_two_factor_authenticators, :user_id
+    drop_table :casino_two_factor_authenticators
+
+    # Users
+    remove_index :casino_users, [:authenticator, :username], :unique => true
+    drop_table :casino_users
   end
 end
