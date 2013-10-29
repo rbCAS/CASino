@@ -4,5 +4,4 @@
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'CAS'
   inflect.acronym 'CASino'
-  inflect.acronym 'API'
 end

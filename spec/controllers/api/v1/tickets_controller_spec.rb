@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CASino::API::V1::TicketsController do
+describe CASino::Api::V1::TicketsController do
 
   describe "POST /cas/v1/tickets" do
     context "with correct credentials" do

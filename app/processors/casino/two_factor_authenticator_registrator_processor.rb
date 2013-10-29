@@ -1,3 +1,5 @@
+require 'rotp'
+
 # The TwoFactorAuthenticatorRegistrator processor can be used as the first step to register a new two-factor authenticator.
 # It is inactive until activated using TwoFactorAuthenticatorActivator.
 #
