@@ -16,7 +16,7 @@
         <%= hidden_field_tag :lt, @login_ticket.ticket %>
         <%= hidden_field_tag :service, params[:service] unless params[:service].nil? %>
         <%= label_tag :username, t('login.label_username') %>
-        <%= text_field_tag :username, params[:username] %>
+        <%= text_field_tag :username, params[:username], autofocus:true %>
         <%= label_tag :password, t('login.label_password') %>
         <%= password_field_tag :password %>
         <%= label_tag :rememberMe do %>
@@ -28,3 +28,7 @@
   </div>
   <%= render 'footer' %>
 </div>
+
+<%= javascript_tag do %>
+  <%= Rails.application.assets.find_asset('casino/sessions').to_s.html_safe %>
+<% end %>

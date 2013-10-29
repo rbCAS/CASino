@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls', '~> 0.7'
 
   s.add_runtime_dependency 'rails', '~> 3.2.9'
-  s.add_runtime_dependency 'jquery-rails', '~> 2.1'
   s.add_runtime_dependency 'http_accept_language', '~> 2.0.0.pre'
   s.add_runtime_dependency 'addressable', '~> 2.3'
   s.add_runtime_dependency 'terminal-table', '~> 1.4'
