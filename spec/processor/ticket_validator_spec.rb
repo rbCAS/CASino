@@ -29,6 +29,21 @@ require 'spec_helper'
       end
 
       context 'with an unconsumed service ticket' do
+        context 'with extra attributes using strings as keys' do
+          before(:each) do
+            CASino::User.any_instance.stub(:extra_attributes).and_return({ "id" => 1234 })
+          end
+
+          after(:each) do
+            CASino::User.any_instance.unstub(:extra_attributes)
+          end
+
+          it 'includes the extra attributes' do
+            listener.should_receive(:validation_succeeded).with(/<cas\:id>1234<\/cas\:id\>/)
+            processor.process(parameters)
+          end
+        end
+
         context 'issued from a long_term ticket-granting ticket' do
           before(:each) do
             tgt = service_ticket.ticket_granting_ticket

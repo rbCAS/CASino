@@ -35,6 +35,7 @@ class CASino::TicketValidationResponseBuilder
 
   private
   def serialize_extra_attribute(builder, key, value)
+    key = :"#{key}"
     if value.kind_of?(String) || value.kind_of?(Numeric) || value.kind_of?(Symbol)
       builder.cas key, "#{value}"
     else
