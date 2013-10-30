@@ -7,19 +7,19 @@
     var serviceEl = doc.getElementById('service'),
         service = serviceEl ? serviceEl.getAttribute('value') : null;
 
-    if(cookie_regex.test(document.cookie)) {
+    if(cookie_regex.test(doc.cookie)) {
       url = '/login';
       if(service) {
         url += '?service=' + encodeURIComponent(service);
       }
-      window.location = url;
+      win.location = url;
     } else {
       setTimeout(checkCookieExists, 1000);
     }
   }
 
   // Auto-login when logged-in in other browser window (9887c4e)
-  document.addEventListener('DOMContentLoaded', function() {
+  doc.addEventListener('DOMContentLoaded', function() {
     if(ready_bound) {
       return;
     }
