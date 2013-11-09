@@ -16,7 +16,7 @@ describe 'Session overview' do
     it { should have_text('Active Session') }
 
     context 'without other sessions' do
-      it { should_not have_link('End session') }
+      it { should_not have_button('End session') }
     end
 
     context 'when other sessions exist' do
@@ -26,7 +26,7 @@ describe 'Session overview' do
         end
         visit sessions_path
       end
-      it { should have_link('End session') }
+      it { should have_button('End session') }
     end
 
     context 'with two-factor authentication disabled' do

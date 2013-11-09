@@ -49,7 +49,7 @@
                 <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
                   <strong><%= t('sessions.current_session') %></strong>
                 <% else %>
-                  <%= link_to t('sessions.end_session'), session_path(ticket_granting_ticket.id), method: :delete %>
+                  <%= button_to t('sessions.end_session'), session_path(ticket_granting_ticket.id), method: :delete %>
                 <% end %>
               </td>
             </tr>
