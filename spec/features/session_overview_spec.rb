@@ -37,13 +37,13 @@ describe 'Session overview' do
         visit sessions_path
       end
       it { should have_link('Enable', href: new_two_factor_authenticator_path) }
-      it { should_not have_link('Disable') }
+      it { should_not have_button('Disable') }
     end
 
     context 'with two-factor authentication enabled' do
       before { enable_two_factor_authentication }
       it { should_not have_link('Enable', href: new_two_factor_authenticator_path) }
-      it { should have_link('Disable') }
+      it { should have_button('Disable') }
     end
   end
 
