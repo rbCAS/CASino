@@ -19,6 +19,13 @@ class CASino::ServiceTicket < ActiveRecord::Base
     self.delete_all(['created_at < ? AND consumed = ?', (CASino.config.service_ticket[:lifetime_consumed].seconds * 2).ago, true])
   end
 
+
+  def service=(value)
+    value = Addressable::URI.encode(value)
+    super(value)
+  end
+
+
   def service_with_ticket_url
     service_uri = Addressable::URI.parse(self.service)
     service_uri.query_values = (service_uri.query_values(Array) || []) << ['ticket', self.ticket]
