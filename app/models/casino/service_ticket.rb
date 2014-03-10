@@ -20,9 +20,10 @@ class CASino::ServiceTicket < ActiveRecord::Base
   end
 
 
-  def service=(value)
-    value = Addressable::URI.encode(value)
-    super(value)
+  def service=(service)
+    unencoded_service = Addressable::URI.unencode(service)
+    encoded_service = Addressable::URI.encode(unencoded_service)
+    super(encoded_service)
   end
 
 

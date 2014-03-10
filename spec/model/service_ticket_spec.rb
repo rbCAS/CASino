@@ -134,5 +134,11 @@ describe CASino::ServiceTicket do
       unconsumed_ticket.service = 'https://example.org/test.php?t=other&other=testing'
       unconsumed_ticket.service.should eq('https://example.org/test.php?t=other&other=testing')
     end
+
+    it 'does not encode the encoded string' do
+      unconsumed_ticket.service = 'https://example.org/this is a test/jö.png'
+      unconsumed_ticket.service = unconsumed_ticket.service
+      unconsumed_ticket.service.should eq('https://example.org/this%20is%20a%20test/j%C3%B6.png')
+    end
   end
 end
