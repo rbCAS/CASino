@@ -1,4 +1,4 @@
-require 'active_support/core_ext/hash/deep_dup'
+require 'active_support/core_ext/object/deep_dup'
 
 RSpec.configure do |config|
   config.before do

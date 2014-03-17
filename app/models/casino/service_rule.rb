@@ -1,6 +1,5 @@
 
 class CASino::ServiceRule < ActiveRecord::Base
-  attr_accessible :enabled, :order, :name, :url, :regex
   validates :name, presence: true
   validates :url, uniqueness: true, presence: true
 

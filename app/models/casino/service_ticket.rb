@@ -1,7 +1,6 @@
 require 'addressable/uri'
 
 class CASino::ServiceTicket < ActiveRecord::Base
-  attr_accessible :ticket, :service, :issued_from_credentials
   validates :ticket, uniqueness: true
   belongs_to :ticket_granting_ticket
   before_destroy :send_single_sign_out_notification, if: :consumed?
