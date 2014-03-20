@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'spec_helper'
 
 describe CASino::ServiceTicket do
@@ -116,9 +118,33 @@ describe CASino::ServiceTicket do
   end
 
   describe '#service_with_ticket_url' do
-    it 'does not escape the url from the database' do
-      unconsumed_ticket.service = 'https://host.example.org/test.php?t=other&other=testing'
-      unconsumed_ticket.service_with_ticket_url.should eq('https://host.example.org/test.php?t=other&other=testing&ticket=ST-12345')
+    it 'appends the service ticket id to the querystring' do
+      unconsumed_ticket.service = 'https://host.example.org/test.php?iam=testing'
+      unconsumed_ticket.service_with_ticket_url.should eq('https://host.example.org/test.php?iam=testing&ticket=ST-12345')
+    end
+  end
+
+  describe '#service=' do
+    it 'encodes the url before writing to the database' do
+      unconsumed_ticket.service = 'https://example.org/this is a test/jö.png'
+      unconsumed_ticket.service.should eq('https://example.org/this%20is%20a%20test/j%C3%B6.png')
+    end
+
+    it 'does not encode the querystring symbols (&?=) before writing to the database' do
+      unconsumed_ticket.service = 'https://example.org/test.php?t=other&other=testing'
+      unconsumed_ticket.service.should eq('https://example.org/test.php?t=other&other=testing')
+    end
+
+    it 'does not encode the encoded string' do
+      unconsumed_ticket.service = 'https://example.org/this is a test/jö.png'
+      unconsumed_ticket.service = unconsumed_ticket.service
+      unconsumed_ticket.service.should eq('https://example.org/this%20is%20a%20test/j%C3%B6.png')
+    end
+
+    it 'does correctly reencode slashes' do
+      unconsumed_ticket.service = 'https://example.com/login?os_destination=http%3A%2F%2Fexample.com%2Fdisplay%2FTesting%2F%3Fa%3D1%26b%3D2'
+      unconsumed_ticket.service = unconsumed_ticket.service
+      unconsumed_ticket.service.should eq('https://example.com/login?os_destination=http://example.com/display/Testing/?a=1%26b=2')
     end
   end
 end
