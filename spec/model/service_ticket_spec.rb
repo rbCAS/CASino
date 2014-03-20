@@ -140,5 +140,11 @@ describe CASino::ServiceTicket do
       unconsumed_ticket.service = unconsumed_ticket.service
       unconsumed_ticket.service.should eq('https://example.org/this%20is%20a%20test/j%C3%B6.png')
     end
+
+    it 'does correctly reencode slashes' do
+      unconsumed_ticket.service = 'https://example.com/login?os_destination=http%3A%2F%2Fexample.com%2Fdisplay%2FTesting%2F%3Fa%3D1%26b%3D2'
+      unconsumed_ticket.service = unconsumed_ticket.service
+      unconsumed_ticket.service.should eq('https://example.com/login?os_destination=http://example.com/display/Testing/?a=1%26b=2')
+    end
   end
 end

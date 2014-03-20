@@ -21,9 +21,8 @@ class CASino::ServiceTicket < ActiveRecord::Base
 
 
   def service=(service)
-    unencoded_service = Addressable::URI.unencode(service)
-    encoded_service = Addressable::URI.encode(unencoded_service)
-    super(encoded_service)
+    normalized_encoded_service = Addressable::URI.parse(service).normalize.to_str
+    super(normalized_encoded_service)
   end
 
 
