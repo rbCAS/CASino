@@ -39,7 +39,7 @@ module CASino
         service_uri.path = (service_uri.path || '').gsub(/\/+\z/, '')
         service_uri.path = '/' if service_uri.path.blank?
 
-        clean_service = service_uri.to_s
+        clean_service = service_uri.normalize.to_s
 
         Rails.logger.debug("Cleaned dirty service URL '#{dirty_service}' to '#{clean_service}'") if dirty_service != clean_service
 
