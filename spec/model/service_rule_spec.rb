@@ -40,7 +40,7 @@ describe CASino::ServiceRule do
       it 'does not take too long to check a denied service' do
         start = Time.now
         described_class.allowed?(service_url).should == false
-        (Time.now - start).should < 0.1
+        (Time.now - start).should < 1.0
       end
     end
 
