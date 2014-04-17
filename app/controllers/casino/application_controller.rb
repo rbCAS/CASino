@@ -7,6 +7,10 @@ class CASino::ApplicationController < ::ApplicationController
   layout 'application'
   before_filter :set_locale
 
+  unless Rails.env.development?
+    rescue_from ActionView::MissingTemplate, with: :missing_template
+  end
+
   def cookies
     super
   end
@@ -30,5 +34,9 @@ class CASino::ApplicationController < ::ApplicationController
 
   def http_accept_language
     HttpAcceptLanguage::Parser.new request.env['HTTP_ACCEPT_LANGUAGE']
+  end
+
+  def missing_template(exception)
+    render plain: 'Format not supported', status: :not_acceptable
   end
 end
