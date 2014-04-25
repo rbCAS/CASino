@@ -1,7 +1,7 @@
 require 'casino/authenticator'
 
 # The static authenticator is just a simple example.
-# Never ever us this authenticator in a productive environment!
+# Never use this authenticator in a productive environment!
 class CASino::StaticAuthenticator < CASino::Authenticator
 
   # @param [Hash] options
