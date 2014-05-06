@@ -21,8 +21,12 @@ namespace :casino do
 
     desc 'Deactivate two-factor authentication for a user.'
     task :deactivate_two_factor_authentication, [:user_id] => :environment do |task, args|
-      CASino::User.find(args[:user_id]).active_two_factor_authenticator.destroy
-      puts "Successfully deactivated two-factor authentication for user ##{args[:user_id]}."
+      if CASino::User.find(args[:user_id]).active_two_factor_authenticator
+        CASino::User.find(args[:user_id]).active_two_factor_authenticator.destroy
+        puts "Successfully deactivated two-factor authentication for user ##{args[:user_id]}."
+      else
+        puts "No two-factor authenticator found for user ##{args[:user_id]}."
+      end
     end
   end
 end
