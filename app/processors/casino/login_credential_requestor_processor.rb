@@ -23,7 +23,6 @@ class CASino::LoginCredentialRequestorProcessor < CASino::Processor
       @service_url = clean_service_url(@params[:service]) unless @params[:service].nil?
     rescue Addressable::URI::InvalidURIError => e
       Rails.logger.warn "Service #{@params[:service]} not valid: #{e}"
-      @service_url = nil
     end
     if service_allowed?
       handle_allowed_service
