@@ -19,7 +19,12 @@ class CASino::LoginCredentialRequestorProcessor < CASino::Processor
     @params = params || {}
     @cookies = cookies || {}
     @user_agent = user_agent || {}
-    if check_service_allowed
+    begin
+      @service_url = clean_service_url(@params[:service]) unless @params[:service].nil?
+    rescue Addressable::URI::InvalidURIError => e
+      Rails.logger.warn "Service #{@params[:service]} not valid: #{e}"
+    end
+    if service_allowed?
       handle_allowed_service
     end
   end
@@ -34,8 +39,8 @@ class CASino::LoginCredentialRequestorProcessor < CASino::Processor
   end
 
   def handle_logged_in
-    service_url_with_ticket = unless @params[:service].nil?
-      acquire_service_ticket(@ticket_granting_ticket, @params[:service], true).service_with_ticket_url
+    service_url_with_ticket = unless @service_url.nil?
+      acquire_service_ticket(@ticket_granting_ticket, @service_url, true).service_with_ticket_url
     end
     @listener.user_logged_in(service_url_with_ticket)
   end
@@ -43,24 +48,23 @@ class CASino::LoginCredentialRequestorProcessor < CASino::Processor
   def handle_not_logged_in
     if gateway_request?
       # we actually lie to the listener to simplify things
-      @listener.user_logged_in(@params[:service])
+      @listener.user_logged_in(@service_url)
     else
       login_ticket = acquire_login_ticket
       @listener.user_not_logged_in(login_ticket)
     end
   end
 
-  def check_service_allowed
-    service_url = clean_service_url(@params[:service]) unless @params[:service].nil?
-    if service_url.nil? || CASino::ServiceRule.allowed?(service_url)
+  def service_allowed?
+    if @service_url.nil? || CASino::ServiceRule.allowed?(@service_url)
       true
     else
-      @listener.service_not_allowed(service_url)
+      @listener.service_not_allowed(@service_url)
       false
     end
   end
 
   def gateway_request?
-    @params[:gateway] == 'true' && @params[:service]
+    @params[:gateway] == 'true' && @service_url
   end
 end

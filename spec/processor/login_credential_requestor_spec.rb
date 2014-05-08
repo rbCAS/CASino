@@ -109,6 +109,16 @@ describe CASino::LoginCredentialRequestorProcessor do
         end
       end
 
+      context 'with a broken service' do
+        let(:service) { '%3Atest' }
+        let(:params) { { service: service } }
+
+        it 'calls the #user_logged_in method on the listener' do
+          listener.should_receive(:user_logged_in).with(nil)
+          processor.process(params, cookies, user_agent)
+        end
+      end
+
       context 'without a service' do
         it 'calls the #user_logged_in method on the listener' do
           listener.should_receive(:user_logged_in).with(nil)
