@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+require 'casino/authenticator'
+
 describe CASino::Authenticator do
   subject {
     CASino::Authenticator.new
