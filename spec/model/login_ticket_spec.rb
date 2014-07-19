@@ -10,7 +10,7 @@ describe CASino::LoginTicket do
       lambda do
         described_class.cleanup
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket('LT-12345').should be_false
+      described_class.find_by_ticket('LT-12345').should be_falsey
     end
   end
 

@@ -15,7 +15,7 @@ describe CASino::API::LoginCredentialAcceptorProcessor do
 
       it 'calls the #invalid_login_credentials_via_api method on the listener' do
         listener.should_receive(:invalid_login_credentials_via_api)
-        processor.process(login_data, user_agent).should be_false
+        processor.process(login_data, user_agent).should be_falsey
       end
 
       it 'does not generate a ticket-granting ticket' do

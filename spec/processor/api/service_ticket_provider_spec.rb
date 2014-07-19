@@ -13,7 +13,7 @@ describe CASino::API::ServiceTicketProviderProcessor do
 
       it 'calls the #invalid_tgt_via_api method on the listener' do
         listener.should_receive(:invalid_ticket_granting_ticket_via_api)
-        processor.process(ticket_granting_ticket, parameters).should be_false
+        processor.process(ticket_granting_ticket, parameters).should be_falsey
       end
     end
 

@@ -48,7 +48,7 @@ describe CASino::ServiceTicket do
       lambda do
         described_class.cleanup_unconsumed
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket('ST-12345').should be_false
+      described_class.find_by_ticket('ST-12345').should be_falsey
     end
   end
 
@@ -77,7 +77,7 @@ describe CASino::ServiceTicket do
       lambda do
         described_class.cleanup_consumed
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket('ST-12345').should be_false
+      described_class.find_by_ticket('ST-12345').should be_falsey
     end
 
     it 'deletes consumed service tickets without ticket_granting_ticket' do
@@ -86,7 +86,7 @@ describe CASino::ServiceTicket do
       lambda do
         described_class.cleanup_consumed
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket('ST-12345').should be_false
+      described_class.find_by_ticket('ST-12345').should be_falsey
     end
 
     it 'does not delete unexpired service tickets' do

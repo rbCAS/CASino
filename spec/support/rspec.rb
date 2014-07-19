@@ -5,4 +5,9 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run focus: true
   config.order = 'random'
+  config.infer_spec_type_from_file_location!
+
+  config.mock_with :rspec do |mocks|
+    mocks.yield_receiver_to_any_instance_implementation_blocks = false
+  end
 end

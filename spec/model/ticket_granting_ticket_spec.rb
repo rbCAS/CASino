@@ -160,7 +160,7 @@ describe CASino::TicketGrantingTicket do
       lambda do
         described_class.cleanup
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_false
+      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_falsey
     end
 
     it 'does not delete almost expired long-term ticket-granting tickets' do
@@ -179,7 +179,7 @@ describe CASino::TicketGrantingTicket do
       lambda do
         described_class.cleanup
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_false
+      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_falsey
     end
 
     it 'does not delete almost expired ticket-granting tickets with pending two-factor authentication' do
@@ -198,7 +198,7 @@ describe CASino::TicketGrantingTicket do
       lambda do
         described_class.cleanup
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_false
+      described_class.find_by_ticket(ticket_granting_ticket.ticket).should be_falsey
     end
   end
 end

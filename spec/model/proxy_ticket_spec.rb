@@ -46,7 +46,7 @@ describe CASino::ProxyTicket do
       lambda do
         described_class.cleanup_unconsumed
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket('PT-12345').should be_false
+      described_class.find_by_ticket('PT-12345').should be_falsey
     end
   end
 
@@ -57,7 +57,7 @@ describe CASino::ProxyTicket do
       lambda do
         described_class.cleanup_consumed
       end.should change(described_class, :count).by(-1)
-      described_class.find_by_ticket('PT-12345').should be_false
+      described_class.find_by_ticket('PT-12345').should be_falsey
     end
   end
 end
