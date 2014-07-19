@@ -26,7 +26,7 @@ CASino::Engine.routes.draw do
     end
   end
 
-  root to: redirect('/login')
+  root to: redirect('login')
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
