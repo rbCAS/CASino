@@ -1,4 +1,5 @@
 require 'addressable/uri'
+require 'rotp'
 
 module CASino
   module ProcessorConcern
