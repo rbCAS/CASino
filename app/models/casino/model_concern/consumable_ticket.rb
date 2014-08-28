@@ -7,7 +7,7 @@ module CASino::ModelConcern::ConsumableTicket
       if ticket.nil?
         Rails.logger.info "#{model_name.human} '#{ticket_identifier}' not found"
         false
-      elsif ticket.created_at < ticket_lifetime.ago
+      elsif ticket.expired?
         Rails.logger.info "#{model_name.human} '#{ticket.ticket}' expired"
         false
       else
