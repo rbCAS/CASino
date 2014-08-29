@@ -31,11 +31,15 @@ class CASino::SessionsController < CASino::ApplicationController
   def destroy
     tickets = current_user.ticket_granting_tickets.where(id: params[:id])
     tickets.first.destroy if tickets.any?
-    redirect_to controller: 'casino/sessions', action: :index
+    redirect_to sessions_path
   end
 
   def destroy_others
-    processor(:OtherSessionsDestroyer).process(params, cookies, request.user_agent)
+    current_user
+      .ticket_granting_tickets
+      .where('id != ?', current_ticket_granting_ticket.id)
+      .destroy_all if signed_in?
+    redirect_to params[:service] || sessions_path
   end
 
   def logout
@@ -77,7 +81,6 @@ class CASino::SessionsController < CASino::ApplicationController
   end
 
   def ensure_signed_in
-    @ticket_granting_ticket = current_ticket_granting_ticket
-    redirect_to login_path if @ticket_granting_ticket.nil?
+    redirect_to login_path unless signed_in?
   end
 end

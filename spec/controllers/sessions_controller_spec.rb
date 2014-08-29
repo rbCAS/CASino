@@ -625,11 +625,53 @@ describe CASino::SessionsController do
   end
 
   describe 'GET "destroy_others"' do
-    it 'calls the process method of the OtherSessionsDestroyer' do
-      CASino::OtherSessionsDestroyerProcessor.any_instance.should_receive(:process) do
-        @controller.render nothing: true
+    let(:url) { nil }
+    let(:params) { { :service => url } }
+
+    context 'with an existing ticket-granting ticket' do
+      let(:user) { FactoryGirl.create :user }
+      let!(:other_users_ticket_granting_tickets) { FactoryGirl.create_list :ticket_granting_ticket, 3 }
+      let!(:other_ticket_granting_tickets) { FactoryGirl.create_list :ticket_granting_ticket, 3, user: user }
+      let!(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: user }
+      let(:tgt) { ticket_granting_ticket.ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
+
+      before(:each) do
+        request.cookies[:tgt] = tgt
       end
-      get :destroy_others, use_route: :casino
+
+      it 'deletes all other ticket-granting tickets' do
+        lambda do
+          get :destroy_others, request_options
+        end.should change(CASino::TicketGrantingTicket, :count).by(-3)
+      end
+
+      it 'redirects to the session overview' do
+        get :destroy_others, request_options
+        response.should redirect_to('/sessions')
+      end
+
+      context 'with an URL' do
+        let(:url) { 'http://www.example.com' }
+
+        it 'redirects to the service' do
+          get :destroy_others, request_options
+          response.should redirect_to(url)
+        end
+      end
+    end
+
+    context 'with an invlaid ticket-granting ticket' do
+      let(:tgt) { 'TGT-lalala' }
+
+      context 'with an URL' do
+        let(:url) { 'http://www.example.com' }
+
+        it 'redirects to the service' do
+          get :destroy_others, request_options
+          response.should redirect_to(url)
+        end
+      end
     end
   end
 end

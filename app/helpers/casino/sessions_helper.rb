@@ -21,6 +21,10 @@ module CASino::SessionsHelper
     tgt.user
   end
 
+  def signed_in?
+    !current_ticket_granting_ticket.nil?
+  end
+
   def sign_in(authentication_result, options = {})
     tgt = acquire_ticket_granting_ticket(authentication_result, request.user_agent, options)
     handle_signed_in(tgt, options)
@@ -50,7 +54,7 @@ module CASino::SessionsHelper
           Rails.logger.warn "Service #{params[:service]} not valid: #{e}"
         end
       end
-      redirect_to controller: 'casino/sessions', action: :index, status: :see_other
+      redirect_to sessions_path, status: :see_other
     end
   end
 
