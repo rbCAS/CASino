@@ -21,6 +21,10 @@ module CASino::SessionsHelper
     tgt.user
   end
 
+  def ensure_signed_in
+    redirect_to login_path unless signed_in?
+  end
+
   def signed_in?
     !current_ticket_granting_ticket.nil?
   end

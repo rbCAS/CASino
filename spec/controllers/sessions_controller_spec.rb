@@ -54,10 +54,9 @@ describe CASino::SessionsController do
 
     context 'when logged in' do
       let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
-      let(:user_agent) { ticket_granting_ticket.user_agent }
 
       before(:each) do
-        request.cookies[:tgt] = ticket_granting_ticket.ticket
+        sign_in(ticket_granting_ticket)
       end
 
       context 'when two-factor authentication is pending' do
@@ -143,6 +142,10 @@ describe CASino::SessionsController do
 
         context 'with a changed browser' do
           let(:user_agent) { 'FooBar 1.0' }
+
+          before(:each) do
+            request.user_agent = user_agent
+          end
 
           it 'renders the new template' do
             get :new, request_options
@@ -404,9 +407,7 @@ describe CASino::SessionsController do
       end
     end
 
-    context 'with an invalid ticket-granting ticket' do
-      let(:tgt) { 'TGT-lalala' }
-      let(:user_agent) { 'TestBrowser 1.0' }
+    context 'without a ticket-granting ticket' do
       it 'redirects to the login page' do
         post :validate_otp, request_options
         response.should redirect_to('/login')
@@ -418,14 +419,12 @@ describe CASino::SessionsController do
     let(:url) { nil }
     let(:params) { { :url => url } }
 
-    before(:each) do
-      request.cookies[:tgt] = tgt
-    end
-
     context 'with an existing ticket-granting ticket' do
       let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
-      let(:tgt) { ticket_granting_ticket.ticket }
-      let(:user_agent) { ticket_granting_ticket.user_agent }
+
+      before(:each) do
+        sign_in(ticket_granting_ticket)
+      end
 
       it 'deletes the ticket-granting ticket' do
         get :logout, request_options
@@ -475,9 +474,7 @@ describe CASino::SessionsController do
       end
     end
 
-    context 'with an invlaid ticket-granting ticket' do
-      let(:tgt) { 'TGT-lalala' }
-
+    context 'without a ticket-granting ticket' do
       it 'renders the logout template' do
         get :logout, request_options
         response.should render_template(:logout)
@@ -486,16 +483,14 @@ describe CASino::SessionsController do
   end
 
   describe 'GET "index"' do
-    before(:each) do
-      request.cookies[:tgt] = tgt
-    end
-
     context 'with an existing ticket-granting ticket' do
+      before(:each) do
+        sign_in(ticket_granting_ticket)
+      end
+
       describe 'two-factor authenticator settings' do
         let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
         let(:user) { ticket_granting_ticket.user }
-        let(:tgt) { ticket_granting_ticket.ticket }
-        let(:user_agent) { ticket_granting_ticket.user_agent }
 
         context 'without a two-factor authenticator registered' do
           it 'does not assign any two-factor authenticators' do
@@ -527,11 +522,9 @@ describe CASino::SessionsController do
       describe 'sessions overview' do
         let!(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
         let(:user) { other_ticket_granting_ticket.user }
-        let(:user_agent) { other_ticket_granting_ticket.user_agent }
 
         context 'as user owning the other ticket granting ticket' do
           let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: user }
-          let(:tgt) { ticket_granting_ticket.ticket }
 
           it 'assigns both ticket granting tickets' do
             get :index, request_options
@@ -551,8 +544,7 @@ describe CASino::SessionsController do
       end
     end
 
-    context 'with an invalid ticket-granting ticket' do
-      let(:tgt) { 'TGT-lalala' }
+    context 'without a ticket-granting ticket' do
       it 'redirects to the login page' do
         get :index, request_options
         response.should redirect_to('/login')
@@ -562,12 +554,10 @@ describe CASino::SessionsController do
 
   describe 'DELETE "destroy"' do
     let(:owner_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
-    let(:tgt) { owner_ticket_granting_ticket.ticket }
     let(:user) { owner_ticket_granting_ticket.user }
-    let(:user_agent) { owner_ticket_granting_ticket.user_agent }
 
     before(:each) do
-      request.cookies[:tgt] = tgt
+      sign_in(owner_ticket_granting_ticket)
     end
 
     context 'with an existing ticket-granting ticket' do
@@ -633,11 +623,9 @@ describe CASino::SessionsController do
       let!(:other_users_ticket_granting_tickets) { FactoryGirl.create_list :ticket_granting_ticket, 3 }
       let!(:other_ticket_granting_tickets) { FactoryGirl.create_list :ticket_granting_ticket, 3, user: user }
       let!(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: user }
-      let(:tgt) { ticket_granting_ticket.ticket }
-      let(:user_agent) { ticket_granting_ticket.user_agent }
 
       before(:each) do
-        request.cookies[:tgt] = tgt
+        sign_in(ticket_granting_ticket)
       end
 
       it 'deletes all other ticket-granting tickets' do
@@ -661,9 +649,7 @@ describe CASino::SessionsController do
       end
     end
 
-    context 'with an invlaid ticket-granting ticket' do
-      let(:tgt) { 'TGT-lalala' }
-
+    context 'without a ticket-granting ticket' do
       context 'with an URL' do
         let(:url) { 'http://www.example.com' }
 

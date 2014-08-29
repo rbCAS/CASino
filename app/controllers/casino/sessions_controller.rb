@@ -79,8 +79,4 @@ class CASino::SessionsController < CASino::ApplicationController
     @ticket_granting_ticket = find_valid_ticket_granting_ticket(params[:tgt], request.user_agent, ignore_two_factor: true)
     redirect_to login_path if @ticket_granting_ticket.nil?
   end
-
-  def ensure_signed_in
-    redirect_to login_path unless signed_in?
-  end
 end

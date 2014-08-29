@@ -1,8 +1,12 @@
+require 'rotp'
+
 class CASino::TwoFactorAuthenticatorsController < CASino::ApplicationController
   include CASino::SessionsHelper
 
+  before_action :ensure_signed_in, only: [:new]
+
   def new
-    processor(:TwoFactorAuthenticatorRegistrator).process(cookies, request.user_agent)
+    @two_factor_authenticator = current_user.two_factor_authenticators.create! secret: ROTP::Base32.random_base32
   end
 
   def create
