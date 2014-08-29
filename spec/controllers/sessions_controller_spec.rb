@@ -96,6 +96,11 @@ describe CASino::SessionsController do
           end.should change(CASino::ServiceTicket, :count).by(1)
         end
 
+        it 'does not set the issued_from_credentials flag on the service ticket' do
+          get :new, request_options
+          CASino::ServiceTicket.last.should_not be_issued_from_credentials
+        end
+
         context 'with renew parameter' do
           it 'renders the new template' do
             get :new, request_options.merge(renew: 'true')
@@ -309,6 +314,11 @@ describe CASino::SessionsController do
             lambda do
               post :create, request_options
             end.should change(CASino::ServiceTicket, :count).by(1)
+          end
+
+          it 'does set the issued_from_credentials flag on the service ticket' do
+            post :create, request_options
+            CASino::ServiceTicket.last.should be_issued_from_credentials
           end
 
           it 'generates a ticket-granting ticket' do

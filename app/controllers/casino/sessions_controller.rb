@@ -23,7 +23,7 @@ class CASino::SessionsController < CASino::ApplicationController
     if !validation_result
       show_login_error I18n.t('login_credential_acceptor.invalid_login_credentials')
     else
-      sign_in(validation_result, long_term: params[:rememberMe])
+      sign_in(validation_result, long_term: params[:rememberMe], credentials_supplied: true)
     end
   end
 

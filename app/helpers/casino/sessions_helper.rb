@@ -16,7 +16,7 @@ module CASino::SessionsHelper
   end
 
   def sign_in(authentication_result, options = {})
-    tgt = acquire_ticket_granting_ticket(authentication_result, request.user_agent, options.slice(:long_term))
+    tgt = acquire_ticket_granting_ticket(authentication_result, request.user_agent, options)
     handle_signed_in(tgt, options)
   end
 
@@ -33,7 +33,7 @@ module CASino::SessionsHelper
       end
       if params[:service].present?
         begin
-          handle_signed_in_with_service(tgt)
+          handle_signed_in_with_service(tgt, options)
           return
         rescue Addressable::URI::InvalidURIError => e
           Rails.logger.warn "Service #{params[:service]} not valid: #{e}"
@@ -43,12 +43,12 @@ module CASino::SessionsHelper
     end
   end
 
-  def handle_signed_in_with_service(tgt)
+  def handle_signed_in_with_service(tgt, options)
     if !service_allowed?(params[:service])
       @service = params[:service]
       render 'casino/sessions/service_not_allowed', status: 403
     else
-      url = acquire_service_ticket(tgt, params[:service], credentials_supplied: true).service_with_ticket_url
+      url = acquire_service_ticket(tgt, params[:service], options).service_with_ticket_url
       redirect_to url, status: :see_other
     end
   end
