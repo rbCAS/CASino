@@ -15,6 +15,12 @@ module CASino::SessionsHelper
     end
   end
 
+  def current_user
+    tgt = current_ticket_granting_ticket
+    return nil if tgt.nil?
+    tgt.user
+  end
+
   def sign_in(authentication_result, options = {})
     tgt = acquire_ticket_granting_ticket(authentication_result, request.user_agent, options)
     handle_signed_in(tgt, options)

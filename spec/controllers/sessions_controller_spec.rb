@@ -486,10 +486,77 @@ describe CASino::SessionsController do
   end
 
   describe 'GET "index"' do
-    it 'calls the process method of the SessionOverview processor' do
-      CASino::TwoFactorAuthenticatorOverviewProcessor.any_instance.should_receive(:process)
-      CASino::SessionOverviewProcessor.any_instance.should_receive(:process)
-      get :index, use_route: :casino
+    before(:each) do
+      request.cookies[:tgt] = tgt
+    end
+
+    context 'with an existing ticket-granting ticket' do
+      describe 'two-factor authenticator settings' do
+        let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+        let(:user) { ticket_granting_ticket.user }
+        let(:tgt) { ticket_granting_ticket.ticket }
+        let(:user_agent) { ticket_granting_ticket.user_agent }
+
+        context 'without a two-factor authenticator registered' do
+          it 'does not assign any two-factor authenticators' do
+            get :index, request_options
+            assigns(:two_factor_authenticators).should == []
+          end
+        end
+
+        context 'with an inactive two-factor authenticator' do
+          let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, :inactive, user: user }
+
+          it 'does not assign any two-factor authenticators' do
+            get :index, request_options
+            assigns(:two_factor_authenticators).should == []
+          end
+        end
+
+        context 'with a two-factor authenticator registered' do
+          let(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
+          let!(:other_two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator }
+
+          it 'does assign the two-factor authenticator' do
+            get :index, request_options
+            assigns(:two_factor_authenticators).should == [two_factor_authenticator]
+          end
+        end
+      end
+
+      describe 'sessions overview' do
+        let!(:other_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+        let(:user) { other_ticket_granting_ticket.user }
+        let(:user_agent) { other_ticket_granting_ticket.user_agent }
+
+        context 'as user owning the other ticket granting ticket' do
+          let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: user }
+          let(:tgt) { ticket_granting_ticket.ticket }
+
+          it 'assigns both ticket granting tickets' do
+            get :index, request_options
+            assigns(:ticket_granting_tickets).should == [ticket_granting_ticket, other_ticket_granting_ticket]
+          end
+        end
+
+        context 'with a ticket-granting ticket with same username but different authenticator' do
+          let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+          let(:tgt) { ticket_granting_ticket.ticket }
+
+          it 'does not assign the other ticket granting ticket' do
+            get :index, request_options
+            assigns(:ticket_granting_tickets).should == [ticket_granting_ticket]
+          end
+        end
+      end
+    end
+
+    context 'with an invalid ticket-granting ticket' do
+      let(:tgt) { 'TGT-lalala' }
+      it 'redirects to the login page' do
+        get :index, request_options
+        response.should redirect_to('/login')
+      end
     end
   end
 

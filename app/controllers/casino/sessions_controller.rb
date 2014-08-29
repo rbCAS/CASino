@@ -6,10 +6,11 @@ class CASino::SessionsController < CASino::ApplicationController
   before_action :validate_login_ticket, only: [:create]
   before_action :ensure_service_allowed, only: [:new, :create]
   before_action :load_ticket_granting_ticket_from_parameter, only: [:validate_otp]
+  before_action :ensure_signed_in, only: [:index]
 
   def index
-    processor(:TwoFactorAuthenticatorOverview).process(cookies, request.user_agent)
-    processor(:SessionOverview).process(cookies, request.user_agent)
+    @ticket_granting_tickets = current_user.ticket_granting_tickets.active
+    @two_factor_authenticators = current_user.two_factor_authenticators.active
   end
 
   def new
@@ -70,6 +71,11 @@ class CASino::SessionsController < CASino::ApplicationController
 
   def load_ticket_granting_ticket_from_parameter
     @ticket_granting_ticket = find_valid_ticket_granting_ticket(params[:tgt], request.user_agent, ignore_two_factor: true)
-    return redirect_to login_path if @ticket_granting_ticket.nil?
+    redirect_to login_path if @ticket_granting_ticket.nil?
+  end
+
+  def ensure_signed_in
+    @ticket_granting_ticket = current_ticket_granting_ticket
+    redirect_to login_path if @ticket_granting_ticket.nil?
   end
 end

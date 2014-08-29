@@ -8,6 +8,8 @@ class CASino::TicketGrantingTicket < ActiveRecord::Base
   belongs_to :user
   has_many :service_tickets, dependent: :destroy
 
+  scope :active, -> { where(awaiting_two_factor_authentication: false).order('updated_at DESC') }
+
   def self.cleanup(user = nil)
     if user.nil?
       base = self

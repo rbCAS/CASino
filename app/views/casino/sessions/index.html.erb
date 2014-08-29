@@ -4,7 +4,7 @@
     <div class="info">
       <h1><%= t('sessions.title') %></h1>
       <p>
-        <%= raw t('sessions.currently_logged_in_as', :username => @ticket_granting_tickets[0].user.username) %>
+        <%= raw t('sessions.currently_logged_in_as', :username => current_user.username) %>
       </p>
 
       <%= link_to t('sessions.label_logout_button'), logout_path, :class => 'button' %>
@@ -18,7 +18,7 @@
       <% if @two_factor_authenticators.blank? %>
         <%= t('two_factor_authenticators.disabled') %> - <%= link_to t('two_factor_authenticators.enable'), new_two_factor_authenticator_path %>
       <% else %>
-        <%= t('two_factor_authenticators.enabled') %> - <%= button_to t('two_factor_authenticators.disable'), two_factor_authenticator_path(@two_factor_authenticators[0].id), method: :delete %>
+        <%= t('two_factor_authenticators.enabled') %> - <%= button_to t('two_factor_authenticators.disable'), two_factor_authenticator_path(@two_factor_authenticators.first.id), method: :delete %>
       <% end %>
 
       <h3><%= t('sessions.your_active_sessions') %></h3>
