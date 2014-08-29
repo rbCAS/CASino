@@ -22,12 +22,14 @@ module CASino::SessionsHelper
 
   private
   def handle_signed_in(tgt, options = {})
-    if !options[:skip_two_factor] && tgt.awaiting_two_factor_authentication?
+    if tgt.awaiting_two_factor_authentication?
       @ticket_granting_ticket = tgt
       render 'casino/sessions/validate_otp'
     else
       cookies[:tgt] = { value: tgt.ticket }.tap do |cookie|
-        cookie[:expires] = CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.from_now
+        if tgt.long_term?
+          cookie[:expires] = CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.from_now
+        end
       end
       if params[:service].present?
         begin

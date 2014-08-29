@@ -3,6 +3,11 @@ require 'spec_helper'
 describe CASino::SessionsController do
   let(:params) { { } }
   let(:request_options) { params.merge(use_route: :casino) }
+  let(:user_agent) { 'YOLOBrowser 420.00'}
+
+  before(:each) do
+    request.user_agent = user_agent
+  end
 
   describe 'GET "new"' do
     context 'with a not allowed service' do
@@ -53,7 +58,6 @@ describe CASino::SessionsController do
 
       before(:each) do
         request.cookies[:tgt] = ticket_granting_ticket.ticket
-        request.user_agent = user_agent
       end
 
       context 'when two-factor authentication is pending' do
@@ -318,11 +322,85 @@ describe CASino::SessionsController do
   end
 
   describe 'POST "validate_otp"' do
-    it 'calls the process method of the SecondFactorAuthenticatonAcceptor' do
-      CASino::SecondFactorAuthenticationAcceptorProcessor.any_instance.should_receive(:process) do
-        @controller.render nothing: true
+    context 'with an existing ticket-granting ticket' do
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, :awaiting_two_factor_authentication }
+      let(:user) { ticket_granting_ticket.user }
+      let(:tgt) { ticket_granting_ticket.ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
+      let(:otp) { '123456' }
+      let(:service) { 'http://www.example.com/testing' }
+      let(:params) { { tgt: tgt, otp: otp, service: service }}
+
+      context 'with an active authenticator' do
+        let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
+
+        context 'with a valid OTP' do
+          before(:each) do
+            ROTP::TOTP.any_instance.should_receive(:verify_with_drift).with(otp, 30).and_return(true)
+          end
+
+          it 'redirects to the service' do
+            post :validate_otp, request_options
+            response.location.should =~ /^#{Regexp.escape service}\?ticket=ST-/
+          end
+
+          it 'does activate the ticket-granting ticket' do
+            post :validate_otp, request_options
+            ticket_granting_ticket.reload.should_not be_awaiting_two_factor_authentication
+          end
+
+          context 'with a long-term ticket-granting ticket' do
+            let(:cookie_jar) { HashWithIndifferentAccess.new }
+
+            before(:each) do
+              ticket_granting_ticket.update_attributes! long_term: true
+              controller.stub(:cookies).and_return(cookie_jar)
+            end
+
+            it 'creates a cookie with an expiration date set' do
+              post :validate_otp, request_options
+              cookie_jar['tgt']['expires'].should be_kind_of(Time)
+            end
+          end
+
+          context 'with a not allowed service' do
+            before(:each) do
+              FactoryGirl.create :service_rule, :regex, url: '^https://.*'
+            end
+            let(:service) { 'http://www.example.org/' }
+
+            it 'renders the service_not_allowed template' do
+              post :validate_otp, request_options
+              response.should render_template(:service_not_allowed)
+            end
+          end
+        end
+
+        context 'with an invalid OTP' do
+          before(:each) do
+            ROTP::TOTP.any_instance.should_receive(:verify_with_drift).with(otp, 30).and_return(false)
+          end
+
+          it 'renders the validate_otp template' do
+            post :validate_otp, request_options
+            response.should render_template(:validate_otp)
+          end
+
+          it 'does not activate the ticket-granting ticket' do
+            post :validate_otp, request_options
+            ticket_granting_ticket.reload.should be_awaiting_two_factor_authentication
+          end
+        end
       end
-      post :validate_otp, use_route: :casino
+    end
+
+    context 'with an invalid ticket-granting ticket' do
+      let(:tgt) { 'TGT-lalala' }
+      let(:user_agent) { 'TestBrowser 1.0' }
+      it 'redirects to the login page' do
+        post :validate_otp, request_options
+        response.should redirect_to('/login')
+      end
     end
   end
 

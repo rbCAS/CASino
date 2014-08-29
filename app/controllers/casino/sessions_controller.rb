@@ -1,9 +1,11 @@
 class CASino::SessionsController < CASino::ApplicationController
   include CASino::SessionsHelper
   include CASino::AuthenticationProcessor
+  include CASino::TwoFactorAuthenticatorProcessor
 
   before_action :validate_login_ticket, only: [:create]
   before_action :ensure_service_allowed, only: [:new, :create]
+  before_action :load_ticket_granting_ticket_from_parameter, only: [:validate_otp]
 
   def index
     processor(:TwoFactorAuthenticatorOverview).process(cookies, request.user_agent)
@@ -38,7 +40,10 @@ class CASino::SessionsController < CASino::ApplicationController
   end
 
   def validate_otp
-    processor(:SecondFactorAuthenticationAcceptor).process(params, request.user_agent)
+    validation_result = validate_one_time_password(params[:otp], @ticket_granting_ticket.user.active_two_factor_authenticator)
+    return flash.now[:error] = I18n.t('validate_otp.invalid_otp') unless validation_result.success?
+    @ticket_granting_ticket.update_attribute(:awaiting_two_factor_authentication, false)
+    handle_signed_in(@ticket_granting_ticket)
   end
 
   private
@@ -57,5 +62,10 @@ class CASino::SessionsController < CASino::ApplicationController
     if params[:service].present? && !service_allowed?(params[:service])
       render 'service_not_allowed', status: :forbidden
     end
+  end
+
+  def load_ticket_granting_ticket_from_parameter
+    @ticket_granting_ticket = find_valid_ticket_granting_ticket(params[:tgt], request.user_agent, ignore_two_factor: true)
+    return redirect_to login_path if @ticket_granting_ticket.nil?
   end
 end
