@@ -30,11 +30,7 @@ class CASino::SessionsController < CASino::ApplicationController
 
   def destroy
     tickets = current_user.ticket_granting_tickets.where(id: params[:id])
-    if tickets.any?
-      ticket = tickets.first
-      Rails.logger.info "Destroying ticket-granting ticket '#{ticket}'"
-      ticket.destroy
-    end
+    tickets.first.destroy if tickets.any?
     redirect_to controller: 'casino/sessions', action: :index
   end
 
