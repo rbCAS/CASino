@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe CASino::SessionsController do
+  include CASino::Engine.routes.url_helpers
   let(:params) { { } }
   let(:request_options) { params.merge(use_route: :casino) }
   let(:user_agent) { 'YOLOBrowser 420.00'}
@@ -124,14 +125,14 @@ describe CASino::SessionsController do
 
         it 'redirects to the session overview' do
           get :new, request_options
-          response.should redirect_to('/sessions')
+          response.should redirect_to(sessions_path)
         end
       end
 
       context 'without a service' do
         it 'redirects to the session overview' do
           get :new, request_options
-          response.should redirect_to('/sessions')
+          response.should redirect_to(sessions_path)
         end
 
         it 'does not generate a service ticket' do
@@ -263,7 +264,7 @@ describe CASino::SessionsController do
 
           it 'redirects to the session overview' do
             post :create, request_options
-            response.should redirect_to('/sessions')
+            response.should redirect_to(sessions_path)
           end
 
           it 'generates a ticket-granting ticket' do
@@ -410,7 +411,7 @@ describe CASino::SessionsController do
     context 'without a ticket-granting ticket' do
       it 'redirects to the login page' do
         post :validate_otp, request_options
-        response.should redirect_to('/login')
+        response.should redirect_to(login_path)
       end
     end
   end
@@ -547,7 +548,7 @@ describe CASino::SessionsController do
     context 'without a ticket-granting ticket' do
       it 'redirects to the login page' do
         get :index, request_options
-        response.should redirect_to('/login')
+        response.should redirect_to(login_path)
       end
     end
   end
@@ -579,7 +580,7 @@ describe CASino::SessionsController do
 
       it 'redirects to the session overview' do
         delete :destroy, request_options
-        response.should redirect_to('/sessions')
+        response.should redirect_to(sessions_path)
       end
     end
 
@@ -593,7 +594,7 @@ describe CASino::SessionsController do
 
       it 'redirects to the session overview' do
         delete :destroy, request_options
-        response.should redirect_to('/sessions')
+        response.should redirect_to(sessions_path)
       end
     end
 
@@ -609,7 +610,7 @@ describe CASino::SessionsController do
 
       it 'redirects to the session overview' do
         delete :destroy, request_options
-        response.should redirect_to('/sessions')
+        response.should redirect_to(sessions_path)
       end
     end
   end
@@ -636,7 +637,7 @@ describe CASino::SessionsController do
 
       it 'redirects to the session overview' do
         get :destroy_others, request_options
-        response.should redirect_to('/sessions')
+        response.should redirect_to(sessions_path)
       end
 
       context 'with an URL' do
