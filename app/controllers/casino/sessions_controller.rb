@@ -6,7 +6,7 @@ class CASino::SessionsController < CASino::ApplicationController
   before_action :validate_login_ticket, only: [:create]
   before_action :ensure_service_allowed, only: [:new, :create]
   before_action :load_ticket_granting_ticket_from_parameter, only: [:validate_otp]
-  before_action :ensure_signed_in, only: [:index]
+  before_action :ensure_signed_in, only: [:index, :destroy]
 
   def index
     @ticket_granting_tickets = current_user.ticket_granting_tickets.active
@@ -29,7 +29,13 @@ class CASino::SessionsController < CASino::ApplicationController
   end
 
   def destroy
-    processor(:SessionDestroyer).process(params, cookies, request.user_agent)
+    tickets = current_user.ticket_granting_tickets.where(id: params[:id])
+    if tickets.any?
+      ticket = tickets.first
+      Rails.logger.info "Destroying ticket-granting ticket '#{ticket}'"
+      ticket.destroy
+    end
+    redirect_to controller: 'casino/sessions', action: :index
   end
 
   def destroy_others

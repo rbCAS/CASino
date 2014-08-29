@@ -561,17 +561,66 @@ describe CASino::SessionsController do
   end
 
   describe 'DELETE "destroy"' do
-    let(:id) { '123' }
-    let(:tgt) { 'TGT-foobar' }
-    it 'calls the process method of the SessionOverview processor' do
+    let(:owner_ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+    let(:tgt) { owner_ticket_granting_ticket.ticket }
+    let(:user) { owner_ticket_granting_ticket.user }
+    let(:user_agent) { owner_ticket_granting_ticket.user_agent }
+
+    before(:each) do
       request.cookies[:tgt] = tgt
-      CASino::SessionDestroyerProcessor.any_instance.should_receive(:process) do |params, cookies, user_agent|
-        params[:id].should == id
-        cookies[:tgt].should == tgt
-        user_agent.should == request.user_agent
-        @controller.render nothing: true
+    end
+
+    context 'with an existing ticket-granting ticket' do
+      let!(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: user }
+      let(:service_ticket) { FactoryGirl.create :service_ticket, ticket_granting_ticket: ticket_granting_ticket }
+      let(:consumed_service_ticket) { FactoryGirl.create :service_ticket, :consumed, ticket_granting_ticket: ticket_granting_ticket }
+      let(:params) { { id: ticket_granting_ticket.id } }
+
+      it 'deletes exactly one ticket-granting ticket' do
+        lambda do
+          delete :destroy, request_options
+        end.should change(CASino::TicketGrantingTicket, :count).by(-1)
       end
-      delete :destroy, id:id, use_route: :casino
+
+      it 'deletes the ticket-granting ticket' do
+        delete :destroy, request_options
+        CASino::TicketGrantingTicket.where(id: params[:id]).length.should == 0
+      end
+
+      it 'redirects to the session overview' do
+        delete :destroy, request_options
+        response.should redirect_to('/sessions')
+      end
+    end
+
+    context 'with an invalid ticket-granting ticket' do
+      let(:params) { { id: 99999 } }
+      it 'does not delete a ticket-granting ticket' do
+        lambda do
+          delete :destroy, request_options
+        end.should_not change(CASino::TicketGrantingTicket, :count)
+      end
+
+      it 'redirects to the session overview' do
+        delete :destroy, request_options
+        response.should redirect_to('/sessions')
+      end
+    end
+
+    context 'when trying to delete ticket-granting ticket of another user' do
+      let!(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:params) { { id: ticket_granting_ticket.id } }
+
+      it 'does not delete a ticket-granting ticket' do
+        lambda do
+          delete :destroy, request_options
+        end.should_not change(CASino::TicketGrantingTicket, :count)
+      end
+
+      it 'redirects to the session overview' do
+        delete :destroy, request_options
+        response.should redirect_to('/sessions')
+      end
     end
   end
 
