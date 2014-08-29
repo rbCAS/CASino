@@ -20,6 +20,11 @@ module CASino::SessionsHelper
     handle_signed_in(tgt, options)
   end
 
+  def sign_out
+    remove_ticket_granting_ticket(cookies[:tgt], request.user_agent)
+    cookies.delete :tgt
+  end
+
   private
   def handle_signed_in(tgt, options = {})
     if tgt.awaiting_two_factor_authentication?

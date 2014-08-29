@@ -45,6 +45,11 @@ module CASino::TicketGrantingTicketProcessor
     return user
   end
 
+  def remove_ticket_granting_ticket(ticket_granting_ticket, user_agent)
+    tgt = find_valid_ticket_granting_ticket(ticket_granting_ticket, user_agent)
+    tgt.destroy unless tgt.nil?
+  end
+
   def cleanup_expired_ticket_granting_tickets(user)
     CASino::TicketGrantingTicket.cleanup(user)
   end

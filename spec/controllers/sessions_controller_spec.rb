@@ -415,13 +415,73 @@ describe CASino::SessionsController do
   end
 
   describe 'GET "logout"' do
-    it 'calls the process method of the Logout processor' do
-      CASino::LogoutProcessor.any_instance.should_receive(:process) do |params, cookies, user_agent|
-        params.should == controller.params
-        cookies.should == controller.cookies
-        user_agent.should == request.user_agent
+    let(:url) { nil }
+    let(:params) { { :url => url } }
+
+    before(:each) do
+      request.cookies[:tgt] = tgt
+    end
+
+    context 'with an existing ticket-granting ticket' do
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:tgt) { ticket_granting_ticket.ticket }
+      let(:user_agent) { ticket_granting_ticket.user_agent }
+
+      it 'deletes the ticket-granting ticket' do
+        get :logout, request_options
+        CASino::TicketGrantingTicket.where(id: ticket_granting_ticket.id).first.should == nil
       end
-      get :logout, use_route: :casino
+
+      it 'renders the logout template' do
+        get :logout, request_options
+        response.should render_template(:logout)
+      end
+
+      context 'with an URL' do
+        let(:url) { 'http://www.example.com' }
+
+        it 'assigns the URL' do
+          get :logout, request_options
+          assigns(:url).should == url
+        end
+      end
+
+      context 'with a service' do
+        let(:params) { { :service => url } }
+        let(:url) { 'http://www.example.org' }
+
+        context 'when whitelisted' do
+          it 'redirects to the service' do
+            get :logout, request_options
+            response.should redirect_to(url)
+          end
+        end
+
+        context 'when not whitelisted' do
+          before(:each) do
+            FactoryGirl.create :service_rule, :regex, url: '^https://.*'
+          end
+
+          it 'renders the logout template' do
+            get :logout, request_options
+            response.should render_template(:logout)
+          end
+
+          it 'does not assign the URL' do
+            get :logout, request_options
+            assigns(:url).should be_nil
+          end
+        end
+      end
+    end
+
+    context 'with an invlaid ticket-granting ticket' do
+      let(:tgt) { 'TGT-lalala' }
+
+      it 'renders the logout template' do
+        get :logout, request_options
+        response.should render_template(:logout)
+      end
     end
   end
 
