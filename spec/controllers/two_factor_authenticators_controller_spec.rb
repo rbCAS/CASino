@@ -170,17 +170,64 @@ describe CASino::TwoFactorAuthenticatorsController do
   end
 
   describe 'DELETE "destroy"' do
-    let(:id) { '123' }
-    let(:tgt) { 'TGT-foobar' }
-    it 'calls the process method of the TwoFactorAuthenticatorDestroyer processor' do
-      request.cookies[:tgt] = tgt
-      CASino::TwoFactorAuthenticatorDestroyerProcessor.any_instance.should_receive(:process) do |params, cookies, user_agent|
-        params[:id].should == id
-        cookies[:tgt].should == tgt
-        user_agent.should == request.user_agent
-        @controller.render nothing: true
+    context 'with an existing ticket-granting ticket' do
+      let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+      let(:user) { ticket_granting_ticket.user }
+      let(:params) { { id: two_factor_authenticator.id } }
+
+      before(:each) do
+        sign_in(ticket_granting_ticket)
       end
-      delete :destroy, id:id, use_route: :casino
+
+      context 'with a valid two-factor authenticator' do
+        let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
+        let!(:other_two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator }
+
+        it 'redirects to the session overview' do
+          delete :destroy, request_options
+          response.should redirect_to(sessions_path)
+        end
+
+        it 'adds a notice' do
+          delete :destroy, request_options
+          flash[:notice].should == I18n.t('two_factor_authenticators.successfully_deleted')
+        end
+
+        it 'deletes the two-factor authenticator' do
+          delete :destroy, request_options
+          lambda do
+            two_factor_authenticator.reload
+          end.should raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it 'does not delete other two-factor authenticators' do
+          lambda do
+            delete :destroy, request_options
+          end.should change(CASino::TwoFactorAuthenticator, :count).by(-1)
+        end
+      end
+
+      context 'with a two-factor authenticator of another user' do
+        let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator }
+
+        it 'redirects to the session overview' do
+          delete :destroy, request_options
+          response.should redirect_to(sessions_path)
+        end
+
+        it 'does not delete two-factor authenticators' do
+          lambda do
+            delete :destroy, request_options
+          end.should_not change(CASino::TwoFactorAuthenticator, :count)
+        end
+      end
+    end
+
+    context 'without a ticket-granting ticket' do
+      it 'redirects to the login page' do
+        delete :destroy, request_options
+        response.should redirect_to(login_path)
+      end
     end
   end
 end

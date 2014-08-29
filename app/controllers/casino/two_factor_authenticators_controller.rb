@@ -4,7 +4,7 @@ class CASino::TwoFactorAuthenticatorsController < CASino::ApplicationController
   include CASino::SessionsHelper
   include CASino::TwoFactorAuthenticatorProcessor
 
-  before_action :ensure_signed_in, only: [:new, :create]
+  before_action :ensure_signed_in
 
   def new
     @two_factor_authenticator = current_user.two_factor_authenticators.create! secret: ROTP::Base32.random_base32
@@ -29,6 +29,11 @@ class CASino::TwoFactorAuthenticatorsController < CASino::ApplicationController
   end
 
   def destroy
-    processor(:TwoFactorAuthenticatorDestroyer).process(params, cookies, request.user_agent)
+    authenticators = current_user.two_factor_authenticators.where(id: params[:id])
+    if authenticators.any?
+      authenticators.first.destroy
+      flash[:notice] = I18n.t('two_factor_authenticators.successfully_deleted')
+    end
+    redirect_to sessions_path
   end
 end
