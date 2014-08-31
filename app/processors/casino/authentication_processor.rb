@@ -18,6 +18,13 @@ module CASino::AuthenticationProcessor
     authentication_result
   end
 
+  def load_user_data(authenticator_name, username)
+    authenticator = authenticators[authenticator_name]
+    return nil if authenticator.nil?
+    return nil unless authenticator.respond_to?(:load_user_data)
+    authenticator.load_user_data(username)
+  end
+
   def authenticators
     @authenticators ||= {}.tap do |authenticators|
       CASino.config.authenticators.each do |name, auth|

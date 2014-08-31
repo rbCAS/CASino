@@ -21,6 +21,9 @@ module CASino
       two_factor_authenticator: nil,
       user: nil
     ),
+    auth_token_ticket: {
+      lifetime: 60
+    },
     login_ticket: {
       lifetime: 600
     },

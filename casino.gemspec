@@ -41,4 +41,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'useragent', '~> 0.4'
   s.add_runtime_dependency 'faraday', '~> 0.8'
   s.add_runtime_dependency 'rotp', '~> 2.0'
+  s.add_runtime_dependency 'grape', '~> 0.8'
+  s.add_runtime_dependency 'grape-entity', '~> 0.4'
 end
