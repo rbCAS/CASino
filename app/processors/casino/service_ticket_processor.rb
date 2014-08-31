@@ -49,7 +49,7 @@ module CASino::ServiceTicketProcessor
 
   def validate_ticket_for_service(ticket, service, options = {})
     if ticket.nil?
-      result = CASino::ValidationResult.new 'INVALID_TICKET', 'Invalid validate request: Ticket does not exist', :warn
+      result = ValidationResult.new 'INVALID_TICKET', 'Invalid validate request: Ticket does not exist', :warn
     else
       result = validate_existing_ticket_for_service(ticket, service, options)
       ticket.update_attribute(:consumed, true)
