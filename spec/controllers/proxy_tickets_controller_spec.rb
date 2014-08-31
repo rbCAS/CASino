@@ -111,6 +111,21 @@ describe CASino::ProxyTicketsController do
         proxy_ticket = CASino::ProxyTicket.last
         response.body.should =~ /<cas:proxyTicket>#{proxy_ticket.ticket}<\/cas:proxyTicket>/
       end
+
+      context 'without a targetService' do
+        let(:params) { parameters.merge(pgt: proxy_granting_ticket.ticket, targetService: nil) }
+
+        it 'answers with the failure text' do
+          get :create, request_options
+          response.body.should =~ regex_failure
+        end
+
+        it 'does not create a proxy ticket' do
+          lambda do
+            get :create, request_options
+          end.should_not change(CASino::ProxyTicket, :count)
+        end
+      end
     end
   end
 end
