@@ -44,7 +44,7 @@ shared_examples_for 'a service ticket validator' do
           service_ticket.ticket_granting_ticket.update_attribute(:long_term, true)
         end
 
-        it 'calls the #validation_succeeded method on the listener' do
+        it 'includes the long-term flag in the answer' do
           get validation_action, request_options
           response.body.should =~ /<cas\:longTermAuthenticationRequestTokenUsed>true<\/cas\:longTermAuthenticationRequestTokenUsed>/
         end
