@@ -31,6 +31,12 @@ namespace :casino do
       puts "Deleted #{rows_affected} login tickets."
     end
 
+    desc 'Remove expired auth token tickets.'
+    task auth_token_tickets: :environment do
+      rows_affected = CASino::AuthTokenTicket.cleanup
+      puts "Deleted #{rows_affected} auth token tickets."
+    end
+
     desc 'Remove expired inactive two-factor authenticators.'
     task two_factor_authenticators: :environment do
       rows_affected = CASino::TwoFactorAuthenticator.cleanup
@@ -53,7 +59,13 @@ namespace :casino do
     end
 
     desc 'Perform all cleanup tasks.'
-    task all: [:acquire_lock, :ticket_granting_tickets, :service_tickets, :proxy_tickets, :login_tickets, :two_factor_authenticators] do
+    task all: [:acquire_lock,
+               :ticket_granting_tickets,
+               :service_tickets,
+               :proxy_tickets,
+               :auth_token_tickets,
+               :login_tickets,
+               :two_factor_authenticators] do
     end
   end
 end

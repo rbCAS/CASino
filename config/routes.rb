@@ -1,4 +1,6 @@
 CASino::Engine.routes.draw do
+  mount CASino::API => '/api'
+
   resources :sessions, only: [:index, :destroy]
   resources :two_factor_authenticators, only: [:new, :create, :destroy]
 
@@ -14,6 +16,8 @@ CASino::Engine.routes.draw do
 
   get 'proxyValidate' => 'proxy_tickets#proxy_validate'
   get 'proxy' => 'proxy_tickets#create'
+
+  get 'authTokenLogin' => 'auth_tokens#login'
 
   root to: redirect('login')
 

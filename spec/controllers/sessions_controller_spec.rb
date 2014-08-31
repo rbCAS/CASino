@@ -199,7 +199,7 @@ describe CASino::SessionsController do
         let(:authenticator) { 'static' }
         let(:params) { { lt: login_ticket.ticket, username: username, password: 'foobar123', service: service } }
 
-        it 'creates a cookie with an expiration date set' do
+        it 'creates a cookie' do
           post :create, request_options
           response.cookies['tgt'].should_not be_nil
         end
