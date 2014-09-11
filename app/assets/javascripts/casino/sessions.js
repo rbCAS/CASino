@@ -1,5 +1,5 @@
 (function(win, doc) {
-  var url = '/login',
+  var url = win.CASino.url('login'),
       cookie_regex = /(^|;)\s*tgt=/,
       ready_bound = false;
 
@@ -8,7 +8,6 @@
         service = serviceEl ? serviceEl.getAttribute('value') : null;
 
     if(cookie_regex.test(doc.cookie)) {
-      url = '/login';
       if(service) {
         url += '?service=' + encodeURIComponent(service);
       }
