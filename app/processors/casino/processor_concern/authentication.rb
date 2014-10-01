@@ -21,7 +21,7 @@ module CASino
 
       def authenticators
         @authenticators ||= begin
-          CASino.config.authenticators.each do |name, auth|
+          CASino.config[:authenticators].each do |name, auth|
             next unless auth.is_a?(Hash)
 
             authenticator = if auth[:class]
@@ -30,7 +30,7 @@ module CASino
               load_authenticator(auth[:authenticator])
             end
 
-            CASino.config.authenticators[name] = authenticator.new(auth[:options])
+            CASino.config[:authenticators][name] = authenticator.new(auth[:options])
           end
         end
       end
