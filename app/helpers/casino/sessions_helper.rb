@@ -1,4 +1,4 @@
-require 'addressable'
+require 'addressable/uri'
 
 module CASino::SessionsHelper
   include CASino::TicketGrantingTicketProcessor
