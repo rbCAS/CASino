@@ -1,3 +1,5 @@
+require 'addressable'
+
 module CASino::SessionsHelper
   include CASino::TicketGrantingTicketProcessor
   include CASino::ServiceTicketProcessor
