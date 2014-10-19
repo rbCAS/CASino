@@ -21,7 +21,7 @@ class CASino::AuthTokenValidationService
     return nil unless ticket_valid?
     @user_data = load_user_data(token_data[:authenticator], token_data[:username]).tap do |user|
       if user.nil?
-        Rails.logger.info("Could not load user '#{token_data[:authenticator]}'/'#{token_data[:username]}'")
+        Rails.logger.warn("Could not load user '#{token_data[:authenticator]}'/'#{token_data[:username]}'")
       else
         Rails.logger.info("User '#{token_data[:authenticator]}'/'#{token_data[:username]}' successfully identified through auth token.")
       end
@@ -44,7 +44,7 @@ class CASino::AuthTokenValidationService
         return true
       end
     end
-    Rails.logger.info('Singature could not be validated. No matching key found.')
+    Rails.logger.warn('Signature could not be validated: No matching key found.')
     false
   end
 
@@ -56,7 +56,7 @@ class CASino::AuthTokenValidationService
 
   def ticket_valid?
     CASino::AuthTokenTicket.consume(token_data[:ticket]).tap do |is_valid|
-      Rails.logger.info('Could not find a valid auth token ticket.') unless is_valid
+      Rails.logger.warn('Could not find a valid auth token ticket.') unless is_valid
     end
   end
 
