@@ -44,6 +44,7 @@ class CASino::AuthTokenValidationService
         return true
       end
     end
+    Rails.logger.info('Singature could not be validated. No matching key found.')
     false
   end
 
@@ -54,7 +55,9 @@ class CASino::AuthTokenValidationService
   end
 
   def ticket_valid?
-    CASino::AuthTokenTicket.consume(token_data[:ticket])
+    CASino::AuthTokenTicket.consume(token_data[:ticket]).tap do |is_valid|
+      Rails.logger.info('Could not find a valid auth token ticket.') unless is_valid
+    end
   end
 
   def authentication_service
