@@ -22,7 +22,7 @@ class CASino::ApplicationController < ::ApplicationController
 
   def extract_locale_from_accept_language_header
     if request.env['HTTP_ACCEPT_LANGUAGE']
-      http_accept_language.preferred_language_from(I18n.available_locales)
+      http_accept_language.compatible_language_from(I18n.available_locales)
     end
   end
 
