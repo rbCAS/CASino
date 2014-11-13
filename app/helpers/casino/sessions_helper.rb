@@ -33,7 +33,16 @@ module CASino::SessionsHelper
 
   def sign_in(authentication_result, options = {})
     tgt = acquire_ticket_granting_ticket(authentication_result, request.user_agent, options)
+    set_tgt_cookie(tgt)
     handle_signed_in(tgt, options)
+  end
+
+  def set_tgt_cookie(tgt)
+    cookies[:tgt] = { value: tgt.ticket }.tap do |cookie|
+      if tgt.long_term?
+        cookie[:expires] = CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.from_now
+      end
+    end
   end
 
   def sign_out
@@ -47,11 +56,6 @@ module CASino::SessionsHelper
       @ticket_granting_ticket = tgt
       render 'casino/sessions/validate_otp'
     else
-      cookies[:tgt] = { value: tgt.ticket }.tap do |cookie|
-        if tgt.long_term?
-          cookie[:expires] = CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.from_now
-        end
-      end
       if params[:service].present?
         begin
           handle_signed_in_with_service(tgt, options)

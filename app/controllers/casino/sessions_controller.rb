@@ -54,6 +54,7 @@ class CASino::SessionsController < CASino::ApplicationController
     validation_result = validate_one_time_password(params[:otp], @ticket_granting_ticket.user.active_two_factor_authenticator)
     return flash.now[:error] = I18n.t('validate_otp.invalid_otp') unless validation_result.success?
     @ticket_granting_ticket.update_attribute(:awaiting_two_factor_authentication, false)
+    set_tgt_cookie(@ticket_granting_ticket)
     handle_signed_in(@ticket_granting_ticket)
   end
 
