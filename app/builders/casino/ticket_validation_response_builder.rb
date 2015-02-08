@@ -40,6 +40,8 @@ class CASino::TicketValidationResponseBuilder
     key = :"#{key}"
     if value.kind_of?(String) || value.kind_of?(Numeric) || value.kind_of?(Symbol)
       builder.cas key, "#{value}"
+    elsif value.kind_of?(Array)
+      value.each { |v| serialize_extra_attribute(builder, key, v) }
     else
       builder.cas key do |container|
         container.cdata! value.to_yaml

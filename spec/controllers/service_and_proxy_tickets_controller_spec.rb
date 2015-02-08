@@ -39,6 +39,18 @@ shared_examples_for 'a service ticket validator' do
         end
       end
 
+      context 'with extra attributes using array as value' do
+        before(:each) do
+          CASino::User.any_instance.stub(:extra_attributes).and_return({ "memberOf" => [ "test", "yolo" ] })
+        end
+
+        it 'includes all values' do
+          get validation_action, request_options
+          response.body.should =~ /<cas\:memberOf>test<\/cas\:memberOf\>/
+          response.body.should =~ /<cas\:memberOf>yolo<\/cas\:memberOf\>/
+        end
+      end
+
       context 'issued from a long_term ticket-granting ticket' do
         before(:each) do
           service_ticket.ticket_granting_ticket.update_attribute(:long_term, true)

@@ -71,7 +71,7 @@ describe CASino::AuthTokenValidationService do
 
         context 'with valid user data' do
           let(:token_data) { { authenticator: 'static', username: 'testuser' } }
-          let(:user_data) { { username: 'testuser', extra_attributes: { "name" => "Test User" } } }
+          let(:user_data) { { username: 'testuser', extra_attributes: { "name" => "Test User", "game" => [ "StarCraft 2", "Doto" ] } } }
           let(:validation_result) { { authenticator: 'static', user_data: user_data } }
 
           its(:user_data) { should == user_data }
