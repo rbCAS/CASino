@@ -1,3 +1,5 @@
+require 'rotp'
+
 module CASino::TwoFactorAuthenticatorProcessor
   extend ActiveSupport::Concern
 
