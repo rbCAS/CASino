@@ -2,6 +2,7 @@ require 'rotp'
 
 class CASino::TwoFactorAuthenticatorsController < CASino::ApplicationController
   include CASino::SessionsHelper
+  include CASino::TwoFactorAuthenticatorsHelper
   include CASino::TwoFactorAuthenticatorProcessor
 
   before_action :ensure_signed_in
