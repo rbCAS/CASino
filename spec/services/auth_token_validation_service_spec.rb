@@ -20,7 +20,7 @@ describe CASino::AuthTokenValidationService do
     let(:signer_path_content) { 'this_is_le_certificate' }
     let(:rsa_stub) do
       double(OpenSSL::PKey::RSA).tap do |mock|
-        mock.stub(:verify).and_return(signature_valid)
+        mock.stub(:verify).with(any_args).and_return(signature_valid)
       end
     end
 
