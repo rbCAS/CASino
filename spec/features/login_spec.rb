@@ -65,40 +65,4 @@ describe 'Login' do
     it { should have_button('Login') }
     it { should have_text('Incorrect username or password') }
   end
-
-  context 'with german locale' do
-    before do
-      page.driver.header 'Accept-Language', 'de'
-      visit login_path
-    end
-
-    it { should have_text('Benutzername') }
-  end
-
-  context 'with german compatible locale' do
-    before do
-      page.driver.header 'Accept-Language', 'de-de'
-      visit login_path
-    end
-
-    it { should have_text('Benutzername') }
-  end
-
-  context 'with english locale' do
-    before do
-      page.driver.header 'Accept-Language', 'en'
-      visit login_path
-    end
-
-    it { should have_text('Username') }
-  end
-
-  context 'with english compatible locale' do
-    before do
-      page.driver.header 'Accept-Language', 'en-US'
-      visit login_path
-    end
-
-    it { should have_text('Username') }
-  end
 end

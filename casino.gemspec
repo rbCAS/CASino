@@ -35,7 +35,6 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'rails', '~> 4.1.0'
   s.add_runtime_dependency 'sass-rails', '~> 4.0.0'
-  s.add_runtime_dependency 'http_accept_language', '~> 2.0.0.pre'
   s.add_runtime_dependency 'addressable', '~> 2.3'
   s.add_runtime_dependency 'terminal-table', '~> 1.4'
   s.add_runtime_dependency 'useragent', '~> 0.4'
