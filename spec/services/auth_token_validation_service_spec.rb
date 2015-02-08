@@ -29,7 +29,7 @@ describe CASino::AuthTokenValidationService do
         block.call(signer_path)
       end
       File.stub(:read).with(signer_path).and_return(signer_path_content)
-      OpenSSL::PKey::RSA.stub(:new).and_return(rsa_stub)
+      OpenSSL::PKey::RSA.stub(:new).with(signer_path_content).and_return(rsa_stub)
     end
 
     context 'with an invalid signature' do
