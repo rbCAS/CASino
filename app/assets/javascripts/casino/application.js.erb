@@ -1,7 +1,7 @@
 // Place all the behaviors and hooks related to the matching controller here.
 (function(win) {
   if(!win.CASino) {
-    win.CASino = { baseUrl: '/' };
+    win.CASino = { baseUrl: '<%= CASino::Engine.routes.url_helpers.root_path %>' };
   }
 
   win.CASino.url = function(path) {
