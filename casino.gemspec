@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'webmock', '~> 1.9'
   s.add_development_dependency 'coveralls', '~> 0.7'
 
-  s.add_runtime_dependency 'rails', '~> 4.1.0'
+  s.add_runtime_dependency 'rails', '>= 4.1.0', '< 4.3.0'
   s.add_runtime_dependency 'sass-rails', '~> 4.0.0'
   s.add_runtime_dependency 'addressable', '~> 2.3'
   s.add_runtime_dependency 'terminal-table', '~> 1.4'

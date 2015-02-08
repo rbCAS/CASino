@@ -51,3 +51,38 @@ en:
     successfully_deleted: "The two-factor authenticator was successfully deleted."
   datetime:
     ago: "%{datetime} ago"
+    distance_in_words:
+      about_x_hours:
+        one: about oue hour
+        other: about %{count} hours
+      about_x_months:
+        one: about one monate
+        other: about %{count} monates
+      about_x_years:
+        one: about one year
+        other: about %{count} years
+      almost_x_years:
+        one: nearly one year 
+        other: nearly %{count} years
+      half_a_minute: half minute
+      less_than_x_minutes:
+        one: less than one minute
+        other: less than %{count} minutes
+      less_than_x_seconds:
+        one: less than one second
+        other: less than %{count} seconds
+      over_x_years:
+        one: more than one year
+        other: more than %{count} years
+      x_days:
+        one: one day
+        other: ! '%{count} days'
+      x_minutes:
+        one: one minute
+        other: ! '%{count} minutes'
+      x_months:
+        one: one month
+        other: ! '%{count} months'
+      x_seconds:
+        one: one second
+        other: ! '%{count} seconds'

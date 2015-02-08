@@ -1,0 +1,88 @@
+zh-CN:
+  login_credential_acceptor:
+    invalid_login_ticket: "您的登录请求没有包含有效的登录授权。"
+    invalid_login_credentials: "用户名或密码错误"
+  login:
+    label_username: "用户名"
+    label_password: "密码"
+    label_button: "登录"
+    label_remember_me: "保持登录"
+    notice: ""
+  service_not_allowed:
+    title: "服务不允许"
+    message: "此登录服务器未配置允许登录服务\"%{service}\"。如果您认为此处有误，请联系您的管理员。"
+  validate_otp:
+    title: "两步验证"
+    description: "请输入一次性密码（OTP）."
+    code: "编码"
+    submit: "继续"
+    invalid_otp: "您输入的一次性密码（OTP）无效"
+  logout:
+    title: "再见"
+    logged_out_without_url: "您已经成功登出。"
+    logged_out_with_url: "您刚刚成功登出的应用请您点击下面的链接："
+  sessions:
+    title: "您好!"
+    currently_logged_in_as: "您刚刚以<strong>%{username}</strong>登录。"
+    label_logout_button: "登出"
+    your_active_sessions: "当前会话"
+    table:
+      column_browser: "浏览器"
+      column_services: "服务"
+      column_activity: "最近活动"
+    current_session: "当前会话"
+    end_session: "结束会话"
+  two_factor_authenticators:
+    title: "两步验证"
+    setup: "设置两步验证"
+    description: "两步验证需要您在每次登录时输入一个一次性密码（OTP）。 一次性密码（OTP）可以通过手机应用（比如<a href='http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447'>Google Authenticator</a> ）产生。"
+    instructions: "如果您使用google验证器，请用手机扫描下面的二维码，在下方输入验证码。"
+    disabled: "当前已关闭"
+    enable: "开启"
+    enabled: "当前已开启"
+    disable: "关闭"
+    cancel: "取消"
+    secret: "密钥"
+    code: "确认码"
+    submit: "验证并开启"
+    invalid_one_time_password: "一次性密码不正确"
+    invalid_two_factor_authenticator: "两步验证已经失效，请按照下面的指示："
+    successfully_activated: "两步验证已经关联到此账户。"
+    successfully_deleted: "两步验证已经删除。"
+  datetime:
+    ago: "%{datetime} 之前"
+    distance_in_words:
+      about_x_hours:
+        one: 大约一小时
+        other: 大约%{count}小时
+      about_x_months:
+        one: 大约一个月
+        other: 大约%{count}个月
+      about_x_years:
+        one: 大约一年
+        other: 大约%{count}年
+      almost_x_years:
+        one: 几乎一年
+        other: 几乎%{count}年
+      half_a_minute: 半分钟
+      less_than_x_minutes:
+        one: 少于一分钟
+        other: 少于%{count}分钟
+      less_than_x_seconds:
+        one: 少于一秒
+        other: 少于%{count}秒
+      over_x_years:
+        one: 超过一年
+        other: 超过%{count}年
+      x_days:
+        one: 一天
+        other: ! '%{count}天'
+      x_minutes:
+        one: 一分钟
+        other: ! '%{count}分钟'
+      x_months:
+        one: 一个月
+        other: ! '%{count}个月'
+      x_seconds:
+        one: 一秒
+        other: ! '%{count}秒'
