@@ -18,9 +18,10 @@ describe CASino::AuthTokenValidationService do
   context 'with token signers' do
     let(:signer_path) { '/test.pem' }
     let(:signer_path_content) { 'this_is_le_certificate' }
+    let(:digest) { 'le_digest' }
     let(:rsa_stub) do
       double(OpenSSL::PKey::RSA).tap do |mock|
-        mock.stub(:verify).with(any_args).and_return(signature_valid)
+        mock.stub(:verify).with(digest, signature, token).and_return(signature_valid)
       end
     end
 
@@ -29,6 +30,7 @@ describe CASino::AuthTokenValidationService do
         block.call(signer_path)
       end
       File.stub(:read).with(signer_path).and_return(signer_path_content)
+      OpenSSL::Digest::SHA256.stub(:new).and_return(digest)
       OpenSSL::PKey::RSA.stub(:new).with(signer_path_content).and_return(rsa_stub)
     end
 
