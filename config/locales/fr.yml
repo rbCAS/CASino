@@ -1,0 +1,88 @@
+fr:
+  login_credential_acceptor:
+    invalid_login_ticket: "La demande de connexion n'inclue pas un ticket de connexion valide."
+    invalid_login_credentials: "Nom d'utilisateur ou mot de passe incorrect."
+  login:
+    label_username: "Nom d'utilisateur"
+    label_password: "Mot de passe"
+    label_button: "Me connecter"
+    label_remember_me: "Se souvenir de moi"
+    notice: ""
+  service_not_allowed:
+    title: "Service non-autorisé"
+    message: "Le serveur SSO n'est pas configuré pour autoriser des connexions à \"%{service}\". Si vous pensez que c'est une erreur, merci de contacter votre administrateur."
+  validate_otp:
+    title: "Authentification en deux étapes"
+    description: "Merci d'entrer un mot de passe."
+    code: "Code"
+    submit: "Continuer"
+    invalid_otp: "Le mot de passe entré n'est pas correct."
+  logout:
+    title: "Au revoir."
+    logged_out_without_url: "Déconnecté avec succès."
+    logged_out_with_url: "Déconnecté avec succès, l'application vous propose de suivre ce lien:"
+  sessions:
+    title: "Bienvenue!"
+    currently_logged_in_as: "Vous êtes actuellement connecté avec <strong>%{username}</strong>."
+    label_logout_button: "Se déconnecter"
+    your_active_sessions: "Session active"
+    table:
+      column_browser: "Navigateurs"
+      column_services: "Services"
+      column_activity: "Activités les plus récentes"
+    current_session: "Session courante"
+    end_session: "Fin de session"
+  two_factor_authenticators:
+    title: "Authentification en deux étapes"
+    setup: "Configurer l'authentification en deux étapes"
+    description: "L'authentification en deux étapes exige que vous entriez un mot de passe unique additionel à chaque fois que vous essayez de vous connecter à votre compte. Un mot de passe unique peut être créé via une application comme <a href='http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447'>Google Authenticator</a> avec votre smartphone."
+    instructions: "Si vous utilisez Google Authenticator, scanez le QR code ci-dessous avec votre application. Puis entrez le code de vérification dans le champs texte ci-dessous."
+    disabled: "Actuellement désactivé"
+    enable: "Activer"
+    enabled: "Actuellement activé"
+    disable: "Désactiver"
+    cancel: "Annuler"
+    secret: "Secret"
+    code: "Code de confirmation"
+    submit: "Vérifier et activer and enable"
+    invalid_one_time_password: "Le mot de passe unique n'est pas valide."
+    invalid_two_factor_authenticator: "L'authentification en deux étapes a expiré. Merci de suivre les instructions ci-dessous."
+    successfully_activated: "L'authentification en deux étapes est liée à ce compte."
+    successfully_deleted: "L'authentification en deux étapes a été supprimée."
+  datetime:
+    ago: "%{datetime}"
+    distance_in_words:
+      about_x_hours:
+        one: environ une heure
+        other: environ %{count} heures
+      about_x_months:
+        one: environ un mois
+        other: environ %{count} mois
+      about_x_years:
+        one: environ une année
+        other: environ %{count} années
+      almost_x_years:
+        one: presque une année
+        other: presque %{count} années
+      half_a_minute: une demi-minute
+      less_than_x_minutes:
+        one: moins d'une minute
+        other: moins de %{count} minutes
+      less_than_x_seconds:
+        one: moins d'une seconde
+        other: moins que %{count} secondes
+      over_x_years:
+        one: plus d'une année
+        other: plus de %{count} années
+      x_days:
+        one: un jour
+        other: ! '%{count} jours'
+      x_minutes:
+        one: une minute
+        other: ! '%{count} minutes'
+      x_months:
+        one: un mois
+        other: ! '%{count} mois'
+      x_seconds:
+        one: une seconde
+        other: ! '%{count} secondes'
