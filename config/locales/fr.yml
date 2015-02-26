@@ -23,7 +23,7 @@ fr:
     logged_out_with_url: "Déconnecté avec succès, l'application vous propose de suivre ce lien:"
   sessions:
     title: "Bienvenue!"
-    currently_logged_in_as: "Cous êtes actuellement connecté avec <strong>%{username}</strong>."
+    currently_logged_in_as: "Vous êtes actuellement connecté avec <strong>%{username}</strong>."
     label_logout_button: "Se déconnecter"
     your_active_sessions: "Session active"
     table:
