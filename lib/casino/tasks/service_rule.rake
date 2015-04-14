@@ -5,7 +5,7 @@ namespace :casino do
 
     desc 'Add a service rule (prefix the url parameter with "regex:" to add a regular expression)'
     task :add, [:name, :url] => :environment do |task, args|
-      include CASino::ProcessorConcern::ServiceTickets
+      include CASino::ServiceTicketProcessor
       service_rule = CASino::ServiceRule.new name: args[:name]
       match = /^regex:(.*)/.match(args[:url])
       if match.nil?
