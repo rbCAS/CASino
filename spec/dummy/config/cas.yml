@@ -18,6 +18,9 @@ defaults: &defaults
           testuser:
             password: "foobar123"
             name: "Test User"
+            game:
+              - "StarCraft 2"
+              - "Doto"
 
 development:
   <<: *defaults

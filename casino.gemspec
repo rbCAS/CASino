@@ -34,11 +34,13 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls', '~> 0.7'
 
   s.add_runtime_dependency 'rails', '>= 4.1.0', '< 4.3.0'
-  s.add_runtime_dependency 'sass-rails', '~> 4.0.0'
-  s.add_runtime_dependency 'http_accept_language', '~> 2.0.0.pre'
+  s.add_runtime_dependency 'sass-rails', '>= 4.0.0', '< 6.0.0'
   s.add_runtime_dependency 'addressable', '~> 2.3'
   s.add_runtime_dependency 'terminal-table', '~> 1.4'
   s.add_runtime_dependency 'useragent', '~> 0.4'
   s.add_runtime_dependency 'faraday', '~> 0.8'
   s.add_runtime_dependency 'rotp', '~> 2.0'
+  s.add_runtime_dependency 'grape', '~> 0.8'
+  s.add_runtime_dependency 'grape-entity', '~> 0.4'
+  s.add_runtime_dependency 'rqrcode_png', '~> 0.1'
 end

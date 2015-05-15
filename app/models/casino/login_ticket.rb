@@ -1,11 +1,14 @@
 class CASino::LoginTicket < ActiveRecord::Base
-  validates :ticket, uniqueness: true
+  include CASino::ModelConcern::Ticket
+  include CASino::ModelConcern::ConsumableTicket
+
+  self.ticket_prefix = 'LT'.freeze
 
   def self.cleanup
-    self.delete_all(['created_at < ?', CASino.config.login_ticket[:lifetime].seconds.ago])
+    delete_all(['created_at < ?', CASino.config.login_ticket[:lifetime].seconds.ago])
   end
 
-  def to_s
-    self.ticket
+  def expired?
+    (Time.now - (self.created_at || Time.now)) > CASino.config.login_ticket[:lifetime].seconds
   end
 end

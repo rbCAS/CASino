@@ -13,7 +13,7 @@
 
     <div class="form">
       <%= form_tag(login_path, method: :post, id: 'login-form') do %>
-        <%= hidden_field_tag :lt, @login_ticket.ticket %>
+        <%= hidden_field_tag :lt, CASino::LoginTicket.create.ticket %>
         <%= hidden_field_tag :service, params[:service] unless params[:service].nil? %>
         <%= label_tag :username, t('login.label_username') %>
         <%= text_field_tag :username, params[:username], autofocus:true %>

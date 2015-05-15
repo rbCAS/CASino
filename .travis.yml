@@ -1,5 +1,14 @@
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
+- 1.9.3
+- 2.0.0
+- 2.1.0
+notifications:
+  hipchat:
+    rooms:
+      secure: kXPfZwOtdwJM0NIOj2td/NoPOhzxWVlUfHQuke2N4fuoKDQ+nhz5ZV4btW5J+O5C5aC6qyBBFdm+FzA/8m1WiLMGX0DIE1X67zZts/udMwtIDRNoHV594hd2co4oA72QMUT5kdre7IvTpSnnJwkp/d3V0kB7DOHuEbDJsjipx8I=
+    template:
+      - '%{repository} <a href="%{build_url}">#%{build_number}</a> (%{branch} - <a href="%{compare_url}">%{commit}</a> : %{author}): %{message}'
+    format: html
+    on_failure: always
+    on_success: change

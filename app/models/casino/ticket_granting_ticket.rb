@@ -1,10 +1,14 @@
 require 'user_agent'
 
 class CASino::TicketGrantingTicket < ActiveRecord::Base
-  validates :ticket, uniqueness: true
+  include CASino::ModelConcern::Ticket
+
+  self.ticket_prefix = 'TGC'.freeze
 
   belongs_to :user
   has_many :service_tickets, dependent: :destroy
+
+  scope :active, -> { where(awaiting_two_factor_authentication: false).order('updated_at DESC') }
 
   def self.cleanup(user = nil)
     if user.nil?

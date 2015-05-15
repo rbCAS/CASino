@@ -1,6 +1,8 @@
 require 'builder'
 
 class CASino::TicketValidationResponseBuilder
+  attr_reader :success, :options
+
   def initialize(success, options)
     @success = success
     @options = options
@@ -9,8 +11,8 @@ class CASino::TicketValidationResponseBuilder
   def build
     xml = Builder::XmlMarkup.new(indent: 2)
     xml.cas :serviceResponse, 'xmlns:cas' => 'http://www.yale.edu/tp/cas' do |service_response|
-      if @success
-        ticket = @options[:ticket]
+      if success
+        ticket = options[:ticket]
         if ticket.is_a?(CASino::ProxyTicket)
           proxies = []
           service_ticket = ticket
@@ -38,6 +40,8 @@ class CASino::TicketValidationResponseBuilder
     key = :"#{key}"
     if value.kind_of?(String) || value.kind_of?(Numeric) || value.kind_of?(Symbol)
       builder.cas key, "#{value}"
+    elsif value.kind_of?(Array)
+      value.each { |v| serialize_extra_attribute(builder, key, v) }
     else
       builder.cas key do |container|
         container.cdata! value.to_yaml
@@ -65,8 +69,8 @@ class CASino::TicketValidationResponseBuilder
           end
         end
       end
-      if @options[:proxy_granting_ticket]
-        proxy_granting_ticket = @options[:proxy_granting_ticket]
+      if options[:proxy_granting_ticket]
+        proxy_granting_ticket = options[:proxy_granting_ticket]
         authentication_success.cas :proxyGrantingTicket, proxy_granting_ticket.iou
       end
       if ticket.is_a?(CASino::ProxyTicket)
@@ -80,6 +84,6 @@ class CASino::TicketValidationResponseBuilder
   end
 
   def build_failure_xml(service_response)
-    service_response.cas :authenticationFailure, @options[:error_message], code: @options[:error_code]
+    service_response.cas :authenticationFailure, options[:error_message], code: options[:error_code]
   end
 end

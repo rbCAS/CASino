@@ -8,7 +8,7 @@
         <%= hidden_field_tag :tgt, @ticket_granting_ticket || params[:tgt] %>
         <%= hidden_field_tag :service, params[:service] %>
         <%= label_tag :code, t('validate_otp.code') %>
-        <%= text_field_tag :otp, nil, maxlength: 6, autofocus:true %>
+        <%= text_field_tag :otp, nil, maxlength: 6, autofocus: true, autocomplete: 'off' %>
         <%= button_tag t('validate_otp.submit'), :class => 'button' %>
       <% end %>
     </div>

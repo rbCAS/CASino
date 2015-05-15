@@ -4,7 +4,7 @@ namespace :casino do
   namespace :authentication do
     desc 'Test authentication.'
     task test: :environment do |task, args|
-      include CASino::ProcessorConcern::Authentication
+      include CASino::AuthenticationProcessor
       print "Username: "
       username = STDIN.gets.chomp
       print "Password (won't be shown): "

@@ -65,13 +65,4 @@ describe 'Login' do
     it { should have_button('Login') }
     it { should have_text('Incorrect username or password') }
   end
-
-  context 'with german locale' do
-    before do
-      page.driver.header 'Accept-Language', 'de'
-      visit login_path
-    end
-
-    it { should have_text('Benutzername') }
-  end
 end

@@ -1,7 +1,10 @@
 require 'addressable/uri'
 
 class CASino::ServiceTicket < ActiveRecord::Base
-  validates :ticket, uniqueness: true
+  include CASino::ModelConcern::Ticket
+
+  self.ticket_prefix = 'ST'.freeze
+
   belongs_to :ticket_granting_ticket
   before_destroy :send_single_sign_out_notification, if: :consumed?
   has_many :proxy_granting_tickets, as: :granter, dependent: :destroy
@@ -18,12 +21,10 @@ class CASino::ServiceTicket < ActiveRecord::Base
     self.delete_all(['created_at < ? AND consumed = ?', (CASino.config.service_ticket[:lifetime_consumed] * 2).seconds.ago, true])
   end
 
-
   def service=(service)
     normalized_encoded_service = Addressable::URI.parse(service).normalize.to_str
     super(normalized_encoded_service)
   end
-
 
   def service_with_ticket_url
     service_uri = Addressable::URI.parse(self.service)

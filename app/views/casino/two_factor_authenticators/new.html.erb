@@ -11,10 +11,13 @@
         <%= t('two_factor_authenticators.instructions') %>
       </p>
       <div id="qr-code">
-        <img src="https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl=<%= u "otpauth://totp/#{u CASino.config.frontend[:sso_name] + ': ' + @two_factor_authenticator.user.username}?secret=#{@two_factor_authenticator.secret}&issuer=#{u CASino.config.frontend[:sso_name]}" %>" height="250" width="250"><br />
+        <img src="<%= otp_qr_code_data_url(@two_factor_authenticator) %>" height="250" width="250"><br />
       </div>
       <p id="secret">
-        <%= t('two_factor_authenticators.secret') %>: <%= @two_factor_authenticator.secret %>
+        <%= t('two_factor_authenticators.secret') %>:
+        <a href="<%= otp_auth_url(@two_factor_authenticator) %>">
+          <%= @two_factor_authenticator.secret %>
+        </a>
       </p>
     </div>
 
@@ -22,7 +25,7 @@
       <%= form_tag(two_factor_authenticators_path, method: :post, id: 'two_factor_authenticators-form') do %>
         <%= hidden_field_tag :id, @two_factor_authenticator.id %>
         <%= label_tag :code, t('two_factor_authenticators.code') %>
-        <%= text_field_tag :otp, nil, maxlength: 6, autofocus:true %>
+        <%= text_field_tag :otp, nil, maxlength: 6, autofocus: true, autocomplete: 'off' %>
         <%= link_to t('two_factor_authenticators.cancel'), sessions_path, :class => 'secondary button' %>
         <%= button_tag t('two_factor_authenticators.submit'), :class => 'button' %>
       <% end %>
