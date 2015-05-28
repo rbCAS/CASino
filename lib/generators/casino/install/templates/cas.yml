@@ -35,7 +35,7 @@ production:
   <<: *defaults
   authenticators:
     my_company_ldap:
-      authenticator: "ldap"
+      authenticator: "LDAP"
       options:
         host: "localhost"
         port: 12445
