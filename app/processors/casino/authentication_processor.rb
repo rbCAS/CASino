@@ -1,3 +1,5 @@
+require 'casino/authenticator'
+
 module CASino::AuthenticationProcessor
   extend ActiveSupport::Concern
 
