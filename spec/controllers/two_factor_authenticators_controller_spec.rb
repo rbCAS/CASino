@@ -35,6 +35,19 @@ describe CASino::TwoFactorAuthenticatorsController do
         get :new, request_options
         response.should render_template(:new)
       end
+
+      context 'with a really long service name' do
+        before(:each) do
+          CASino.config.frontend[:sso_name] = 'Na' * 200
+        end
+
+        render_views
+
+        it 'renders the new template' do
+          get :new, request_options
+          response.should render_template(:new)
+        end
+      end
     end
 
     context 'without a ticket-granting ticket' do
