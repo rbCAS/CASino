@@ -2,7 +2,7 @@
 
 CASino Rails Engine (used in CASinoApp).
 
-It currently supports [CAS 1.0 and CAS 2.0](http://www.jasig.org/cas/protocol) as well as [CAS 3.1 Single Sign Out](https://wiki.jasig.org/display/CASUM/Single+Sign+Out) and [CAS RESTful API](https://wiki.jasig.org/display/CASUM/RESTful+API).
+It currently supports [CAS 1.0 and CAS 2.0](http://www.jasig.org/cas/protocol) as well as [CAS 3.1 Single Sign Out](https://wiki.jasig.org/display/CASUM/Single+Sign+Out).
 
 ## Setup
 
