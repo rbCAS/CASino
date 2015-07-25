@@ -56,6 +56,16 @@ describe CASino::ServiceTicket::SingleSignOutNotifier do
           notifier.notify.should == false
         end
       end
+
+      context 'network timeout' do
+        before(:each) do
+          stub_request(:post, service).to_raise Errno::ETIMEDOUT
+        end
+
+        it 'returns false' do
+          notifier.notify.should == false
+        end
+      end
     end
   end
 end
