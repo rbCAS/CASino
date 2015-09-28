@@ -5,7 +5,7 @@ class CASino::ServiceRule < ActiveRecord::Base
 
   def self.allowed?(service_url)
     rules = self.where(enabled: true)
-    if rules.empty?
+    if rules.empty? && !CASino.config.require_service_rules
       true
     else
       rules.any? { |rule| rule.allows?(service_url) }
