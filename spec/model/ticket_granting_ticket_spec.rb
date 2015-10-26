@@ -28,6 +28,14 @@ describe CASino::TicketGrantingTicket do
     end
   end
 
+  describe "user_ip" do
+
+    it 'returns request remote_ip' do
+      ticket_granting_ticket.user_ip.should == '127.0.0.1'
+    end
+    
+  end
+
   describe '#browser_info' do
     let(:user_agent) { Object.new }
     before(:each) do

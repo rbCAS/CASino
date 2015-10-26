@@ -32,7 +32,7 @@ module CASino::SessionsHelper
   end
 
   def sign_in(authentication_result, options = {})
-    tgt = acquire_ticket_granting_ticket(authentication_result, request.user_agent, options)
+    tgt = acquire_ticket_granting_ticket(authentication_result, request.user_agent, request.remote_ip, options)
     set_tgt_cookie(tgt)
     handle_signed_in(tgt, options)
   end
