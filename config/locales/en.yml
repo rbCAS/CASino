@@ -53,11 +53,11 @@ en:
     ago: "%{datetime} ago"
     distance_in_words:
       about_x_hours:
-        one: about oue hour
+        one: about one hour
         other: about %{count} hours
       about_x_months:
-        one: about one monate
-        other: about %{count} monates
+        one: about one month
+        other: about %{count} months
       about_x_years:
         one: about one year
         other: about %{count} years
