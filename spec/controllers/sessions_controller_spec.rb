@@ -204,6 +204,12 @@ describe CASino::SessionsController do
           response.cookies['tgt'].should_not be_nil
         end
 
+        it 'saves user_ip' do
+          post :create, request_options
+          tgt = CASino::TicketGrantingTicket.last
+          tgt.user_ip.should == '0.0.0.0'
+        end
+
         context 'with rememberMe set' do
           let(:cookie_jar) { HashWithIndifferentAccess.new }
 
