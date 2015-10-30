@@ -1,0 +1,88 @@
+pt-BR:
+  login_credential_acceptor:
+    invalid_login_ticket: "Por favor, insira seus dados de acesso."
+    invalid_login_credentials: "Usuário ou senha incorretos."
+  login:
+    label_username: "Usuário"
+    label_password: "Senha"
+    label_button: "Acessar"
+    label_remember_me: "Lembre-se de mim"
+    notice: ""
+  service_not_allowed:
+    title: "Serviço não permitido"
+    message: "Este servidor SSO não está configurado para aceitar acessos para \"%{service}\". Se isso for um erro, por favor contacte o administrador."
+  validate_otp:
+    title: "Autenticação dupla"
+    description: "Por favor, insira a senha única corretamente"
+    code: "Código"
+    submit: "Continuar"
+    invalid_otp: "A senha única informada está incorreta"
+  logout:
+    title: "Até logo."
+    logged_out_without_url: "Saiu com sucesso"
+    logged_out_with_url: "A aplicação que você acabou de sair retornou um link para você:"
+  sessions:
+    title: "Olá!"
+    currently_logged_in_as: "Você está logado como <strong>%{username}</strong>."
+    label_logout_button: "Sair"
+    your_active_sessions: "Suas sessões ativas"
+    table:
+      column_browser: "Navegador"
+      column_services: "Serviços"
+      column_activity: "Atividade mais recente"
+    current_session: "Sessão atual"
+    end_session: "Finalizar sessão"
+  two_factor_authenticators:
+    title: "Autenticação dupla"
+    setup: "Configure a autenticação dupla"
+    description: "A autenticação única requer que você insira uma senha única adicional (OTP) cada vez que você tentar acessar sua conta. Uma senha única (OTP) pode ser criada com uma aplicação como o <a href='http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447'>Google Authenticator</a> em seu telefone celular."
+    instructions: "Se você está utilizando o Google Authenticator, escaneie o QR code abaixo com a aplicação. Insira o código de verificação no campo abaixo."
+    disabled: "Desabilitado"
+    enable: "Habilitar"
+    enabled: "Habilitado"
+    disable: "Desabilitar"
+    cancel: "Cancelar"
+    secret: "Secreto"
+    code: "Código de confirmação"
+    submit: "Verificar e ativar"
+    invalid_one_time_password: "A senha única está incorreta."
+    invalid_two_factor_authenticator: "A autenticação dupla expirou. Por favor, siga as instruções baixo."
+    successfully_activated: "A autenticação dupla está habilitada para essa conta."
+    successfully_deleted: "A autenticação dupla foi excluída com sucesso."
+  datetime:
+    ago: "%{datetime} atrás"
+    distance_in_words:
+      about_x_hours:
+        one: cerca de uma hora
+        other: cerca de %{count} horas
+      about_x_months:
+        one: cerca de um mês
+        other: cerca de %{count} meses
+      about_x_years:
+        one: cerca de um ano
+        other: cerca de %{count} anos
+      almost_x_years:
+        one: quase um ano
+        other: quase %{count} anos
+      half_a_minute: meio minuto
+      less_than_x_minutes:
+        one: menos de um minuto
+        other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de um segundo
+        other: menos de %{count} segundos
+      over_x_years:
+        one: mais de um ano
+        other: mais de %{count} anos
+      x_days:
+        one: um dia
+        other: ! '%{count} dias'
+      x_minutes:
+        one: um minuto
+        other: ! '%{count} minutos'
+      x_months:
+        one: um mês
+        other: ! '%{count} meses'
+      x_seconds:
+        one: um segundo
+        other: ! '%{count} segundos'
