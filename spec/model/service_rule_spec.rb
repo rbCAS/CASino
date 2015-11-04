@@ -17,7 +17,7 @@ describe CASino::ServiceRule do
         end
 
         ['https://www.example.org/', 'http://www.google.com/'].each do |service_url|
-          it "allows access to #{service_url}" do
+          it "does not allow access to #{service_url}" do
             described_class.allowed?(service_url).should == false
           end
         end
