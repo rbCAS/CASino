@@ -3,9 +3,23 @@ require 'spec_helper'
 describe CASino::ServiceRule do
   describe '.allowed?' do
     context 'with an empty table' do
-      ['https://www.example.org/', 'http://www.google.com/'].each do |service_url|
-        it "allows access to #{service_url}" do
-          described_class.allowed?(service_url).should == true
+      context 'with default settings' do
+        ['https://www.example.org/', 'http://www.google.com/'].each do |service_url|
+          it "allows access to #{service_url}" do
+            described_class.allowed?(service_url).should == true
+          end
+        end
+      end
+
+      context 'with require_service_rules option' do
+        before(:each) do
+          CASino.config.require_service_rules = true
+        end
+
+        ['https://www.example.org/', 'http://www.google.com/'].each do |service_url|
+          it "allows access to #{service_url}" do
+            described_class.allowed?(service_url).should == false
+          end
         end
       end
     end
