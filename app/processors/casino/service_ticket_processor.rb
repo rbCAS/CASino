@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 module CASino::ServiceTicketProcessor
   extend ActiveSupport::Concern
 
