@@ -15,7 +15,7 @@ class CASino::SessionsController < CASino::ApplicationController
 
   def new
     tgt = current_ticket_granting_ticket
-    handle_signed_in(tgt) unless params[:renew] || tgt.nil?
+    return handle_signed_in(tgt) unless params[:renew] || tgt.nil?
     redirect_to(params[:service]) if params[:gateway] && params[:service].present?
   end
 
