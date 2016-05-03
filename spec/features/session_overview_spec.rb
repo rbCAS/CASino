@@ -6,8 +6,14 @@ describe 'Session overview' do
   subject { page }
 
   context 'when logged in' do
+    let(:login_attempt) do
+      FactoryGirl.create :login_attempt, created_at: Time.zone.parse('2015-01-01 09:10'),
+                                         username: 'testuser'
+    end
+
     before do
       sign_in
+      login_attempt.touch
       visit sessions_path
     end
 
@@ -17,6 +23,12 @@ describe 'Session overview' do
 
     context 'without other sessions' do
       it { should_not have_button('End session') }
+    end
+
+    context 'with login attempts' do
+      it { should have_text('TestBrowser') }
+      it { should have_text('133.133.133.133') }
+      it { should have_text('2015-01-01 09:10') }
     end
 
     context 'when other sessions exist' do

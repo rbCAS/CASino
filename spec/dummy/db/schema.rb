@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026130743) do
+ActiveRecord::Schema.define(version: 20160502074450) do
 
   create_table "casino_auth_token_tickets", force: true do |t|
     t.string   "ticket",     null: false
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20151026130743) do
   end
 
   add_index "casino_auth_token_tickets", ["ticket"], name: "index_casino_auth_token_tickets_on_ticket", unique: true
+
+  create_table "casino_login_attempts", force: true do |t|
+    t.integer  "user_id"
+    t.string   "username",                   null: false
+    t.boolean  "successful", default: false
+    t.string   "user_ip"
+    t.text     "user_agent"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "casino_login_tickets", force: true do |t|
     t.string   "ticket",     null: false
@@ -87,9 +97,9 @@ ActiveRecord::Schema.define(version: 20151026130743) do
     t.integer  "user_id",                                            null: false
     t.boolean  "awaiting_two_factor_authentication", default: false, null: false
     t.boolean  "long_term",                          default: false, null: false
+    t.string   "user_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "user_ip"
   end
 
   add_index "casino_ticket_granting_tickets", ["ticket"], name: "index_casino_ticket_granting_tickets_on_ticket", unique: true

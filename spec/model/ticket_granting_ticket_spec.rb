@@ -2,8 +2,12 @@ require 'spec_helper'
 require 'useragent'
 
 describe CASino::TicketGrantingTicket do
-  let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+  let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user_agent: 'TestBrowser' }
   let(:service_ticket) { FactoryGirl.create :service_ticket, ticket_granting_ticket: ticket_granting_ticket }
+
+  subject { ticket_granting_ticket }
+
+  it_behaves_like 'has browser info'
 
   describe '#destroy' do
     let!(:consumed_service_ticket) { FactoryGirl.create :service_ticket, :consumed, ticket_granting_ticket: ticket_granting_ticket }
@@ -33,35 +37,7 @@ describe CASino::TicketGrantingTicket do
     it 'returns request remote_ip' do
       ticket_granting_ticket.user_ip.should == '127.0.0.1'
     end
-    
-  end
 
-  describe '#browser_info' do
-    let(:user_agent) { Object.new }
-    before(:each) do
-      user_agent.stub(:browser).and_return('TestBrowser')
-      UserAgent.stub(:parse).and_return(user_agent)
-    end
-
-    context 'without platform' do
-      before(:each) do
-        user_agent.stub(:platform).and_return(nil)
-      end
-
-      it 'returns the browser name' do
-        ticket_granting_ticket.browser_info.should == 'TestBrowser'
-      end
-    end
-
-    context 'with a platform' do
-      before(:each) do
-        user_agent.stub(:platform).and_return('Linux')
-      end
-
-      it 'returns the browser name' do
-        ticket_granting_ticket.browser_info.should == 'TestBrowser (Linux)'
-      end
-    end
   end
 
   describe '#same_user?' do

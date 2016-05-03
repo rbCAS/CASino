@@ -11,6 +11,7 @@ class CASino::SessionsController < CASino::ApplicationController
   def index
     @ticket_granting_tickets = current_user.ticket_granting_tickets.active
     @two_factor_authenticators = current_user.two_factor_authenticators.active
+    @login_attempts = current_user.login_attempts.order(created_at: :desc).first(5)
   end
 
   def new
@@ -21,6 +22,7 @@ class CASino::SessionsController < CASino::ApplicationController
 
   def create
     validation_result = validate_login_credentials(params[:username], params[:password])
+    create_login_attempt params[:username], !!validation_result
     if !validation_result
       show_login_error I18n.t('login_credential_acceptor.invalid_login_credentials')
     else
@@ -59,6 +61,7 @@ class CASino::SessionsController < CASino::ApplicationController
   end
 
   private
+
   def show_login_error(message)
     flash.now[:error] = message
     render :new, status: :forbidden
@@ -79,5 +82,14 @@ class CASino::SessionsController < CASino::ApplicationController
   def load_ticket_granting_ticket_from_parameter
     @ticket_granting_ticket = find_valid_ticket_granting_ticket(params[:tgt], request.user_agent, ignore_two_factor: true)
     redirect_to login_path if @ticket_granting_ticket.nil?
+  end
+
+  def create_login_attempt(username, successful)
+    CASino::LoginAttempt.new(
+      username: username,
+      successful: successful,
+      user_ip: request.ip,
+      user_agent: request.user_agent,
+    ).save
   end
 end

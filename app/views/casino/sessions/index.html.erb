@@ -25,10 +25,10 @@
       <table width="100%" class="tickets">
         <thead>
           <tr>
-            <th><%= t('sessions.table.column_browser') %></th>
-            <th><%= t('sessions.table.column_services') %></th>
-            <th><%= t('sessions.table.column_activity') %></th>
-            <th width="180">&nbsp;</th>
+            <th class="browser_info"><%= t('sessions.table.column_browser') %></th>
+            <th class="services"><%= t('sessions.table.column_services') %></th>
+            <th class="activity"><%= t('sessions.table.column_activity') %></th>
+            <th class="actions">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -43,7 +43,9 @@
                 <%= ticket_granting_ticket.service_tickets.size %>
               </td>
               <td data-label="<%= t('sessions.table.column_activity') %>">
-                <%= t 'datetime.ago', datetime: distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %>
+                <span title="<%= l ticket_granting_ticket.updated_at %>">
+                  <%= t 'datetime.ago', datetime: distance_of_time_in_words_to_now(ticket_granting_ticket.updated_at) %>
+                </span>
               </td>
               <td>
                 <% if current_ticket_granting_ticket?(ticket_granting_ticket) %>
@@ -56,6 +58,11 @@
           <% end %>
         </tbody>
       </table>
+
+      <h3><%= t('sessions.last_login_attempts') %></h3>
+      <%= render partial: 'casino/login_attempts/table' %>
+
+      <%= link_to t('sessions.all_login_attempts'), login_attempts_path, class: 'all_login_attempts' %>
   </div>
   <%= render 'footer' %>
 </div>

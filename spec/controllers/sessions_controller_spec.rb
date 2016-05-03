@@ -2,8 +2,10 @@ require 'spec_helper'
 
 describe CASino::SessionsController do
   include CASino::Engine.routes.url_helpers
+
+  routes { CASino::Engine.routes }
+
   let(:params) { { } }
-  let(:request_options) { params.merge(use_route: :casino) }
   let(:user_agent) { 'YOLOBrowser 420.00'}
 
   before(:each) do
@@ -20,14 +22,14 @@ describe CASino::SessionsController do
       let(:params) { { service: service } }
 
       it 'renders the service_not_allowed template' do
-        get :new, request_options
+        get :new, params
         response.should render_template(:service_not_allowed)
       end
     end
 
     context 'when logged out' do
       it 'renders the new template' do
-        get :new, request_options
+        get :new, params
         response.should render_template(:new)
       end
 
@@ -37,7 +39,7 @@ describe CASino::SessionsController do
           let(:params) { { service: service, gateway: 'true' } }
 
           it 'redirects to the service' do
-            get :new, request_options
+            get :new, params
             response.should redirect_to(service)
           end
         end
@@ -46,7 +48,7 @@ describe CASino::SessionsController do
           let(:params) { { gateway: 'true' } }
 
           it 'renders the new template' do
-            get :new, request_options
+            get :new, params
             response.should render_template(:new)
           end
         end
@@ -64,7 +66,7 @@ describe CASino::SessionsController do
         let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, :awaiting_two_factor_authentication }
 
         it 'renders the new template' do
-          get :new, request_options
+          get :new, params
           response.should render_template(:new)
         end
       end
@@ -76,7 +78,7 @@ describe CASino::SessionsController do
         end
 
         it 'renders the new template' do
-          get :new, request_options
+          get :new, params
           response.should render_template(:new)
         end
       end
@@ -86,24 +88,24 @@ describe CASino::SessionsController do
         let(:params) { { service: service } }
 
         it 'redirects to the service' do
-          get :new, request_options
+          get :new, params
           response.location.should =~ /^#{Regexp.escape service}\?ticket=ST-/
         end
 
         it 'generates a service ticket' do
           lambda do
-            get :new, request_options
+            get :new, params
           end.should change(CASino::ServiceTicket, :count).by(1)
         end
 
         it 'does not set the issued_from_credentials flag on the service ticket' do
-          get :new, request_options
+          get :new, params
           CASino::ServiceTicket.last.should_not be_issued_from_credentials
         end
 
         context 'with renew parameter' do
           it 'renders the new template' do
-            get :new, request_options.merge(renew: 'true')
+            get :new, params.merge(renew: 'true')
             response.should render_template(:new)
           end
         end
@@ -114,7 +116,7 @@ describe CASino::SessionsController do
         let(:params) { { service: service } }
 
         it 'does not remove the attributes' do
-          get :new, request_options
+          get :new, params
           response.location.should =~ /^#{Regexp.escape service}&ticket=ST-/
         end
       end
@@ -124,20 +126,20 @@ describe CASino::SessionsController do
         let(:params) { { service: service } }
 
         it 'redirects to the session overview' do
-          get :new, request_options
+          get :new, params
           response.should redirect_to(sessions_path)
         end
       end
 
       context 'without a service' do
         it 'redirects to the session overview' do
-          get :new, request_options
+          get :new, params
           response.should redirect_to(sessions_path)
         end
 
         it 'does not generate a service ticket' do
           lambda do
-            get :new, request_options
+            get :new, params
           end.should change(CASino::ServiceTicket, :count).by(0)
         end
 
@@ -149,7 +151,7 @@ describe CASino::SessionsController do
           end
 
           it 'renders the new template' do
-            get :new, request_options
+            get :new, params
             response.should render_template(:new)
           end
         end
@@ -167,7 +169,7 @@ describe CASino::SessionsController do
   describe 'POST "create"' do
     context 'without a valid login ticket' do
       it 'renders the new template' do
-        post :create, request_options
+        post :create, params
         response.should render_template(:new)
       end
     end
@@ -177,19 +179,33 @@ describe CASino::SessionsController do
       let(:params) { { lt: expired_login_ticket.ticket }}
 
       it 'renders the new template' do
-        post :create, request_options
+        post :create, params
         response.should render_template(:new)
       end
     end
 
     context 'with a valid login ticket' do
       let(:login_ticket) { FactoryGirl.create :login_ticket }
-      let(:params) { { lt: login_ticket.ticket }}
+      let(:username) { 'testuser' }
+      let(:params) { { lt: login_ticket.ticket, username: username, password: 'wrrooonnng' }}
 
       context 'with invalid credentials' do
         it 'renders the new template' do
-          post :create, request_options
+          post :create, params
           response.should render_template(:new)
+        end
+
+        it 'creates session log' do
+          expect do
+            post :create, params
+          end.to change { CASino::LoginAttempt.count }.by 1
+        end
+
+        it 'assigns session log the correct attributes' do
+          post :create, params
+
+          expect(CASino::LoginAttempt.last.username).to eq username
+          expect(CASino::LoginAttempt.last.successful).to eq false
         end
       end
 
@@ -200,14 +216,27 @@ describe CASino::SessionsController do
         let(:params) { { lt: login_ticket.ticket, username: username, password: 'foobar123', service: service } }
 
         it 'creates a cookie' do
-          post :create, request_options
+          post :create, params
           response.cookies['tgt'].should_not be_nil
         end
 
         it 'saves user_ip' do
-          post :create, request_options
+          post :create, params
           tgt = CASino::TicketGrantingTicket.last
           tgt.user_ip.should == '0.0.0.0'
+        end
+
+        it 'creates session log' do
+          expect do
+            post :create, params
+          end.to change { CASino::LoginAttempt.count }.by 1
+        end
+
+        it 'assigns session log the correct attributes' do
+          post :create, params
+
+          expect(CASino::LoginAttempt.last.username).to eq username
+          expect(CASino::LoginAttempt.last.successful).to eq true
         end
 
         context 'with rememberMe set' do
@@ -219,12 +248,12 @@ describe CASino::SessionsController do
           end
 
           it 'creates a cookie with an expiration date set' do
-            post :create, request_options
+            post :create, params
             cookie_jar['tgt']['expires'].should be_kind_of(Time)
           end
 
           it 'creates a long-term ticket-granting ticket' do
-            post :create, request_options
+            post :create, params
             tgt = CASino::TicketGrantingTicket.last
             tgt.long_term.should == true
           end
@@ -235,7 +264,7 @@ describe CASino::SessionsController do
           let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, user: user }
 
           it 'renders the validate_otp template' do
-            post :create, request_options
+            post :create, params
             response.should render_template(:validate_otp)
           end
         end
@@ -247,7 +276,7 @@ describe CASino::SessionsController do
           let(:service) { 'http://www.example.org/' }
 
           it 'renders the service_not_allowed template' do
-            post :create, request_options
+            post :create, params
             response.should render_template(:service_not_allowed)
           end
         end
@@ -260,7 +289,7 @@ describe CASino::SessionsController do
           end
 
           it 'renders the new template' do
-            post :create, request_options
+            post :create, params
             response.should render_template(:new)
           end
         end
@@ -269,25 +298,25 @@ describe CASino::SessionsController do
           let(:service) { nil }
 
           it 'redirects to the session overview' do
-            post :create, request_options
+            post :create, params
             response.should redirect_to(sessions_path)
           end
 
           it 'generates a ticket-granting ticket' do
             lambda do
-              post :create, request_options
+              post :create, params
             end.should change(CASino::TicketGrantingTicket, :count).by(1)
           end
 
           context 'when the user does not exist yet' do
             it 'generates exactly one user' do
               lambda do
-                post :create, request_options
+                post :create, params
               end.should change(CASino::User, :count).by(1)
             end
 
             it 'sets the users attributes' do
-              post :create, request_options
+              post :create, params
               user = CASino::User.last
               user.username.should == username
               user.authenticator.should == authenticator
@@ -299,13 +328,13 @@ describe CASino::SessionsController do
 
             it 'does not regenerate the user' do
               lambda do
-                post :create, request_options
+                post :create, params
               end.should_not change(CASino::User, :count)
             end
 
             it 'updates the extra attributes' do
               lambda do
-                post :create, request_options
+                post :create, params
                 user.reload
               end.should change(user, :extra_attributes)
             end
@@ -316,24 +345,24 @@ describe CASino::SessionsController do
           let(:service) { 'https://www.example.com' }
 
           it 'redirects to the service' do
-            post :create, request_options
+            post :create, params
             response.location.should =~ /^#{Regexp.escape service}\/\?ticket=ST-/
           end
 
           it 'generates a service ticket' do
             lambda do
-              post :create, request_options
+              post :create, params
             end.should change(CASino::ServiceTicket, :count).by(1)
           end
 
           it 'does set the issued_from_credentials flag on the service ticket' do
-            post :create, request_options
+            post :create, params
             CASino::ServiceTicket.last.should be_issued_from_credentials
           end
 
           it 'generates a ticket-granting ticket' do
             lambda do
-              post :create, request_options
+              post :create, params
             end.should change(CASino::TicketGrantingTicket, :count).by(1)
           end
         end
@@ -360,12 +389,12 @@ describe CASino::SessionsController do
           end
 
           it 'redirects to the service' do
-            post :validate_otp, request_options
+            post :validate_otp, params
             response.location.should =~ /^#{Regexp.escape service}\?ticket=ST-/
           end
 
           it 'does activate the ticket-granting ticket' do
-            post :validate_otp, request_options
+            post :validate_otp, params
             ticket_granting_ticket.reload.should_not be_awaiting_two_factor_authentication
           end
 
@@ -378,7 +407,7 @@ describe CASino::SessionsController do
             end
 
             it 'creates a cookie with an expiration date set' do
-              post :validate_otp, request_options
+              post :validate_otp, params
               cookie_jar['tgt']['expires'].should be_kind_of(Time)
             end
           end
@@ -390,7 +419,7 @@ describe CASino::SessionsController do
             let(:service) { 'http://www.example.org/' }
 
             it 'renders the service_not_allowed template' do
-              post :validate_otp, request_options
+              post :validate_otp, params
               response.should render_template(:service_not_allowed)
             end
           end
@@ -402,12 +431,12 @@ describe CASino::SessionsController do
           end
 
           it 'renders the validate_otp template' do
-            post :validate_otp, request_options
+            post :validate_otp, params
             response.should render_template(:validate_otp)
           end
 
           it 'does not activate the ticket-granting ticket' do
-            post :validate_otp, request_options
+            post :validate_otp, params
             ticket_granting_ticket.reload.should be_awaiting_two_factor_authentication
           end
         end
@@ -416,7 +445,7 @@ describe CASino::SessionsController do
 
     context 'without a ticket-granting ticket' do
       it 'redirects to the login page' do
-        post :validate_otp, request_options
+        post :validate_otp, params
         response.should redirect_to(login_path)
       end
     end
@@ -434,12 +463,12 @@ describe CASino::SessionsController do
       end
 
       it 'deletes the ticket-granting ticket' do
-        get :logout, request_options
+        get :logout, params
         CASino::TicketGrantingTicket.where(id: ticket_granting_ticket.id).first.should == nil
       end
 
       it 'renders the logout template' do
-        get :logout, request_options
+        get :logout, params
         response.should render_template(:logout)
       end
 
@@ -447,7 +476,7 @@ describe CASino::SessionsController do
         let(:url) { 'http://www.example.com' }
 
         it 'assigns the URL' do
-          get :logout, request_options
+          get :logout, params
           assigns(:url).should == url
         end
       end
@@ -458,7 +487,7 @@ describe CASino::SessionsController do
 
         context 'when whitelisted' do
           it 'redirects to the service' do
-            get :logout, request_options
+            get :logout, params
             response.should redirect_to(url)
           end
         end
@@ -469,12 +498,12 @@ describe CASino::SessionsController do
           end
 
           it 'renders the logout template' do
-            get :logout, request_options
+            get :logout, params
             response.should render_template(:logout)
           end
 
           it 'does not assign the URL' do
-            get :logout, request_options
+            get :logout, params
             assigns(:url).should be_nil
           end
         end
@@ -483,7 +512,7 @@ describe CASino::SessionsController do
 
     context 'without a ticket-granting ticket' do
       it 'renders the logout template' do
-        get :logout, request_options
+        get :logout, params
         response.should render_template(:logout)
       end
     end
@@ -501,7 +530,7 @@ describe CASino::SessionsController do
 
         context 'without a two-factor authenticator registered' do
           it 'does not assign any two-factor authenticators' do
-            get :index, request_options
+            get :index, params
             assigns(:two_factor_authenticators).should == []
           end
         end
@@ -510,7 +539,7 @@ describe CASino::SessionsController do
           let!(:two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator, :inactive, user: user }
 
           it 'does not assign any two-factor authenticators' do
-            get :index, request_options
+            get :index, params
             assigns(:two_factor_authenticators).should == []
           end
         end
@@ -520,7 +549,7 @@ describe CASino::SessionsController do
           let!(:other_two_factor_authenticator) { FactoryGirl.create :two_factor_authenticator }
 
           it 'does assign the two-factor authenticator' do
-            get :index, request_options
+            get :index, params
             assigns(:two_factor_authenticators).should == [two_factor_authenticator]
           end
         end
@@ -534,7 +563,7 @@ describe CASino::SessionsController do
           let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket, user: user }
 
           it 'assigns both ticket granting tickets' do
-            get :index, request_options
+            get :index, params
             assigns(:ticket_granting_tickets).should == [ticket_granting_ticket, other_ticket_granting_ticket]
           end
         end
@@ -544,16 +573,39 @@ describe CASino::SessionsController do
           let(:tgt) { ticket_granting_ticket.ticket }
 
           it 'does not assign the other ticket granting ticket' do
-            get :index, request_options
+            get :index, params
             assigns(:ticket_granting_tickets).should == [ticket_granting_ticket]
           end
+        end
+      end
+
+      describe 'last login attempts' do
+        let(:ticket_granting_ticket) { FactoryGirl.create :ticket_granting_ticket }
+
+        let(:login_attempts) do
+          6.times.map do |counter|
+            FactoryGirl.create :login_attempt, user: ticket_granting_ticket.user,
+                                               created_at: counter.minutes.ago
+          end
+        end
+
+        before do
+          sign_in(ticket_granting_ticket)
+
+          login_attempts
+        end
+
+        it 'assigns last five login attempts' do
+          get :index, params
+
+          expect(assigns(:login_attempts)).to eq login_attempts.sort_by(&:created_at).from(1).to(6).reverse
         end
       end
     end
 
     context 'without a ticket-granting ticket' do
       it 'redirects to the login page' do
-        get :index, request_options
+        get :index, params
         response.should redirect_to(login_path)
       end
     end
@@ -575,17 +627,17 @@ describe CASino::SessionsController do
 
       it 'deletes exactly one ticket-granting ticket' do
         lambda do
-          delete :destroy, request_options
+          delete :destroy, params
         end.should change(CASino::TicketGrantingTicket, :count).by(-1)
       end
 
       it 'deletes the ticket-granting ticket' do
-        delete :destroy, request_options
+        delete :destroy, params
         CASino::TicketGrantingTicket.where(id: params[:id]).length.should == 0
       end
 
       it 'redirects to the session overview' do
-        delete :destroy, request_options
+        delete :destroy, params
         response.should redirect_to(sessions_path)
       end
     end
@@ -594,12 +646,12 @@ describe CASino::SessionsController do
       let(:params) { { id: 99999 } }
       it 'does not delete a ticket-granting ticket' do
         lambda do
-          delete :destroy, request_options
+          delete :destroy, params
         end.should_not change(CASino::TicketGrantingTicket, :count)
       end
 
       it 'redirects to the session overview' do
-        delete :destroy, request_options
+        delete :destroy, params
         response.should redirect_to(sessions_path)
       end
     end
@@ -610,12 +662,12 @@ describe CASino::SessionsController do
 
       it 'does not delete a ticket-granting ticket' do
         lambda do
-          delete :destroy, request_options
+          delete :destroy, params
         end.should_not change(CASino::TicketGrantingTicket, :count)
       end
 
       it 'redirects to the session overview' do
-        delete :destroy, request_options
+        delete :destroy, params
         response.should redirect_to(sessions_path)
       end
     end
@@ -637,12 +689,12 @@ describe CASino::SessionsController do
 
       it 'deletes all other ticket-granting tickets' do
         lambda do
-          get :destroy_others, request_options
+          get :destroy_others, params
         end.should change(CASino::TicketGrantingTicket, :count).by(-3)
       end
 
       it 'redirects to the session overview' do
-        get :destroy_others, request_options
+        get :destroy_others, params
         response.should redirect_to(sessions_path)
       end
 
@@ -650,7 +702,7 @@ describe CASino::SessionsController do
         let(:url) { 'http://www.example.com' }
 
         it 'redirects to the service' do
-          get :destroy_others, request_options
+          get :destroy_others, params
           response.should redirect_to(url)
         end
       end
@@ -661,7 +713,7 @@ describe CASino::SessionsController do
         let(:url) { 'http://www.example.com' }
 
         it 'redirects to the service' do
-          get :destroy_others, request_options
+          get :destroy_others, params
           response.should redirect_to(url)
         end
       end

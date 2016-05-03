@@ -32,6 +32,8 @@ de:
       column_activity: "Letzte Aktivität"
     current_session: "Aktive Session"
     end_session: "Session beenden"
+    last_login_attempts: Letzte Loginversuche
+    all_login_attempts: Alle Loginversuche
   two_factor_authenticators:
     title: "Zwei-Faktor-Authentifizierung"
     setup: "Zwei-Faktor-Authentifizierung einrichten"
@@ -86,3 +88,35 @@ de:
       x_seconds:
         one: eine Sekunde
         other: ! '%{count} Sekunden'
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+  shared:
+    back: Zurück
+  activerecord:
+    attributes:
+      casino/login_attempt:
+        created_at: Zeitpunkt
+        browser_info: Browser
+        user_ip: IP-Adresse
+        successful: Erfolgreich
+    models:
+      casino/login_attempt:
+        one: Loginversuch
+        other: Loginversuche
+  views:
+    pagination:
+      first: "&laquo; Erster"
+      last: Letzter &raquo;
+      next: Nächste Seite
+      previous: Vorherige Seite
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          one: Zeige <b>1</b> %{entry_name}
+          other: Zeige <b>alle %{count}</b> %{entry_name}
+          zero: Keine %{entry_name} gefunden
+      more_pages:
+        display_entries: Zeige %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> von <b>%{total}</b>
