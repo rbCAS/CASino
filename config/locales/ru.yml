@@ -1,0 +1,110 @@
+ru:
+  login_credential_acceptor:
+    invalid_login_ticket: "Ваш запрос на авторизацию не содержит корректную информацию об авторизации."
+    invalid_login_credentials: "Неверное имя пользователя или пароль."
+  login:
+    label_username: "Имя пользователя"
+    label_password: "Пароль"
+    label_button: "Войти"
+    label_remember_me: "Запомнить меня"
+    notice: ""
+  service_not_allowed:
+    title: "Доступ для данного сервиса запрещен"
+    message: "Авторизация для сервиса \"%{service}\" не настроена. Если Вы считаете, что это — ошибка, пожалуйста, свяжитесь с администратором."
+  validate_otp:
+    title: "Двухфакторная аутентификация"
+    description: "Пожалуйста, введите корректный одноразовый пароль."
+    code: "Код"
+    submit: "Продолжить"
+    invalid_otp: "Введённый одноразовый пароль некорректен."
+  logout:
+    title: "Всего доброго!"
+    logged_out_without_url: "Сеанс работы завершен."
+    logged_out_with_url: "Сеанс работы заверешен. Пожалуйста, пройдите по ссылке:"
+  sessions:
+    title: "Добро пожаловать!"
+    currently_logged_in_as: "Вы авторизованы как <strong>%{username}</strong>."
+    label_logout_button: "Выйти"
+    your_active_sessions: "Ваши активные сеансы"
+    table:
+      column_browser: "Браузер"
+      column_services: "Сервисы"
+      column_activity: "Текущая активность"
+    current_session: "Текущий сеанс"
+    end_session: "Завершить сессию"
+  two_factor_authenticators:
+    title: "Двухфакторная аутентификация"
+    setup: "Настройка двухфакторной аутентификации"
+    description: "Двухфакторная авторизация требует ввода дополнительного одноразового пароля при каждой попытке авторизации. Одноразовый пароль может быть получен с помощью приложения <a href='http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447'>Google Authenticator</a> на Вашем мобильном устройстве."
+    instructions: "Если Вы используете Google Authenticator, распознайте расположенный ниже QR с помощью приложения на Вашем мобильном устройстве. Введите код подтверждения в текстовое поле ниже."
+    disabled: "Выключено"
+    enable: "Включить"
+    enabled: "Включено"
+    disable: "Выключить"
+    cancel: "Отмена"
+    secret: "Секретно"
+    code: "Код подтверждения"
+    submit: "Подтвердить и включить"
+    invalid_one_time_password: "Введенный одноразовый пароль некорректен."
+    invalid_two_factor_authenticator: "Время для двухфакторной авторизации истекло. Пожалуйста, следуйте инструкциям ниже."
+    successfully_activated: "Двухфакторная авторизация успешно подключена для данной учетной записи."
+    successfully_deleted: "Двухфакторная авторизация отключена для данной учетной записи."
+  datetime:
+    ago: "%{datetime} назад"
+    distance_in_words:
+      about_x_hours:
+        few: около %{count} часов
+        many: около %{count} часов
+        one: около %{count} часа
+        other: около %{count} часа
+      about_x_months:
+        few: около %{count} месяцев
+        many: около %{count} месяцев
+        one: около %{count} месяца
+        other: около %{count} месяца
+      about_x_years:
+        few: около %{count} лет
+        many: около %{count} лет
+        one: около %{count} года
+        other: около %{count} лет
+      almost_x_years:
+        one: почти 1 год
+        few: почти %{count} года
+        many: почти %{count} лет
+        other: почти %{count} лет
+      half_a_minute: меньше минуты
+      less_than_x_minutes:
+        few: меньше %{count} минут
+        many: меньше %{count} минут
+        one: меньше %{count} минуты
+        other: меньше %{count} минуты
+      less_than_x_seconds:
+        few: меньше %{count} секунд
+        many: меньше %{count} секунд
+        one: меньше %{count} секунды
+        other: меньше %{count} секунды
+      over_x_years:
+        few: больше %{count} лет
+        many: больше %{count} лет
+        one: больше %{count} года
+        other: больше %{count} лет
+      x_days:
+        few: "%{count} дня"
+        many: "%{count} дней"
+        one: "%{count} день"
+        other: "%{count} дня"
+      x_minutes:
+        few: "%{count} минуты"
+        many: "%{count} минут"
+        one: "%{count} минуту"
+        other: "%{count} минуты"
+      x_months:
+        few: "%{count} месяца"
+        many: "%{count} месяцев"
+        one: "%{count} месяц"
+        other: "%{count} месяца"
+      x_seconds:
+        few: "%{count} секунды"
+        many: "%{count} секунд"
+        one: "%{count} секунду"
+        other: "%{count} секунды"
