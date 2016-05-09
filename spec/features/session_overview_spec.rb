@@ -8,7 +8,7 @@ describe 'Session overview' do
   context 'when logged in' do
     let(:login_attempt) do
       FactoryGirl.create :login_attempt, created_at: Time.zone.parse('2015-01-01 09:10'),
-                                         username: 'testuser'
+                                         user: CASino::User.first
     end
 
     before do

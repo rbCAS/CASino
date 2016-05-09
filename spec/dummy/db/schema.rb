@@ -22,8 +22,7 @@ ActiveRecord::Schema.define(version: 20160502074450) do
   add_index "casino_auth_token_tickets", ["ticket"], name: "index_casino_auth_token_tickets_on_ticket", unique: true
 
   create_table "casino_login_attempts", force: true do |t|
-    t.integer  "user_id"
-    t.string   "username",                   null: false
+    t.integer  "user_id",                    null: false
     t.boolean  "successful", default: false
     t.string   "user_ip"
     t.text     "user_agent"

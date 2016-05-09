@@ -188,6 +188,7 @@ describe CASino::SessionsController do
       let(:login_ticket) { FactoryGirl.create :login_ticket }
       let(:username) { 'testuser' }
       let(:params) { { lt: login_ticket.ticket, username: username, password: 'wrrooonnng' }}
+      let!(:user) { FactoryGirl.create :user, username: username }
 
       context 'with invalid credentials' do
         it 'renders the new template' do
@@ -204,7 +205,7 @@ describe CASino::SessionsController do
         it 'assigns session log the correct attributes' do
           post :create, params
 
-          expect(CASino::LoginAttempt.last.username).to eq username
+          expect(CASino::LoginAttempt.last.user).to eq user
           expect(CASino::LoginAttempt.last.successful).to eq false
         end
       end
@@ -235,7 +236,7 @@ describe CASino::SessionsController do
         it 'assigns session log the correct attributes' do
           post :create, params
 
-          expect(CASino::LoginAttempt.last.username).to eq username
+          expect(CASino::LoginAttempt.last.user.username).to eq username
           expect(CASino::LoginAttempt.last.successful).to eq true
         end
 
