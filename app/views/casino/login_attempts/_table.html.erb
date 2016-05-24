@@ -1,0 +1,28 @@
+<table width="100%" class="login_attempts">
+  <thead>
+    <tr>
+      <th class="browser_info"><%= CASino::LoginAttempt.human_attribute_name(:browser_info) %></th>
+      <th class="user_ip"><%= CASino::LoginAttempt.human_attribute_name(:user_ip) %></th>
+      <th class="created_at"><%= CASino::LoginAttempt.human_attribute_name(:created_at) %></th>
+      <th class="successful"><%= CASino::LoginAttempt.human_attribute_name(:successful) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @login_attempts.each do |login_attempt| %>
+      <tr>
+        <td data-label="<%= CASino::LoginAttempt.human_attribute_name(:browser_info) %>">
+          <%= login_attempt.browser_info %>
+        </td>
+        <td data-label="<%= CASino::LoginAttempt.human_attribute_name(:user_ip) %>">
+          <%= login_attempt.user_ip %>
+        </td>
+        <td data-label="<%= CASino::LoginAttempt.human_attribute_name(:created_at) %>">
+          <%= l login_attempt.created_at %>
+        </td>
+        <td class="successful" data-label="<%= CASino::LoginAttempt.human_attribute_name(:successful) %>">
+          <%= (login_attempt.successful ? '&#9989;' : '&#10060;').html_safe %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

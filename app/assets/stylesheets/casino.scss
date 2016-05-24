@@ -301,6 +301,35 @@ table {
   table.tickets {
     margin-bottom: 10px;
   }
+
+  table.login_attempts {
+    margin-bottom: 10px;
+  }
+
+  a.all_login_attempts {
+    font-size: .95em;
+  }
+}
+
+/// LOGIN ATTEMPTS ///
+.login_attempts_index {
+  width: 800px;
+
+  h1 {
+    float: left;
+  }
+
+  .button {
+    float: right;
+  }
+
+  .pagination {
+    padding-top: .6em;
+    height: 2em;
+    .next {
+      float: right;
+    }
+  }
 }
 
 /// LOGOUT ///
@@ -319,6 +348,24 @@ table {
 }
 
 
+@media only screen and (min-width: 800px)  {
+  th.browser_info {
+    width: 16em;
+  }
+
+  th.created_at, th.activity {
+    width: 16em;
+  }
+
+  th.actions, th.successful {
+    width: 10em;
+  }
+
+  td.successful {
+    padding-left: 2em;
+  }
+}
+
 /// RESPONSIVE ///
 @media only screen and (max-width: 600px)  {
   .container {
@@ -327,6 +374,12 @@ table {
 
   .box {
     width: 100%;
+  }
+
+  .login_attempts {
+    table {
+      padding-top: 100px;
+    }
   }
 
   .sessions, .logout {
@@ -366,9 +419,15 @@ table {
 
 @media only screen and (max-width: 800px)  {
   .container {
-    .sessions {
+    .sessions, .login_attempts_index {
       margin-top: 10px;
       width: 100%;
+    }
+
+    .login_attempts_index {
+      table {
+        padding-top: 100px;
+      }
     }
 
     table, thead, tbody, th, td, tr {

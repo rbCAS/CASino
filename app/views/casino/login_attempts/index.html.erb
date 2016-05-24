@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="login_attempts_index box">
+    <div class="info">
+      <h1><%= CASino::LoginAttempt.model_name.human(count: 2) %></h1>
+      <%= link_to t('shared.back'), sessions_path, :class => 'button' %>
+    </div>
+
+    <%= render 'table' %>
+
+    <%= paginate @login_attempts, views_prefix: 'casino' %>
+    <%= page_entries_info @login_attempts, entry_name: '' %>
+  </div>
+  <%= render 'footer' %>
+</div>
