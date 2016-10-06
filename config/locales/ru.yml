@@ -32,6 +32,8 @@ ru:
       column_activity: "Текущая активность"
     current_session: "Текущий сеанс"
     end_session: "Завершить сессию"
+    last_login_attempts: Недавние попытки входа
+    all_login_attempts: Все попытки входа
   two_factor_authenticators:
     title: "Двухфакторная аутентификация"
     setup: "Настройка двухфакторной аутентификации"
@@ -108,3 +110,36 @@ ru:
         many: "%{count} секунд"
         one: "%{count} секунду"
         other: "%{count} секунды"
+  shared:
+    back: Назад
+  activerecord:
+    attributes:
+      casino/login_attempt:
+        created_at: Время
+        browser_info: Браузер
+        user_ip: IP Адрес
+        successful: Успешно
+    models:
+      casino/login_attempt:
+        one: Попытка входа
+        few: Попытки входа
+        many: Попыток входа
+        other: Попыток входа
+  views:
+    pagination:
+      first: "&laquo; Первая"
+      last: "Последняя &raquo;"
+      previous: "&lsaquo; Предыдущая"
+      next: "Следующая &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "Не найдено %{entry_name}"
+          one: "Отображена <b>одна</b> %{entry_name}"
+          few: "Отображены <b>%{count}</b> %{entry_name}"
+          many: "Отображены <b>%{count}</b> %{entry_name}"
+          other: "Отображены <b>все %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Отображены %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> из <b>%{total}</b>"
