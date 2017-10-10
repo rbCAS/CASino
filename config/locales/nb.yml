@@ -1,0 +1,122 @@
+nb:
+  login_credential_acceptor:
+    invalid_login_ticket: "Innloggingsforespørselen din inneholdt ikke en gyldig innloggingsbillett."
+    invalid_login_credentials: "Feil brukernavn eller passord."
+  login:
+    label_username: "Brukernavn"
+    label_password: "Passord"
+    label_button: "Logg inn"
+    label_remember_me: "Hold meg pålogget"
+    notice: ""
+  service_not_allowed:
+    title: "Tjenesten er ikke tillatt"
+    message: "Denne innloggingstjenesten er ikke satt opp til å tillate innlogging til \"%{service}\". Hvis du mener dette er feil, kontakt din administrator."
+  validate_otp:
+    title: "Tofaktorautentisering"
+    description: "Skriv inn et gyldig engangspassord."
+    code: "Kode"
+    submit: "Fortsett"
+    invalid_otp: "Engangspassorder er ikke riktig."
+  logout:
+    title: "Farvel."
+    logged_out_without_url: "Du har nå logget ut."
+    logged_out_with_url: "Applikasjonen du akkurat logget ut av ønsker at du skal følge denne lenken:"
+  sessions:
+    title: "Hei!"
+    currently_logged_in_as: "Du er logget inn som <strong>%{username}</strong>."
+    label_logout_button: "Logg ut"
+    your_active_sessions: "Dine aktive innlogginger"
+    table:
+      column_browser: "Nettleser"
+      column_services: "Tjeneste"
+      column_activity: "Sist aktiv"
+    current_session: "Nåværende økt"
+    end_session: "Avslutt økt"
+    last_login_attempts: Siste innloggingsforsøk
+    all_login_attempts: Alle innloggingsforsøk
+  two_factor_authenticators:
+    title: "Tofaktorautentisering"
+    setup: "Sett opp tofaktorautentisering"
+    description: "Tofaktorautentisering krever at du oppgir et ekstra engangspassord (OTP) hver gang du vil logge inn. Et engangspassord kan genereres med en applikasjon som <a href='http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447'>Google Authenticator</a> med din mobiltelefon."
+    instructions: "Hvis du bruker Google Authenticator, les av QR koden nedenfor med applikasjonen. Skriv inn bekreftelseskoden i tekstfeltet nedenfor."
+    disabled: "Avslått"
+    enable: "Slå på"
+    enabled: "Påslått"
+    disable: "Slå av"
+    cancel: "Avbryt"
+    secret: "Hemmelighet"
+    code: "Bekreftelseskode"
+    submit: "Bekreft og slå på"
+    invalid_one_time_password: "Engangspassordet var feil."
+    invalid_two_factor_authenticator: "Tofaktorautentiseringen har utløpt. Følg instruksjonene nedenfor."
+    successfully_activated: "Denne kontoen bruker nå tofaktorautentisering."
+    successfully_deleted: "Tofaktorautentiseringen er nå slettet."
+  datetime:
+    ago: "%{datetime} siden"
+    distance_in_words:
+      about_x_hours:
+        one: omtrent en time
+        other: omtrent %{count} timer
+      about_x_months:
+        one: omtrent en måned
+        other: omtrent %{count} måneder
+      about_x_years:
+        one: omtrent ett år
+        other: omtrent %{count} år
+      almost_x_years:
+        one: nesten ett år
+        other: nesten %{count} år
+      half_a_minute: halvt minutt
+      less_than_x_minutes:
+        one: mindre enn ett minutt
+        other: mindre enn %{count} minutter
+      less_than_x_seconds:
+        one: mindre enn ett sekund
+        other: mindre enn %{count} sekunder
+      over_x_years:
+        one: mer enn ett år
+        other: mer enn %{count} år
+      x_days:
+        one: en dag
+        other: ! '%{count} dager'
+      x_minutes:
+        one: ett minutt
+        other: ! '%{count} minutter'
+      x_months:
+        one: en måned
+        other: ! '%{count} måneder'
+      x_seconds:
+        one: ett sekund
+        other: ! '%{count} sekunder'
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+  shared:
+    back: Tilbake
+  activerecord:
+    attributes:
+      casino/login_attempt:
+        created_at: Tid
+        browser_info: Nettleser
+        user_ip: IP adresse
+        successful: Vellykket
+    models:
+      casino/login_attempt:
+        one: Innloggingsforsøk
+        other: Innloggingsforsøk
+  views:
+    pagination:
+      first: "&laquo; Første"
+      last: "Siste &raquo;"
+      previous: "&lsaquo; Forrige"
+      next: "Neste &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "Fant ingen %{entry_name}"
+          one: "Viser <b>1</b> %{entry_name}"
+          other: "Viser <b>alle %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Viser %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> av totalt <b>%{total}</b>"
